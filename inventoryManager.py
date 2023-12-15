@@ -1,35 +1,33 @@
 import sqlite3
-
-  
-    
 # Need to figure out a way to use the db
-
-
 # Need a good UI for taking inputs.
 
-
-validateString = lambda x: x.isalpha() and x!=''
+validateString = lambda x: x.isalpha() or x.isdigit() and x!=''
 validateNumber = lambda x: x.isdigit() and x!=''
 validateFloat = lambda x: x.isdigit() and x!=''
 
 def takeInputs():
     
-    itemName = input("Enter the Item")
+    itemName = input("Enter the Item ")
     while( not validateString(itemName) ):
-        itemName = input("Enter the Item")
+        print(" Enter a valid item name ")
+        itemName = input("Enter the Item ")
             
-    cost = input("Cost")
+    cost = input("Cost ")
     
     while( not validateFloat(cost) ):
-        cost = input("Cost")
+        print(" Enter a valid cost ")
+        cost = input("Cost ")
         
-    subtype=input("SubType")
+    subtype=input("SubType ")
     while( not validateString(subtype) ):
-        subtype=input("SubType")
+        print(" Enter a valid subtype ")
+        subtype=input("SubType ")
     
-    replacementDuration=input("Replacement Duration")
+    replacementDuration=input("Replacement Duration ")
     while( not validateNumber(replacementDuration) ):
-        replacementDuration=input("Replacement Duration")
+        print(" Enter a valid replacement duration ")
+        replacementDuration=input("Replacement Duration ")
 
     
     
@@ -69,11 +67,17 @@ def display():
     ''')
 
     # Print the items
+    total_cost = 0
     for row in cursor.fetchall():
         print(row)
+        total_cost += row[1]  # Assuming cost is stored in the second column
+
+    print("Total cost:", total_cost)
 
     # Close the connection
     conn.close()
+
+    return total_cost
 
 
 if __name__ == '__main__':
