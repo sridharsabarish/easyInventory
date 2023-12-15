@@ -66,13 +66,30 @@ def display():
         SELECT * FROM inventory
     ''')
 
+    # Initialize variables for most expensive item and shortest replacement duration
+    most_expensive_item = None
+    shortest_replacement_duration = None
+
     # Print the items
     total_cost = 0
     for row in cursor.fetchall():
         print(row)
         total_cost += row[1]  # Assuming cost is stored in the second column
 
-    print("Total cost:", total_cost)
+        # Check if the current item is the most expensive
+        if most_expensive_item is None or row[1] > most_expensive_item[1]:
+            most_expensive_item = row
+
+        # Check if the current item has the shortest replacement duration
+        if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
+            shortest_replacement_duration = row
+    print("--------------------")  # Add a line separator
+    print("Total cost: ${:.2f}".format(total_cost))
+    print("Most expensive item: {}".format(most_expensive_item[0]))
+    print("Item with shortest replacement duration: {}".format(shortest_replacement_duration[0]))
+
+    print("--------------------")  # Add a line separator
+
 
     # Close the connection
     conn.close()
