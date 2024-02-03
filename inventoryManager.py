@@ -1,55 +1,81 @@
 import sqlite3
+
+
+        
+validateString = lambda x: x.isalpha() or x.isdigit() and x!=''
+validateNumber = lambda x: x.isdigit() and x!=''
+validateFloat = lambda x: x.isdigit() and x!=''
+
+
+
+def manageDB(newItem):
+    conn = sqlite3.connect('inventory.db')
+    cursor = conn.cursor()
+
+    # Create the table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS inventory (
+            item_name TEXT,
+            cost REAL,
+            subtype TEXT,
+            replacement_duration INTEGER
+        )
+    ''')
+    # Save the variables to the database
+    cursor.execute('''
+        INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
+        VALUES (?, ?, ?, ?)
+    ''', (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
+
+    # Commit the changes and close the connection
+    conn.commit()
+    conn.close()
+    
+def readInput(x) -> str: 
+    output = input(x+": ");
+    while( not validateString(output) ):
+        print(" Enter a valid ",output)
+        output = input(x,": ")    
+    return output
+
+def lineSeperator():
+    print("--------------------------------------------------")
+    
+class Item:
+    
+    def __init__(self, name, cost, subtype, replacementDuration):
+        self.itemName = name
+        self.cost = cost
+        self.subtype = subtype
+        self.replacementDuration = replacementDuration
+    def getItemName(self):
+        return self.itemName
+    def getCost(self):
+        return self.cost
+    def getSubtype(self):
+        return self.subtype
+    def getReplacementDuration(self):
+        return self.replacementDuration
+
 class InventoryManager:
     def takeInputs(self):
-        
+        # Todo : Write Tests that would break these inputs.
         validateString = lambda x: x.isalpha() or x.isdigit() and x!=''
         validateNumber = lambda x: x.isdigit() and x!=''
         validateFloat = lambda x: x.isdigit() and x!=''
-        
-        itemName = input("Enter the Item ")
-        while( not validateString(itemName) ):
-            print(" Enter a valid item name ")
-            itemName = input("Enter the Item ")
-                
-        cost = input("Cost ")
-        
-        while( not validateFloat(cost) ):
-            print(" Enter a valid cost ")
-            cost = input("Cost ")
-            
-        subtype=input("SubType ")
-        while( not validateString(subtype) ):
-            print(" Enter a valid subtype ")
-            subtype=input("SubType ")
-        
-        replacementDuration=input("Replacement Duration ")
-        while( not validateNumber(replacementDuration) ):
-            print(" Enter a valid replacement duration ")
-            replacementDuration=input("Replacement Duration ")
-            
-            # Connect to the database
-        conn = sqlite3.connect('inventory.db')
-        cursor = conn.cursor()
 
-        # Create the table if it doesn't exist
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS inventory (
-                item_name TEXT,
-                cost REAL,
-                subtype TEXT,
-                replacement_duration INTEGER
-            )
-        ''')
-
-        # Save the variables to the database
-        cursor.execute('''
-            INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
-            VALUES (?, ?, ?, ?)
-        ''', (itemName, cost, subtype, replacementDuration))
-
-        # Commit the changes and close the connection
-        conn.commit()
-        conn.close()
+        # Todo : Connect this to a GUI
+        lists =["itemName","subtype","cost","replacementDuration"];
+        val ={};
+        for i in range(0,len(lists)):
+            x=readInput(lists[i]);
+            val[lists[i]]=x;
+        
+        newItem = Item(val["itemName"],val["cost"],val["subtype"],val["replacementDuration"]);
+        # Connect to the database
+        manageDB(newItem)
+        
+        
     def display(self):
         conn = sqlite3.connect('inventory.db')
         cursor = conn.cursor()
@@ -73,12 +99,13 @@ class InventoryManager:
             # Check if the current item has the shortest replacement duration
             if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
                 shortest_replacement_duration = row
-        print("--------------------")  # Add a line separator
+        
+        lineSeperator()
         print("Total cost: ${:.2f}".format(total_cost))
         print("Most expensive item: {}".format(most_expensive_item[0]))
         print("Item with shortest replacement duration: {}".format(shortest_replacement_duration[0]))
-
-        print("--------------------")  # Add a line separator
+        lineSeperator()
+        
         # Close the connection
         conn.close()
         return total_cost
