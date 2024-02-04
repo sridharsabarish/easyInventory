@@ -7,8 +7,7 @@ validateNumber = lambda x: x.isdigit() and x!=''
 validateFloat = lambda x: x.isdigit() and x!=''
 
 
-
-def manageDB(newItem):
+def saveToDB(newItem):
     conn = sqlite3.connect('inventory.db')
     cursor = conn.cursor()
 
@@ -33,6 +32,7 @@ def manageDB(newItem):
     
 def readInput(x) -> str: 
     output = input(x+": ");
+    # Todo : modify the validation below according to the data type.
     while( not validateString(output) ):
         print(" Enter a valid ",output)
         output = input(x,": ")    
@@ -73,7 +73,8 @@ class InventoryManager:
         
         newItem = Item(val["itemName"],val["cost"],val["subtype"],val["replacementDuration"]);
         # Connect to the database
-        manageDB(newItem)
+        saveToDB(newItem)
+        export2CSV()
         
         
     def display(self):
@@ -109,14 +110,70 @@ class InventoryManager:
         # Close the connection
         conn.close()
         return total_cost
+    def deleteData(self):
+        #Todo  : Remove a product from the inventory
+        name=input("Enter the name of the product to be deleted: ")
+        conn = sqlite3.connect('inventory.db')
+        cursor = conn.cursor()
+        
+        # Check if the item exists
+        cursor.execute('''
+            SELECT * FROM inventory WHERE item_name = ?
+        ''', (name,))
+        if cursor.fetchone() is None:
+            print('Product not found')
+            return
+        
+        cursor.execute('''
+            DELETE FROM inventory WHERE item_name = ?
+        ''', (name,))
+        conn.commit()
+        conn.close()
+        print('Product deleted')
+        export2CSV()
+        return
+'''
+
+Todo : Read from CSV Feature
+Todo : Add a GUI
+Todo : Read from CSV and update the db
+and do a data analysis on the data
+'''
+
+def readFromCSV():
+    #Todo
+    return
+
+
+def guiInput():
+    #Todo
+    return
+
+def export2CSV():
+    conn = sqlite3.connect('inventory.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT * FROM inventory
+    ''')
+    with open('inventory.csv', 'w') as file:
+        for row in cursor.fetchall():
+            file.write(','.join(str(x) for x in row) + '\n')
+    conn.close()
+    print('Data exported to inventory.csv')
 
 if __name__ == '__main__':
     inventory_manager = InventoryManager()
     ch = 'y'
     while ch == 'y':
-        choice = input("Enter 1 to add an item, 2 to display the items ")
+        choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n Enter your choice: ")
+        # Todo : Get the user input from a GUI
         if choice == '1':
             inventory_manager.takeInputs()
         if choice == '2':
             inventory_manager.display()
+        if(choice =='3'):
+            export2CSV();
+        if(choice =='4'):
+            inventory_manager.deleteData();
+            
         ch = input("Do you want to continue y/n ")
