@@ -1,2 +1,4 @@
 *.db
 *.vscode
+*.csv
+*.pyc

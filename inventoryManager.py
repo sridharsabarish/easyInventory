@@ -1,11 +1,7 @@
 import sqlite3
-
-
-        
-validateString = lambda x: x.isalpha() or x.isdigit() and x!=''
-validateNumber = lambda x: x.isdigit() and x!=''
-validateFloat = lambda x: x.isdigit() and x!=''
-
+from Item import Item
+from exportManager import exportManager
+from inputValidation import validateString,validateNumber,validateFloat
 
 def saveToDB(newItem):
     conn = sqlite3.connect('inventory.db')
@@ -30,34 +26,19 @@ def saveToDB(newItem):
     conn.commit()
     conn.close()
     
-def readInput(x) -> str: 
-    output = input(x+": ");
-    # Todo : modify the validation below according to the data type.
-    while( not validateString(output) ):
-        print(" Enter a valid ",output)
-        output = input(x,": ")    
-    return output
+
 
 def lineSeperator():
     print("--------------------------------------------------")
-    
-class Item:
-    
-    def __init__(self, name, cost, subtype, replacementDuration):
-        self.itemName = name
-        self.cost = cost
-        self.subtype = subtype
-        self.replacementDuration = replacementDuration
-    def getItemName(self):
-        return self.itemName
-    def getCost(self):
-        return self.cost
-    def getSubtype(self):
-        return self.subtype
-    def getReplacementDuration(self):
-        return self.replacementDuration
-
 class InventoryManager:
+    def readInput(self,x) -> str: 
+        output = input(x+": ");
+        # Todo : modify the validation below according to the data type.
+        while( not validateString(output) ):
+            print(" Enter a valid ",output)
+            output = input(x,": ")    
+        return output
+
     def takeInputs(self):
         # Todo : Write Tests that would break these inputs.
         validateString = lambda x: x.isalpha() or x.isdigit() and x!=''
@@ -68,13 +49,13 @@ class InventoryManager:
         lists =["itemName","subtype","cost","replacementDuration"];
         val ={};
         for i in range(0,len(lists)):
-            x=readInput(lists[i]);
+            x=self.readInput(lists[i]);
             val[lists[i]]=x;
         
         newItem = Item(val["itemName"],val["cost"],val["subtype"],val["replacementDuration"]);
         # Connect to the database
         saveToDB(newItem)
-        export2CSV()
+        exportManager.export2CSV()
         
         
     def display(self):
@@ -122,6 +103,9 @@ class InventoryManager:
         ''', (name,))
         if cursor.fetchone() is None:
             print('Product not found')
+            
+            print("These are the products available")
+            self.display();
             return
         
         cursor.execute('''
@@ -130,50 +114,46 @@ class InventoryManager:
         conn.commit()
         conn.close()
         print('Product deleted')
-        export2CSV()
+        exportManager.export2CSV()
         return
-'''
-
-Todo : Read from CSV Feature
-Todo : Add a GUI
-Todo : Read from CSV and update the db
-and do a data analysis on the data
-'''
-
-def readFromCSV():
-    #Todo
-    return
-
-
-def guiInput():
-    #Todo
-    return
-
-def export2CSV():
-    conn = sqlite3.connect('inventory.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT * FROM inventory
-    ''')
-    with open('inventory.csv', 'w') as file:
-        for row in cursor.fetchall():
-            file.write(','.join(str(x) for x in row) + '\n')
-    conn.close()
-    print('Data exported to inventory.csv')
-
+    
+    def handleMenu(choice):
+        while choice != '6':
+            choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n Enter your choice: ")
+            # Todo : Get the user input from a GUI
+            if choice == '1':
+                inventory_manager.takeInputs()
+                return 0;
+            if choice == '2':
+                inventory_manager.display()
+                return 0;
+            if(choice =='3'):
+                exportManager.export2CSV();
+                return 0;
+            if(choice =='4'):
+                inventory_manager.deleteData();
+                return 0;
+            if(choice =='5'):
+                exportManager.readFromCSV();
+                return 0;
+            if(choice=='6'):
+                return 0;
+            else:
+                return -1;
+    
 if __name__ == '__main__':
+    
     inventory_manager = InventoryManager()
-    ch = 'y'
-    while ch == 'y':
-        choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n Enter your choice: ")
-        # Todo : Get the user input from a GUI
-        if choice == '1':
-            inventory_manager.takeInputs()
-        if choice == '2':
-            inventory_manager.display()
-        if(choice =='3'):
-            export2CSV();
-        if(choice =='4'):
-            inventory_manager.deleteData();
-            
-        ch = input("Do you want to continue y/n ")
+    export_manager = exportManager()
+    inventory_manager.handleMenu();
+
+'''
+Todo : Add a GUI
+Todo : Update the db with CSV
+and do a data analysis on the data
+* Maybe some kind of inventory Map
+Todo : Input validation, choose a set of things that are acceptable for each type.
+Todo : Rethink what
+
+Todo : write a unit test for the inventoryManager.
+'''
