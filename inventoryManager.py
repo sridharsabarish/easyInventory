@@ -3,28 +3,28 @@ from Item import Item
 from exportManager import exportManager
 from inputValidation import validateString,validateNumber,validateFloat
 
-def saveToDB(newItem):
-    conn = sqlite3.connect('inventory.db')
-    cursor = conn.cursor()
+# def saveToDB(newItem):
+#     conn = sqlite3.connect('inventory.db')
+#     cursor = conn.cursor()
 
-    # Create the table if it doesn't exist
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS inventory (
-            item_name TEXT,
-            cost REAL,
-            subtype TEXT,
-            replacement_duration INTEGER
-        )
-    ''')
-    # Save the variables to the database
-    cursor.execute('''
-        INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
-        VALUES (?, ?, ?, ?)
-    ''', (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
+#     # Create the table if it doesn't exist
+#     cursor.execute('''
+#         CREATE TABLE IF NOT EXISTS inventory (
+#             item_name TEXT,
+#             cost REAL,
+#             subtype TEXT,
+#             replacement_duration INTEGER
+#         )
+#     ''')
+#     # Save the variables to the database
+#     cursor.execute('''
+#         INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
+#         VALUES (?, ?, ?, ?)
+#     ''', (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
 
-    # Commit the changes and close the connection
-    conn.commit()
-    conn.close()
+#     # Commit the changes and close the connection
+#     conn.commit()
+#     conn.close()
     
 
 
@@ -119,7 +119,8 @@ class InventoryManager:
     
     def handleMenu(choice):
         while choice != '6':
-            choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n Enter your choice: ")
+            if choice=='':
+                choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n Enter your choice: ")
             # Todo : Get the user input from a GUI
             if choice == '1':
                 inventory_manager.takeInputs()
@@ -156,4 +157,6 @@ Todo : Input validation, choose a set of things that are acceptable for each typ
 Todo : Rethink what
 
 Todo : write a unit test for the inventoryManager.
+
+TOdo : Make a flask based web app
 '''

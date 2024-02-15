@@ -3,8 +3,6 @@ import pandas as pd
 class exportManager:
     
     def readFromCSV():
-        #Todo
-        
         df =pd.read_csv('inventory.csv')
         print(df.head())
         return
