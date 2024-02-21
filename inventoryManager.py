@@ -2,31 +2,30 @@ import sqlite3
 from Item import Item
 from exportManager import exportManager
 from inputValidation import validateString,validateNumber,validateFloat
+import Constants
 
-# def saveToDB(newItem):
-#     conn = sqlite3.connect('inventory.db')
-#     cursor = conn.cursor()
+def saveToDB(newItem):
+    conn = sqlite3.connect(Constants.DB_FILE)
+    cursor = conn.cursor()
 
-#     # Create the table if it doesn't exist
-#     cursor.execute('''
-#         CREATE TABLE IF NOT EXISTS inventory (
-#             item_name TEXT,
-#             cost REAL,
-#             subtype TEXT,
-#             replacement_duration INTEGER
-#         )
-#     ''')
-#     # Save the variables to the database
-#     cursor.execute('''
-#         INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
-#         VALUES (?, ?, ?, ?)
-#     ''', (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
+    # Create the table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS inventory (
+            item_name TEXT,
+            cost REAL,
+            subtype TEXT,
+            replacement_duration INTEGER
+        )
+    ''')
+    # Save the variables to the database
+    cursor.execute('''
+        INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
+        VALUES (?, ?, ?, ?)
+    ''', (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
 
-#     # Commit the changes and close the connection
-#     conn.commit()
-#     conn.close()
-    
-
+    # Commit the changes and close the connection
+    conn.commit()
+    conn.close() 
 
 def lineSeperator():
     print("--------------------------------------------------")
@@ -59,7 +58,7 @@ class InventoryManager:
         
         
     def display(self):
-        conn = sqlite3.connect('inventory.db')
+        conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
 
         # Select all of the items from the database
@@ -94,7 +93,7 @@ class InventoryManager:
     def deleteData(self):
         #Todo  : Remove a product from the inventory
         name=input("Enter the name of the product to be deleted: ")
-        conn = sqlite3.connect('inventory.db')
+        conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
         
         # Check if the item exists
@@ -117,26 +116,26 @@ class InventoryManager:
         exportManager.export2CSV()
         return
     
-    def handleMenu(choice):
-        while choice != '6':
+    def handleMenu(self,choice=''):
+        while True:
             if choice=='':
                 choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n Enter your choice: ")
             # Todo : Get the user input from a GUI
             if choice == '1':
                 inventory_manager.takeInputs()
-                return 0;
+                return -1;
             if choice == '2':
                 inventory_manager.display()
-                return 0;
+                return -1;
             if(choice =='3'):
                 exportManager.export2CSV();
-                return 0;
+                return -1;
             if(choice =='4'):
                 inventory_manager.deleteData();
-                return 0;
+                return -1;
             if(choice =='5'):
                 exportManager.readFromCSV();
-                return 0;
+                return -1;
             if(choice=='6'):
                 return 0;
             else:
@@ -146,17 +145,15 @@ if __name__ == '__main__':
     
     inventory_manager = InventoryManager()
     export_manager = exportManager()
-    inventory_manager.handleMenu();
+    inventory_manager.handleMenu(choice='');
+    
 
 '''
-Todo : Add a GUI
-Todo : Update the db with CSV
-and do a data analysis on the data
-* Maybe some kind of inventory Map
+Todo : Add a GUI - Make a web ap using Flask
+
+* Use Dictionaries to populate items and keep count
 Todo : Input validation, choose a set of things that are acceptable for each type.
 Todo : Rethink what
-
 Todo : write a unit test for the inventoryManager.
-
-TOdo : Make a flask based web app
+Todo : Fix the logic of menu to avoid breaking out.
 '''

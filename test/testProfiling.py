@@ -1,3 +1,5 @@
+# Some Experimentation with Profiling.
+
 from pyinstrument import Profiler
 profiler = Profiler()
 profiler.start()
@@ -14,11 +16,6 @@ def n_cubed(n):
             for k in range(n):
                 continue;
                 #print(i*j*k);
-# def n():
-#     for i in range(100):
-#         continue
-#         #print(i);
-# n()
 
 
 n_cubed(200)
@@ -26,3 +23,13 @@ isa(100)
 
 profiler.stop()
 profiler.print()
+
+'''
+
+Todo : 
+
+Profile the methods of InventoryManager.py
+display()
+takeInputs() ? -> Might need some handling.
+
+'''
