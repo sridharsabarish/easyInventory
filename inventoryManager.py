@@ -3,6 +3,7 @@ from Item import Item
 from exportManager import exportManager
 from inputValidation import validateString,validateNumber,validateFloat
 import Constants
+import Beautify
 
 def saveToDB(newItem):
     conn = sqlite3.connect(Constants.DB_FILE)
@@ -17,8 +18,7 @@ def saveToDB(newItem):
     conn.commit()
     conn.close() 
 
-def lineSeperator():
-    print("--------------------------------------------------")
+
 class InventoryManager:
     def readInput(self,x) -> str: 
         output = input(x+": ");
@@ -71,11 +71,11 @@ class InventoryManager:
             if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
                 shortest_replacement_duration = row
         
-        lineSeperator()
+        Beautify.lineSeperator()
         print("Total cost: ${:.2f}".format(total_cost))
         print("Most expensive item: {}".format(most_expensive_item[0]))
         print("Item with shortest replacement duration: {}".format(shortest_replacement_duration[0]))
-        lineSeperator()
+        Beautify.lineSeperator()
         
         # Close the connection
         conn.close()
@@ -108,27 +108,35 @@ class InventoryManager:
     
     def handleMenu(self,choice=''):
         while True:
+            
+            
             if choice=='':
-                choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n Enter your choice: ")
+                choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n 6. Exit \n Enter your choice: ")
             # Todo : Get the user input from a GUI
             if choice == '1':
                 inventory_manager.takeInputs()
-                return -1;
+                choice=''
+                continue
             if choice == '2':
                 inventory_manager.display()
-                return -1;
+                choice=''
+                continue
             if(choice =='3'):
                 exportManager.export2CSV();
-                return -1;
+                choice=''
+                continue
             if(choice =='4'):
                 inventory_manager.deleteData();
-                return -1;
+                choice=''
+                continue
             if(choice =='5'):
                 exportManager.readFromCSV();
-                return -1;
+                choice=''
+                continue
             if(choice=='6'):
                 return 0;
             else:
+                print("Invalid choice, Terminating")
                 return -1;
     
 if __name__ == '__main__':

@@ -7,11 +7,25 @@ class TestInventoryManager(unittest.TestCase):
     
     def testExitOutOfMenu(self):
         out=self.inventory_manager.handleMenu(choice='6');
-        self.assertEquals(out,0,"Passed");
+        self.assertEqual(out,0,"Passed");
         
     def testFailExitOutOfMenu(self):
         out=self.inventory_manager.handleMenu(choice='7');
-        self.assertNotEquals(out,0,"Passed");
+        self.assertNotEqual(out,0,"Passed");
+        
+        
+    def testEmptyInput(self):
+         
+         return NotImplementedError
+    
+    def testInputWithSpecialCharactersInput(self):
+        return NotImplementedError
+    
+    def testExportToCSVFunctionality(self):
+        return NotImplementedError
+    
+    def testPrintFunctionality(self):
+        return NotImplementedError
         
     
     '''Todo :

@@ -1,10 +1,7 @@
 import sqlite3
 import pandas as pd
 import Constants
-
-
 class exportManager:
-    
     def readFromCSV():
         df =pd.read_csv(Constants.CSV_FILE)
         print(df.head())
@@ -19,4 +16,3 @@ class exportManager:
                 file.write(','.join(str(x) for x in row) + '\n')
         conn.close()
         print('Data exported to inventory.csv')
-        
