@@ -13,9 +13,7 @@ class exportManager:
     def export2CSV():
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
-        cursor.execute('''
-            SELECT * FROM inventory
-        ''')
+        cursor.execute(Constants.SELECT_ALL)
         with open(Constants.CSV_FILE, 'w') as file:
             for row in cursor.fetchall():
                 file.write(','.join(str(x) for x in row) + '\n')

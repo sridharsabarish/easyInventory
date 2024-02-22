@@ -9,19 +9,9 @@ def saveToDB(newItem):
     cursor = conn.cursor()
 
     # Create the table if it doesn't exist
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS inventory (
-            item_name TEXT,
-            cost REAL,
-            subtype TEXT,
-            replacement_duration INTEGER
-        )
-    ''')
+    cursor.execute(Constants.CREATE_TABLE)
     # Save the variables to the database
-    cursor.execute('''
-        INSERT INTO inventory (item_name, cost, subtype, replacement_duration)
-        VALUES (?, ?, ?, ?)
-    ''', (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
+    cursor.execute(Constants.INSERT_TO_DB, (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
 
     # Commit the changes and close the connection
     conn.commit()
