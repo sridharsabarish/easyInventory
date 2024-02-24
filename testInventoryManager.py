@@ -14,9 +14,9 @@ class TestInventoryManager(unittest.TestCase):
         self.assertNotEqual(out,0,"Passed");
         
         
-    def testEmptyInput(self):
+    def testInput(self):
          
-         return NotImplementedError
+       return NotImplementedError
     
     def testInputWithSpecialCharactersInput(self):
         return NotImplementedError

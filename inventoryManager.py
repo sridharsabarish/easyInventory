@@ -4,6 +4,7 @@ from exportManager import exportManager
 from inputValidation import validateString,validateNumber,validateFloat
 import Constants
 import Beautify
+import re
 
 def saveToDB(newItem):
     conn = sqlite3.connect(Constants.DB_FILE)
@@ -21,30 +22,33 @@ def saveToDB(newItem):
 
 class InventoryManager:
     def readInput(self,x) -> str: 
-        output = input(x+": ");
-        # Todo : modify the validation below according to the data type.
-        while( not validateString(output) ):
-            print(" Enter a valid ",output)
-            output = input(x,": ")    
+        match =False
+        pattern = re.compile(r'^[a-zA-Z0-9]+$')
+        while match is False:
+
+            output = input(x+": ");
+            match = bool(pattern.match(output))
+
         return output
 
-    def takeInputs(self):
-        # Todo : Write Tests that would break these inputs.
-        validateString = lambda x: x.isalpha() or x.isdigit() and x!=''
-        validateNumber = lambda x: x.isdigit() and x!=''
-        validateFloat = lambda x: x.isdigit() and x!=''
+    def handleInputs(self,inputs):
 
         # Todo : Connect this to a GUI
         lists =["itemName","subtype","cost","replacementDuration"];
         val ={};
-        for i in range(0,len(lists)):
-            x=self.readInput(lists[i]);
-            val[lists[i]]=x;
+        
+        if len(inputs)!=4:
+            for i in range(0,len(lists)):
+                x=self.readInput(lists[i]);
+                val[lists[i]]=x;
+        else:
+            val=inputs;
         
         newItem = Item(val["itemName"],val["cost"],val["subtype"],val["replacementDuration"]);
         # Connect to the database
         saveToDB(newItem)
         exportManager.export2CSV()
+        return 0;
         
         
     def display(self):
@@ -52,9 +56,7 @@ class InventoryManager:
         cursor = conn.cursor()
 
         # Select all of the items from the database
-        cursor.execute('''
-            SELECT * FROM inventory
-        ''')
+        cursor.execute(Constants.SELECT_ALL)
         # Initialize variables for most expensive item and shortest replacement duration
         most_expensive_item = None
         shortest_replacement_duration = None
@@ -114,7 +116,7 @@ class InventoryManager:
                 choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n 6. Exit \n Enter your choice: ")
             # Todo : Get the user input from a GUI
             if choice == '1':
-                inventory_manager.takeInputs()
+                inventory_manager.handleInputs(inputs={})
                 choice=''
                 continue
             if choice == '2':
@@ -151,7 +153,6 @@ Todo : Add a GUI - Make a web ap using Flask
 
 * Use Dictionaries to populate items and keep count
 Todo : Input validation, choose a set of things that are acceptable for each type.
-Todo : Rethink what
 Todo : write a unit test for the inventoryManager.
 Todo : Fix the logic of menu to avoid breaking out.
 '''
