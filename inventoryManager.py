@@ -23,12 +23,10 @@ def saveToDB(newItem):
 class InventoryManager:
     def readInput(self,x) -> str: 
         match =False
-        pattern = re.compile(r'^[a-zA-Z0-9]+$')
+        pattern = re.compile(Constants.regex_map[x])
         while match is False:
-
             output = input(x+": ");
             match = bool(pattern.match(output))
-
         return output
 
     def handleInputs(self,inputs):
@@ -73,11 +71,11 @@ class InventoryManager:
             if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
                 shortest_replacement_duration = row
         
-        Beautify.lineSeperator()
+        Beautify.lineBreak()
         print("Total cost: ${:.2f}".format(total_cost))
         print("Most expensive item: {}".format(most_expensive_item[0]))
         print("Item with shortest replacement duration: {}".format(shortest_replacement_duration[0]))
-        Beautify.lineSeperator()
+        Beautify.lineBreak()
         
         # Close the connection
         conn.close()
