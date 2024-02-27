@@ -1,10 +1,10 @@
 import sqlite3
 from Item import Item
 from exportManager import exportManager
-from inputValidation import validateString,validateNumber,validateFloat
 import Constants
 import Beautify
 import re
+from collections import defaultdict
 
 def saveToDB(newItem):
     conn = sqlite3.connect(Constants.DB_FILE)
@@ -58,18 +58,28 @@ class InventoryManager:
         # Initialize variables for most expensive item and shortest replacement duration
         most_expensive_item = None
         shortest_replacement_duration = None
+        
+        
+        
+        counts=defaultdict(int); # Keep count of all the items
         # Print the items
         total_cost = 0
         for row in cursor.fetchall():
             print(row)
             total_cost += row[1]  # Assuming cost is stored in the second column
-
+            
+            counts[row[0].lower()]+=1;
             # Check if the current item is the most expensive
             if most_expensive_item is None or row[1] > most_expensive_item[1]:
                 most_expensive_item = row
             # Check if the current item has the shortest replacement duration
             if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
                 shortest_replacement_duration = row
+        
+        
+        
+        for i in counts.keys():
+            print(f'{i}:{counts[i]}');
         
         Beautify.lineBreak()
         print("Total cost: ${:.2f}".format(total_cost))
@@ -150,7 +160,6 @@ if __name__ == '__main__':
 Todo : Add a GUI - Make a web ap using Flask
 
 * Use Dictionaries to populate items and keep count
-Todo : Input validation, choose a set of things that are acceptable for each type.
-Todo : write a unit test for the inventoryManager.
 Todo : Fix the logic of menu to avoid breaking out.
+Todo : Add protection against Dependency Injection Attacks.
 '''

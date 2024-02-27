@@ -4,7 +4,7 @@ import Constants
 class exportManager:
     def readFromCSV():
         df =pd.read_csv(Constants.CSV_FILE)
-        print(df.head())
+        print(df)
         return
 
     def export2CSV():
@@ -15,4 +15,4 @@ class exportManager:
             for row in cursor.fetchall():
                 file.write(','.join(str(x) for x in row) + '\n')
         conn.close()
-        print('Data exported to inventory.csv')
+        print(f'Data exported to {Constants.CSV_FILE}')
