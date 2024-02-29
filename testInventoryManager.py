@@ -14,9 +14,9 @@ class TestInventoryManager(unittest.TestCase):
         self.assertNotEqual(out,0,"Passed");
         
         
-    def testInput(self):
-         
-       return NotImplementedError
+    def testInputPassedAsArgument(self):
+        out=self.inventory_manager.handleInputs(inputs={'itemName':'TestInput','subtype':'TestSubtype','cost':100,'replacementDuration':10});
+        self.assertEqual(out,0,"Passed");
     
     def testInputWithSpecialCharactersInput(self):
         return NotImplementedError

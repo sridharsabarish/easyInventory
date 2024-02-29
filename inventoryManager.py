@@ -6,14 +6,14 @@ import Beautify
 import re
 from collections import defaultdict
 
-def saveToDB(newItem):
+def saveToDB(item):
     conn = sqlite3.connect(Constants.DB_FILE)
     cursor = conn.cursor()
 
     # Create the table if it doesn't exist
     cursor.execute(Constants.CREATE_TABLE)
     # Save the variables to the database
-    cursor.execute(Constants.INSERT_TO_DB, (newItem.getItemName(), newItem.getCost(), newItem.getSubtype(), newItem.getReplacementDuration()))
+    cursor.execute(Constants.INSERT_TO_DB, (item.getItemName(), item.getCost(), item.getSubtype(), item.getReplacementDuration()))
 
     # Commit the changes and close the connection
     conn.commit()
@@ -32,9 +32,11 @@ class InventoryManager:
     def handleInputs(self,inputs):
 
         # Todo : Connect this to a GUI
+        # Todo get the columns using the data types supported by the item.py class automatically.
         lists =["itemName","subtype","cost","replacementDuration"];
         val ={};
         
+        print(len(inputs))
         if len(inputs)!=4:
             for i in range(0,len(lists)):
                 x=self.readInput(lists[i]);
@@ -101,52 +103,80 @@ class InventoryManager:
             SELECT * FROM inventory WHERE item_name = ?
         ''', (name,))
         if cursor.fetchone() is None:
-            print('Product not found')
+            print(Constants.ERROR_PRODUCT)
             
-            print("These are the products available")
+        else:
+            print(Constants.SUCCESS_PRODUCT)
             self.display();
-            return
         
-        cursor.execute('''
-            DELETE FROM inventory WHERE item_name = ?
-        ''', (name,))
+            cursor.execute('''
+                DELETE FROM inventory WHERE item_name = ?
+            ''', (name,))
+            
+            
         conn.commit()
         conn.close()
-        print('Product deleted')
+        print(Constants.DELETED_PRODUCT);
         exportManager.export2CSV()
         return
     
+    # Todo : Refactor/Refine search further
+    def search(self,product_name):
+      
+        conn = sqlite3.connect(Constants.DB_FILE)
+        cursor = conn.cursor()
+        rows=cursor.execute(Constants.SEARCH_QUERY, (product_name,))
+        if cursor.fetchone() is None:
+            print(Constants.ERROR_PRODUCT)
+        else:
+            print(Constants.SUCCESS_PRODUCT)
+         
+          
+            with conn:
+                cursor.execute(Constants.SEARCH_QUERY, (product_name,))
+                for row in cursor.fetchall():
+                    print(row)
+        conn.commit()
+        conn.close()
+        return
+     
+     
+     
+    
+    
     def handleMenu(self,choice=''):
         while True:
-            
-            
             if choice=='':
-                choice = input("MENU \n 1. Add an item \n 2 Display the items \n 3.Export to CSV \n 4.Delete item \n 5. Read from CSV \n 6. Exit \n Enter your choice: ")
+                choice = input(f"MENU \n {Constants.ACTION_INSERT} Add an item \n {Constants.ACTION_DISPLAY} Display the items \n {Constants.ACTION_EXPORT_CSV} Export to CSV \n {Constants.ACTION_DELETE} Delete item \n {Constants.ACTION_READ_CSV} Read from CSV \n {Constants.ACTION_EXIT} Exit \n {Constants.ACTION_SEARCH} Search \n Enter your choice: ")
             # Todo : Get the user input from a GUI
-            if choice == '1':
+            if choice == Constants.ACTION_INSERT:
                 inventory_manager.handleInputs(inputs={})
                 choice=''
                 continue
-            if choice == '2':
+            if choice == Constants.ACTION_DISPLAY:
                 inventory_manager.display()
                 choice=''
                 continue
-            if(choice =='3'):
+            if(choice ==Constants.ACTION_EXPORT_CSV):
                 exportManager.export2CSV();
                 choice=''
                 continue
-            if(choice =='4'):
+            if(choice ==Constants.ACTION_DELETE):
                 inventory_manager.deleteData();
                 choice=''
                 continue
-            if(choice =='5'):
+            if(choice ==Constants.ACTION_READ_CSV):
                 exportManager.readFromCSV();
                 choice=''
                 continue
-            if(choice=='6'):
+            if(choice==Constants.ACTION_EXIT):
                 return 0;
+            if(choice==Constants.ACTION_SEARCH):
+                inventory_manager.search(input("Enter the name of the product to be searched: "));
+                choice=''
+                continue
             else:
-                print("Invalid choice, Terminating")
+                print(Constants.INVALID_CHOICE)
                 return -1;
     
 if __name__ == '__main__':
@@ -158,8 +188,6 @@ if __name__ == '__main__':
 
 '''
 Todo : Add a GUI - Make a web ap using Flask
-
-* Use Dictionaries to populate items and keep count
-Todo : Fix the logic of menu to avoid breaking out.
-Todo : Add protection against Dependency Injection Attacks.
+Todo : Add protection against Dependency Injection Attacks. 
+Todo : Search Functionality
 '''

@@ -13,3 +13,14 @@ class Item:
         return self.subtype
     def getReplacementDuration(self):
         return self.replacementDuration
+    
+    
+    
+'''
+
+Todo : Rethink the schema for the Item;
+
+
+Some how force the Possible items categories;
+
+'''
