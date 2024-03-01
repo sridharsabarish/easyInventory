@@ -33,15 +33,15 @@ class InventoryManager:
 
         # Todo : Connect this to a GUI
         # Todo get the columns using the data types supported by the item.py class automatically.
-        lists =["itemName","subtype","cost","replacementDuration"];
         val ={};
         
         print(len(inputs))
         if len(inputs)!=4:
-            for i in range(0,len(lists)):
-                x=self.readInput(lists[i]);
+            for i in range(0,len(Constants.ITEM_SCHEMA)):
+                x=self.readInput(Constants.ITEM_SCHEMA[i]);
                 val[lists[i]]=x;
         else:
+            # Todo : validate output
             val=inputs;
         
         newItem = Item(val["itemName"],val["cost"],val["subtype"],val["replacementDuration"]);
@@ -99,9 +99,7 @@ class InventoryManager:
         cursor = conn.cursor()
         
         # Check if the item exists
-        cursor.execute('''
-            SELECT * FROM inventory WHERE item_name = ?
-        ''', (name,))
+        cursor.execute(Constants.SEARCH_QUERY, (name,))
         if cursor.fetchone() is None:
             print(Constants.ERROR_PRODUCT)
             
@@ -109,9 +107,7 @@ class InventoryManager:
             print(Constants.SUCCESS_PRODUCT)
             self.display();
         
-            cursor.execute('''
-                DELETE FROM inventory WHERE item_name = ?
-            ''', (name,))
+            cursor.execute(Constants.DELETE_ITEM_QUERY, (name,))
             
             
         conn.commit()
@@ -130,8 +126,6 @@ class InventoryManager:
             print(Constants.ERROR_PRODUCT)
         else:
             print(Constants.SUCCESS_PRODUCT)
-         
-          
             with conn:
                 cursor.execute(Constants.SEARCH_QUERY, (product_name,))
                 for row in cursor.fetchall():
@@ -179,15 +173,81 @@ class InventoryManager:
                 print(Constants.INVALID_CHOICE)
                 return -1;
     
-if __name__ == '__main__':
+# if __name__ == '__main__':
     
+#     inventory_manager = InventoryManager()
+#     export_manager = exportManager()
+#     inventory_manager.handleMenu(choice='');
+    
+
+# Modify below for GUI
+import tkinter as tk
+from tkinter import messagebox
+
+class InventoryManagerGUI:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Inventory Manager")
+        
+        self.item_name_label = tk.Label(self.root, text="Item Name:")
+        self.item_name_label.pack()
+        self.item_name_entry = tk.Entry(self.root)
+        self.item_name_entry.pack()
+        
+        self.cost_label = tk.Label(self.root, text="Cost:")
+        self.cost_label.pack()
+        self.cost_entry = tk.Entry(self.root)
+        self.cost_entry.pack()
+        
+        self.subtype_label = tk.Label(self.root, text="Subtype:")
+        self.subtype_label.pack()
+        self.subtype_entry = tk.Entry(self.root)
+        self.subtype_entry.pack()
+        
+        self.replacement_duration_label = tk.Label(self.root, text="Replacement Duration:")
+        self.replacement_duration_label.pack()
+        self.replacement_duration_entry = tk.Entry(self.root)
+        self.replacement_duration_entry.pack()
+        
+        self.save_button = tk.Button(self.root, text="Save", command=self.save_item)
+        self.save_button.pack()
+        
+    def save_item(self):
+        # Todo : tweak it a bit.
+        
+        item_name = self.item_name_entry.get()
+        cost = self.cost_entry.get()
+        subtype = self.subtype_entry.get()
+        replacement_duration = self.replacement_duration_entry.get()
+        
+        # Validate inputs here if needed
+        
+        # Create the item object
+        item = Item(item_name, cost, subtype, replacement_duration)
+        
+        # Save the item to the database
+        saveToDB(item)
+        
+        # Show a success message
+        messagebox.showinfo("Success", "Item saved successfully!")
+        
+        # Clear the input fields
+        self.item_name_entry.delete(0, tk.END)
+        self.cost_entry.delete(0, tk.END)
+        self.subtype_entry.delete(0, tk.END)
+        self.replacement_duration_entry.delete(0, tk.END)
+        
+    def run(self):
+        self.root.mainloop()
+
+if __name__ == '__main__':
+    # inventory_manager_gui = InventoryManagerGUI()
+    # inventory_manager_gui.run()
     inventory_manager = InventoryManager()
     export_manager = exportManager()
     inventory_manager.handleMenu(choice='');
-    
 
 '''
-Todo : Add a GUI - Make a web ap using Flask
+Todo : Validate GUI Inputs.
 Todo : Add protection against Dependency Injection Attacks. 
-Todo : Search Functionality
 '''

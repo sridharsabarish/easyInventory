@@ -9,6 +9,7 @@ INSERT_TO_DB="INSERT INTO inventory (item_name, cost, subtype, replacement_durat
 CREATE_TABLE="CREATE TABLE IF NOT EXISTS inventory (item_name TEXT,cost REAL,subtype TEXT,replacement_duration INTEGER)"
 
 SEARCH_QUERY="SELECT * FROM inventory WHERE item_name = ?"
+DELETE_ITEM_QUERY="DELETE FROM inventory WHERE item_name = ?"
 # Regexes
 REGEX_NAME=r'^[a-zA-Z0-9]'
 REGEX_NUMBER=r'^\d*$'
@@ -33,3 +34,6 @@ ACTION_DELETE="4"
 ACTION_READ_CSV="5"
 ACTION_EXIT="6"
 ACTION_SEARCH="8"
+
+# Supported Fields
+ITEM_SCHEMA =["itemName","subtype","cost","replacementDuration"];
