@@ -212,6 +212,9 @@ class InventoryManagerGUI:
         self.save_button = tk.Button(self.root, text="Save", command=self.save_item)
         self.save_button.pack()
         
+        self.exit_button = tk.Button(self.root, text="Exit", command=self.exit)
+        self.exit_button.pack()
+        
     def save_item(self):
         # Todo : tweak it a bit.
         
@@ -236,16 +239,18 @@ class InventoryManagerGUI:
         self.cost_entry.delete(0, tk.END)
         self.subtype_entry.delete(0, tk.END)
         self.replacement_duration_entry.delete(0, tk.END)
-        
+    
+    def exit(self):
+        self.root.destroy()
     def run(self):
         self.root.mainloop()
 
 if __name__ == '__main__':
-    # inventory_manager_gui = InventoryManagerGUI()
-    # inventory_manager_gui.run()
-    inventory_manager = InventoryManager()
-    export_manager = exportManager()
-    inventory_manager.handleMenu(choice='');
+    inventory_manager_gui = InventoryManagerGUI()
+    inventory_manager_gui.run()
+    # inventory_manager = InventoryManager()
+    # export_manager = exportManager()
+    # inventory_manager.handleMenu(choice='');
 
 '''
 Todo : Validate GUI Inputs.
