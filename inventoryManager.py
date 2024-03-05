@@ -19,7 +19,6 @@ def saveToDB(item):
     conn.commit()
     conn.close() 
 
-
 class InventoryManager:
     def readInput(self,x) -> str: 
         match =False
@@ -133,39 +132,37 @@ class InventoryManager:
         conn.commit()
         conn.close()
         return
-     
-     
-     
-    
-    
+
+        
     def handleMenu(self,choice=''):
         while True:
             if choice=='':
-                choice = input(f"MENU \n {Constants.ACTION_INSERT} Add an item \n {Constants.ACTION_DISPLAY} Display the items \n {Constants.ACTION_EXPORT_CSV} Export to CSV \n {Constants.ACTION_DELETE} Delete item \n {Constants.ACTION_READ_CSV} Read from CSV \n {Constants.ACTION_EXIT} Exit \n {Constants.ACTION_SEARCH} Search \n Enter your choice: ")
+                choice = input(Constants.menuString)
+                print(choice)
             # Todo : Get the user input from a GUI
-            if choice == Constants.ACTION_INSERT:
+            if choice == Constants.ACTION.INSERT.value:
                 inventory_manager.handleInputs(inputs={})
                 choice=''
                 continue
-            if choice == Constants.ACTION_DISPLAY:
+            if choice == Constants.ACTION.DISPLAY.value:
                 inventory_manager.display()
                 choice=''
                 continue
-            if(choice ==Constants.ACTION_EXPORT_CSV):
+            if(choice ==Constants.ACTION.EXPORT_CSV.value):
                 exportManager.export2CSV();
                 choice=''
                 continue
-            if(choice ==Constants.ACTION_DELETE):
+            if(choice ==Constants.ACTION.DELETE.value):
                 inventory_manager.deleteData();
                 choice=''
                 continue
-            if(choice ==Constants.ACTION_READ_CSV):
+            if(choice ==Constants.ACTION.READ_CSV.value):
                 exportManager.readFromCSV();
                 choice=''
                 continue
-            if(choice==Constants.ACTION_EXIT):
+            if(choice==Constants.ACTION.EXIT.value):
                 return 0;
-            if(choice==Constants.ACTION_SEARCH):
+            if(choice==Constants.ACTION.SEARCH.value):
                 inventory_manager.search(input("Enter the name of the product to be searched: "));
                 choice=''
                 continue
@@ -173,86 +170,13 @@ class InventoryManager:
                 print(Constants.INVALID_CHOICE)
                 return -1;
     
-# if __name__ == '__main__':
-    
-#     inventory_manager = InventoryManager()
-#     export_manager = exportManager()
-#     inventory_manager.handleMenu(choice='');
-    
-
-# Modify below for GUI
-import tkinter as tk
-from tkinter import messagebox
-
-class InventoryManagerGUI:
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("Inventory Manager")
-        
-        self.item_name_label = tk.Label(self.root, text="Item Name:")
-        self.item_name_label.pack()
-        self.item_name_entry = tk.Entry(self.root)
-        self.item_name_entry.pack()
-        
-        self.cost_label = tk.Label(self.root, text="Cost:")
-        self.cost_label.pack()
-        self.cost_entry = tk.Entry(self.root)
-        self.cost_entry.pack()
-        
-        self.subtype_label = tk.Label(self.root, text="Subtype:")
-        self.subtype_label.pack()
-        self.subtype_entry = tk.Entry(self.root)
-        self.subtype_entry.pack()
-        
-        self.replacement_duration_label = tk.Label(self.root, text="Replacement Duration:")
-        self.replacement_duration_label.pack()
-        self.replacement_duration_entry = tk.Entry(self.root)
-        self.replacement_duration_entry.pack()
-        
-        self.save_button = tk.Button(self.root, text="Save", command=self.save_item)
-        self.save_button.pack()
-        
-        self.exit_button = tk.Button(self.root, text="Exit", command=self.exit)
-        self.exit_button.pack()
-        
-    def save_item(self):
-        # Todo : tweak it a bit.
-        
-        item_name = self.item_name_entry.get()
-        cost = self.cost_entry.get()
-        subtype = self.subtype_entry.get()
-        replacement_duration = self.replacement_duration_entry.get()
-        
-        # Validate inputs here if needed
-        
-        # Create the item object
-        item = Item(item_name, cost, subtype, replacement_duration)
-        
-        # Save the item to the database
-        saveToDB(item)
-        
-        # Show a success message
-        messagebox.showinfo("Success", "Item saved successfully!")
-        
-        # Clear the input fields
-        self.item_name_entry.delete(0, tk.END)
-        self.cost_entry.delete(0, tk.END)
-        self.subtype_entry.delete(0, tk.END)
-        self.replacement_duration_entry.delete(0, tk.END)
-    
-    def exit(self):
-        self.root.destroy()
-    def run(self):
-        self.root.mainloop()
-
 if __name__ == '__main__':
-    inventory_manager_gui = InventoryManagerGUI()
-    inventory_manager_gui.run()
-    # inventory_manager = InventoryManager()
-    # export_manager = exportManager()
-    # inventory_manager.handleMenu(choice='');
+    inventory_manager = InventoryManager()
+    export_manager = exportManager()
+    inventory_manager.handleMenu(choice='');
 
 '''
-Todo : Validate GUI Inputs.
+Todo : Make GUI Inputs.
 Todo : Add protection against Dependency Injection Attacks. 
+Todo : Rethink Schema for the GUI
 '''

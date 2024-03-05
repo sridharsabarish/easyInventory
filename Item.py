@@ -14,7 +14,10 @@ class Item:
         return self.replacementDuration
 '''
 
-Todo : Rethink the schema for the Item;
+Todo : 
+
+# A drop down to choose the Subtype.
+
 
 Some how force the Possible items categories;
 

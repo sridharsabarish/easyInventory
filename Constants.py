@@ -1,4 +1,5 @@
 
+from enum import Enum
 CSV_FILE='inventory.csv'
 DB_FILE='inventory.db'
 
@@ -27,13 +28,18 @@ INVALID_CHOICE="Invalid choice"
 
 
 #ACTIONS
-ACTION_INSERT="1"
-ACTION_DISPLAY="2"
-ACTION_EXPORT_CSV="3"
-ACTION_DELETE="4"
-ACTION_READ_CSV="5"
-ACTION_EXIT="6"
-ACTION_SEARCH="8"
+class ACTION(Enum):
+    INSERT="1"
+    DISPLAY="2"
+    EXPORT_CSV="3"
+    DELETE="4"
+    READ_CSV="5"
+    EXIT="6"
+    SEARCH="8"
+    
+menuList= [f"{e.value} {e.name}\n" for e in ACTION]
+menuString = ''.join(menuList)
+
 
 # Supported Fields
 ITEM_SCHEMA =["itemName","subtype","cost","replacementDuration"];
