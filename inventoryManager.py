@@ -180,3 +180,5 @@ Todo : Make GUI Inputs.
 Todo : Add protection against Dependency Injection Attacks. 
 Todo : Rethink Schema for the GUI
 '''
+
+# Setup a jenkins Job using RPI as a slave
