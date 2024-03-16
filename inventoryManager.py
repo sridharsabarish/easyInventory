@@ -167,7 +167,8 @@ class InventoryManager:
             if(choice==Constants.ACTION.EXIT.value):
                 return 0;
             if(choice==Constants.ACTION.SEARCH.value):
-                inventory_manager.search(input("Enter the name of the product to be searched: "));
+                gui = GUI()
+                GUI.search()
                 choice=''
                 continue
             else:
@@ -200,6 +201,12 @@ class GUI:
         self.result_label = tk.Label(self.window, text="")
         self.result_label.pack()
         
+        self.table = tk.Text(self.window)
+        self.table.pack()
+        
+        self.exit_button = tk.Button(self.window, text="Exit", command=self.window.destroy)
+        self.exit_button.pack(side=tk.BOTTOM)
+        
         self.window.mainloop()
     
     def search(self):
@@ -221,9 +228,8 @@ class GUI:
             messagebox.showinfo("Search Result", result_text)
         
         self.result_label.config(text="Search Result:")
-        self.table = tk.Text(self.window)
-        self.table.pack()
         
+        self.table.delete(1.0, tk.END)
         self.table.insert(tk.END, "{:<20} {:<10} {:<15} {:<20}\n".format("Item Name", "Cost", "Subtype", "Replacement Duration"))
         self.table.insert(tk.END, "-" * 70 + "\n")
         
@@ -231,13 +237,11 @@ class GUI:
             self.table.insert(tk.END, "{:<20} {:<10} {:<15} {:<20}\n".format(result[0], result[1], result[2], result[3]))
             self.table.insert(tk.END, "\n")
 
-
 # Setup a jenkins Job using RPI as a slave
 
 
 if __name__ == '__main__':
-    # inventory_manager = InventoryManager()
-    # export_manager = exportManager()
-    # inventory_manager.handleMenu(choice='');
-    gui = GUI()
-    GUI.search()
+    inventory_manager = InventoryManager()
+    export_manager = exportManager()
+    inventory_manager.handleMenu(choice='');
+   
