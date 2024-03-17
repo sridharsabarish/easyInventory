@@ -6,7 +6,7 @@ DB_FILE='inventory.db'
 # SQL Queries
 
 SELECT_ALL="SELECT * FROM inventory"
-INSERT_TO_DB="INSERT INTO inventory (item_name, cost, subtype, replacement_duration) VALUES (?, ?, ?, ?)"
+INSERT_TO_DB="INSERT INTO inventory (item_name, cost, subtype, replacement_duration) VALUES (?, ?, ?, ?)"  # Remember to make this dynamic.
 CREATE_TABLE="CREATE TABLE IF NOT EXISTS inventory (item_name TEXT,cost REAL,subtype TEXT,replacement_duration INTEGER)"
 
 SEARCH_QUERY="SELECT * FROM inventory WHERE item_name = ?"
@@ -26,6 +26,8 @@ DELETED_PRODUCT="The product has been deleted successfully"
 ERROR_PRODUCT="'Product not found'"
 INVALID_CHOICE="Invalid choice"
 
+#Prompts
+DELETE_PRODUCT_PROMPT="Enter the name of product to delete : "
 
 #ACTIONS
 class ACTION(Enum):
@@ -43,3 +45,12 @@ menuString = ''.join(menuList)
 
 # Supported Fields
 ITEM_SCHEMA =["itemName","subtype","cost","replacementDuration"];
+
+
+
+
+
+# New Enum
+class EXIT_CODE(Enum):
+    EXIT = 0
+    INVALID = -1

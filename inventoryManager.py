@@ -1,24 +1,16 @@
-import sqlite3
 from Item import Item
 from exportManager import exportManager
-import Constants
-import Beautify
-import re
+import Constants, Beautify, re, sqlite3
 from collections import defaultdict
 import tkinter as tk
-from tkinter import messagebox
-import sqlite3
-import Constants
 
 def saveToDB(item):
     conn = sqlite3.connect(Constants.DB_FILE)
     cursor = conn.cursor()
-
     # Create the table if it doesn't exist
     cursor.execute(Constants.CREATE_TABLE)
     # Save the variables to the database
     cursor.execute(Constants.INSERT_TO_DB, (item.getItemName(), item.getCost(), item.getSubtype(), item.getReplacementDuration()))
-
     # Commit the changes and close the connection
     conn.commit()
     conn.close() 
@@ -32,7 +24,7 @@ class InventoryManager:
             match = bool(pattern.match(output))
         return output
 
-    def handleInputs(self,inputs):
+    def handleInputs(self,inputs={}):
 
         # Todo : Connect this to a GUI
         # Todo get the columns using the data types supported by the item.py class automatically.
@@ -42,12 +34,12 @@ class InventoryManager:
         if len(inputs)!=4:
             for i in range(0,len(Constants.ITEM_SCHEMA)):
                 x=self.readInput(Constants.ITEM_SCHEMA[i]);
-                val[lists[i]]=x;
+                val[i]=x;
         else:
             # Todo : validate output
             val=inputs;
         
-        newItem = Item(val["itemName"],val["cost"],val["subtype"],val["replacementDuration"]);
+        newItem = Item(*val.values())
         # Connect to the database
         saveToDB(newItem)
         exportManager.export2CSV()
@@ -97,7 +89,7 @@ class InventoryManager:
         return total_cost
     def deleteData(self):
         #Todo  : Remove a product from the inventory
-        name=input("Enter the name of the product to be deleted: ")
+        name=input(Constants.DELETE_PRODUCT_PROMPT)
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
         
@@ -120,69 +112,39 @@ class InventoryManager:
         return
     
     # Todo : Refactor/Refine search further
-    def search(self,product_name):
-      
-        conn = sqlite3.connect(Constants.DB_FILE)
-        cursor = conn.cursor()
-        rows=cursor.execute(Constants.SEARCH_QUERY, (product_name,))
-        if cursor.fetchone() is None:
-            print(Constants.ERROR_PRODUCT)
-        else:
-            print(Constants.SUCCESS_PRODUCT)
-            with conn:
-                cursor.execute(Constants.SEARCH_QUERY, (product_name,))
-                for row in cursor.fetchall():
-                    print(row)
-        conn.commit()
-        conn.close()
-        return
-
+    def search(self):
+        gui = GUI()
+        gui.search()
+        ~gui
+        return 
         
     def handleMenu(self,choice=''):
-        while True:
-            if choice=='':
-                choice = input(Constants.menuString)
-                print(choice)
-            # Todo : Get the user input from a GUI
-            if choice == Constants.ACTION.INSERT.value:
-                inventory_manager.handleInputs(inputs={})
-                choice=''
-                continue
-            if choice == Constants.ACTION.DISPLAY.value:
-                inventory_manager.display()
-                choice=''
-                continue
-            if(choice ==Constants.ACTION.EXPORT_CSV.value):
-                exportManager.export2CSV();
-                choice=''
-                continue
-            if(choice ==Constants.ACTION.DELETE.value):
-                inventory_manager.deleteData();
-                choice=''
-                continue
-            if(choice ==Constants.ACTION.READ_CSV.value):
-                exportManager.readFromCSV();
-                choice=''
-                continue
-            if(choice==Constants.ACTION.EXIT.value):
-                return 0;
-            if(choice==Constants.ACTION.SEARCH.value):
-                gui = GUI()
-                GUI.search()
-                choice=''
-                continue
-            else:
-                print(Constants.INVALID_CHOICE)
-                return -1;
-    
+        # Todo : Check if it is possible to replace function call with Dictionary
+            function_dict = {
+                Constants.ACTION.DISPLAY.value: self.display,
+                Constants.ACTION.EXPORT_CSV.value: exportManager.export2CSV,
+                Constants.ACTION.DELETE.value: self.deleteData,
+                Constants.ACTION.READ_CSV.value: exportManager.readFromCSV,
+                Constants.ACTION.SEARCH.value: self.search
+            }
 
-
-'''
-Todo : Make GUI Inputs.
-Todo : Add protection against Dependency Injection Attacks. 
-Todo : Rethink Schema for the GUI
-'''
-
+            while True:
+                if choice == '':
+                    choice = input(Constants.menuString)
+                    print(choice)
+                elif choice==  Constants.ACTION.INSERT.value:
+                    self.handleInputs(inputs={});
+                    choice = ''
+                    continue
+                elif choice in function_dict:
+                    function_dict[choice]()
+                    choice = ''
+                    continue
+                else:
+                    if(choice==Constants.ACTION.EXIT.value):
+                        return(Constants.EXIT_CODE.EXIT.value)
+                    print(Constants.INVALID_CHOICE)
+                    return Constants.EXIT_CODE.INVALID_CHOICE.value
 
 class GUI:
     def __init__(self):
@@ -216,19 +178,7 @@ class GUI:
         rows = cursor.execute(Constants.SEARCH_QUERY, (product_name,))
         results = cursor.fetchall()
         conn.close()
-        
-        if len(results) == 0:
-            messagebox.showinfo("Search Result", "Product not found.")
-        else:
-            result_text = "Search Result:\n\n"
-            result_text += "{:<20} {:<10} {:<15} {:<20}\n".format("Item Name", "Cost", "Subtype", "Replacement Duration")
-            result_text += "-" * 70 + "\n"
-            for row in results:
-                result_text += "{:<20} {:<10} {:<15} {:<20}\n".format(row[0], row[1], row[2], row[3])
-            messagebox.showinfo("Search Result", result_text)
-        
         self.result_label.config(text="Search Result:")
-        
         self.table.delete(1.0, tk.END)
         self.table.insert(tk.END, "{:<20} {:<10} {:<15} {:<20}\n".format("Item Name", "Cost", "Subtype", "Replacement Duration"))
         self.table.insert(tk.END, "-" * 70 + "\n")
@@ -237,11 +187,19 @@ class GUI:
             self.table.insert(tk.END, "{:<20} {:<10} {:<15} {:<20}\n".format(result[0], result[1], result[2], result[3]))
             self.table.insert(tk.END, "\n")
 
-# Setup a jenkins Job using RPI as a slave
+
 
 
 if __name__ == '__main__':
     inventory_manager = InventoryManager()
     export_manager = exportManager()
     inventory_manager.handleMenu(choice='');
-   
+    
+    
+'''
+Todo : Setup a jenkins Job using RPI as a slave
+Todo : Fix input bug
+Todo : Make GUI Inputs.
+Todo : Add protection against Dependency Injection Attacks. 
+Todo : Rethink Schema for the GUI
+'''
