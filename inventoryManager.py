@@ -120,63 +120,48 @@ class InventoryManager:
         return
     
     # Todo : Refactor/Refine search further
-    def search(self,product_name):
-      
-        conn = sqlite3.connect(Constants.DB_FILE)
-        cursor = conn.cursor()
-        rows=cursor.execute(Constants.SEARCH_QUERY, (product_name,))
-        if cursor.fetchone() is None:
-            print(Constants.ERROR_PRODUCT)
-        else:
-            print(Constants.SUCCESS_PRODUCT)
-            with conn:
-                cursor.execute(Constants.SEARCH_QUERY, (product_name,))
-                for row in cursor.fetchall():
-                    print(row)
-        conn.commit()
-        conn.close()
-        return
-
+    def search(self):
+        gui = GUI()
+        gui.search()
+        return 
         
     def handleMenu(self,choice=''):
+        # Todo : Check if it is possible to replace function call with Dictionary
         while True:
             if choice=='':
                 choice = input(Constants.menuString)
                 print(choice)
             # Todo : Get the user input from a GUI
-            if choice == Constants.ACTION.INSERT.value:
-                inventory_manager.handleInputs(inputs={})
-                choice=''
-                continue
-            if choice == Constants.ACTION.DISPLAY.value:
-                inventory_manager.display()
-                choice=''
-                continue
-            if(choice ==Constants.ACTION.EXPORT_CSV.value):
-                exportManager.export2CSV();
-                choice=''
-                continue
-            if(choice ==Constants.ACTION.DELETE.value):
-                inventory_manager.deleteData();
-                choice=''
-                continue
-            if(choice ==Constants.ACTION.READ_CSV.value):
-                exportManager.readFromCSV();
-                choice=''
-                continue
-            if(choice==Constants.ACTION.EXIT.value):
-                return 0;
-            if(choice==Constants.ACTION.SEARCH.value):
-                gui = GUI()
-                GUI.search()
-                choice=''
-                continue
-            else:
-                print(Constants.INVALID_CHOICE)
-                return -1;
+            function_dict = {
+                Constants.ACTION.INSERT.value: self.handleInputs,
+                Constants.ACTION.DISPLAY.value: self.display,
+                Constants.ACTION.EXPORT_CSV.value: exportManager.export2CSV,
+                Constants.ACTION.DELETE.value: self.deleteData,
+                Constants.ACTION.READ_CSV.value: exportManager.readFromCSV,
+                Constants.ACTION.SEARCH.value: self.search
+            }
+
+            while True:
+                if choice == '':
+                    choice = input(Constants.menuString)
+                    print(choice)
+                
+                if choice == Constants.ACTION.EXIT.value:
+                    return 0
+                
+                if choice in function_dict:
+                    function_dict[choice]()
+                    choice = ''
+                    continue
+                    
+                if(choice==Constants.ACTION.EXIT.value):
+                    return 0;
+                
+                else:
+                    print(Constants.INVALID_CHOICE)
+                    return -1;
     
-
-
+    
 '''
 Todo : Make GUI Inputs.
 Todo : Add protection against Dependency Injection Attacks. 
@@ -218,7 +203,7 @@ class GUI:
         conn.close()
         
         if len(results) == 0:
-            messagebox.showinfo("Search Result", "Product not found.")
+            messagebox.showinfo("Search Result", Constants.ERROR_PRODUCT)
         else:
             result_text = "Search Result:\n\n"
             result_text += "{:<20} {:<10} {:<15} {:<20}\n".format("Item Name", "Cost", "Subtype", "Replacement Duration")
