@@ -111,7 +111,7 @@ class InventoryManager:
         exportManager.export2CSV()
         return
     
-    # Todo : Refactor/Refine search further
+   
     def search(self):
         gui = GUI()
         gui.search()
@@ -119,7 +119,7 @@ class InventoryManager:
         return 
         
     def handleMenu(self,choice=''):
-        # Todo : Check if it is possible to replace function call with Dictionary
+     
             function_dict = {
                 Constants.ACTION.DISPLAY.value: self.display,
                 Constants.ACTION.EXPORT_CSV.value: exportManager.export2CSV,
@@ -198,8 +198,9 @@ if __name__ == '__main__':
     
 '''
 Todo : Setup a jenkins Job using RPI as a slave
-Todo : Fix input bug
-Todo : Make GUI Inputs.
+       - What would this job do? Maybe just run some tests? What tests? How does jenkins work?
+Todo : Add input validation for the GUI
 Todo : Add protection against Dependency Injection Attacks. 
-Todo : Rethink Schema for the GUI
+Todo : Finalize schema for Tables.
+Todo : Add autocomplete feature for GUI from DB
 '''
