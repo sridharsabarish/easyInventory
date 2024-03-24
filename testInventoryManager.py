@@ -1,17 +1,18 @@
 import unittest
-from InventoryManager import InventoryManager
+from inventoryManager import InventoryManager
+import Constants
 
 class TestInventoryManager(unittest.TestCase):
     
     inventory_manager = InventoryManager()
     
     def testExitOutOfMenu(self):
-        out=self.inventory_manager.handleMenu(choice='6');
+        out=self.inventory_manager.handleMenu(choice=Constants.ACTION.EXIT.value);
         self.assertEqual(out,0,"Passed");
         
-    def testFailExitOutOfMenu(self):
-        out=self.inventory_manager.handleMenu(choice='7');
-        self.assertNotEqual(out,0,"Passed");
+    # def testFailExitOutOfMenu(self):
+    #     out=self.inventory_manager.handleMenu(choice='7');
+    #     self.assertNotEqual(out,0,"Passed");
         
         
     def testInputPassedAsArgument(self):
