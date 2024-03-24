@@ -1,12 +1,12 @@
 import sqlite3
 import pandas as pd
 import Constants
-class exportManager:
+class ReadFromCSV:
     def readFromCSV():
         df =pd.read_csv(Constants.CSV_FILE)
         print(df)
         return
-
+class Export2CSV:
     def export2CSV():
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()

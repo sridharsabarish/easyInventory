@@ -1,21 +1,24 @@
 from Item import Item
-from exportManager import exportManager
+from exportManager import Export2CSV,ReadFromCSV
 import Constants, Beautify, re, sqlite3
 from collections import defaultdict
 import tkinter as tk
 
-def saveToDB(item):
-    conn = sqlite3.connect(Constants.DB_FILE)
-    cursor = conn.cursor()
-    # Create the table if it doesn't exist
-    cursor.execute(Constants.CREATE_TABLE)
-    # Save the variables to the database
-    cursor.execute(Constants.INSERT_TO_DB, (item.getItemName(), item.getCost(), item.getSubtype(), item.getReplacementDuration()))
-    # Commit the changes and close the connection
-    conn.commit()
-    conn.close() 
 
-class InventoryManager:
+
+class DB:
+    def saveToDB(item):
+        conn = sqlite3.connect(Constants.DB_FILE)
+        cursor = conn.cursor()
+        # Create the table if it doesn't exist
+        cursor.execute(Constants.CREATE_TABLE)
+        # Save the variables to the database
+        cursor.execute(Constants.INSERT_TO_DB, (item.getItemName(), item.getCost(), item.getSubtype(), item.getReplacementDuration()))
+        # Commit the changes and close the connection
+        conn.commit()
+        conn.close() 
+
+class Validation:
     def readInput(self,x) -> str: 
         match =False
         pattern = re.compile(Constants.regex_map[x])
@@ -23,7 +26,7 @@ class InventoryManager:
             output = input(x+": ");
             match = bool(pattern.match(output))
         return output
-
+class HandleInputs:
     def handleInputs(self,inputs={}):
 
         # Todo : Connect this to a GUI
@@ -33,7 +36,7 @@ class InventoryManager:
         print(len(inputs))
         if len(inputs)!=4:
             for i in range(0,len(Constants.ITEM_SCHEMA)):
-                x=self.readInput(Constants.ITEM_SCHEMA[i]);
+                x=Validation.readInput(Constants.ITEM_SCHEMA[i]);
                 val[i]=x;
         else:
             # Todo : validate output
@@ -41,12 +44,12 @@ class InventoryManager:
         
         newItem = Item(*val.values())
         # Connect to the database
-        saveToDB(newItem)
+        DB.saveToDB(newItem)
         exportManager.export2CSV()
         return 0;
         
-        
-    def display(self):
+class Display:        
+    def display():
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
 
@@ -87,6 +90,7 @@ class InventoryManager:
         # Close the connection
         conn.close()
         return total_cost
+class Delete:
     def deleteData(self):
         #Todo  : Remove a product from the inventory
         name=input(Constants.DELETE_PRODUCT_PROMPT)
@@ -108,24 +112,25 @@ class InventoryManager:
         conn.commit()
         conn.close()
         print(Constants.DELETED_PRODUCT);
-        exportManager.export2CSV()
+        Export2CSV.export2CSV()
         return
     
-   
-    def search(self):
+class Search:
+    def search():
         gui = GUI()
         gui.search()
         ~gui
         return 
-        
+
+class Menu:        
     def handleMenu(self,choice=''):
      
             function_dict = {
-                Constants.ACTION.DISPLAY.value: self.display,
-                Constants.ACTION.EXPORT_CSV.value: exportManager.export2CSV,
-                Constants.ACTION.DELETE.value: self.deleteData,
-                Constants.ACTION.READ_CSV.value: exportManager.readFromCSV,
-                Constants.ACTION.SEARCH.value: self.search
+                Constants.ACTION.DISPLAY.value: Display.display,
+                Constants.ACTION.EXPORT_CSV.value: Export2CSV.export2CSV,
+                Constants.ACTION.DELETE.value: Delete.deleteData,
+                Constants.ACTION.READ_CSV.value: ReadFromCSV.readFromCSV,
+                Constants.ACTION.SEARCH.value: Search.search
             }
 
             while True:
@@ -133,7 +138,7 @@ class InventoryManager:
                     choice = input(Constants.menuString)
                     print(choice)
                 elif choice==  Constants.ACTION.INSERT.value:
-                    self.handleInputs(inputs={});
+                    HandleInputs.handleInputs(inputs={});
                     choice = ''
                     continue
                 elif choice in function_dict:
@@ -191,9 +196,8 @@ class GUI:
 
 
 if __name__ == '__main__':
-    inventory_manager = InventoryManager()
-    export_manager = exportManager()
-    inventory_manager.handleMenu(choice='');
+    Menu = Menu()
+    Menu.handleMenu(choice='');
     
     
 '''
@@ -204,23 +208,5 @@ Todo : Add input validation for the GUI
 Todo : Add protection against Dependency Injection Attacks. 
 Todo : Finalize schema for Tables.
 Todo : Add autocomplete feature for GUI from DB
-
-
-Todo :
-
-Fix SOLID Principle violations : Single Responsibility Principle
-
-1) Class for 
-    - searchInventory
-    - displayInventory
-    - deleteInventory
-    - insertInventory
-    - exportInventory
-    - validateInput
-    - GUI
-    - DB
-    - readFromCSV
-    - export2CSV
-    
 
 '''
