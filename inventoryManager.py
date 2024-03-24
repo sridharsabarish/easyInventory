@@ -197,10 +197,30 @@ if __name__ == '__main__':
     
     
 '''
+Todo : GUI based input
 Todo : Setup a jenkins Job using RPI as a slave
        - What would this job do? Maybe just run some tests? What tests? How does jenkins work?
 Todo : Add input validation for the GUI
 Todo : Add protection against Dependency Injection Attacks. 
 Todo : Finalize schema for Tables.
 Todo : Add autocomplete feature for GUI from DB
+
+
+Todo :
+
+Fix SOLID Principle violations : Single Responsibility Principle
+
+1) Class for 
+    - searchInventory
+    - displayInventory
+    - deleteInventory
+    - insertInventory
+    - exportInventory
+    - validateInput
+    - GUI
+    - DB
+    - readFromCSV
+    - export2CSV
+    
+
 '''
