@@ -208,5 +208,6 @@ Todo : Add input validation for the GUI
 Todo : Add protection against Dependency Injection Attacks. 
 Todo : Finalize schema for Tables.
 Todo : Add autocomplete feature for GUI from DB
+Todo : Computer Vision, scan an image and automatically prefill the category
 
 '''
