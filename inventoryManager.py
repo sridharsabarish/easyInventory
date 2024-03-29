@@ -45,81 +45,86 @@ class HandleInputs:
         newItem = Item(*val.values())
         # Connect to the database
         DB.saveToDB(newItem)
-        exportManager.export2CSV()
+        Export2CSV.export2CSV()
         return 0;
         
 class Display:        
     def display():
-        conn = sqlite3.connect(Constants.DB_FILE)
-        cursor = conn.cursor()
+        try:
+            conn = sqlite3.connect(Constants.DB_FILE)
+            cursor = conn.cursor()
 
-        # Select all of the items from the database
-        cursor.execute(Constants.SELECT_ALL)
-        # Initialize variables for most expensive item and shortest replacement duration
-        most_expensive_item = None
-        shortest_replacement_duration = None
-        
-        
-        
-        counts=defaultdict(int); # Keep count of all the items
-        # Print the items
-        total_cost = 0
-        for row in cursor.fetchall():
-            print(row)
-            total_cost += row[1]  # Assuming cost is stored in the second column
-            
-            counts[row[0].lower()]+=1;
-            # Check if the current item is the most expensive
-            if most_expensive_item is None or row[1] > most_expensive_item[1]:
-                most_expensive_item = row
-            # Check if the current item has the shortest replacement duration
-            if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
-                shortest_replacement_duration = row
-        
-        
-        
-        for i in counts.keys():
-            print(f'{i}:{counts[i]}');
-        
-        Beautify.lineBreak()
-        print("Total cost: ${:.2f}".format(total_cost))
-        print("Most expensive item: {}".format(most_expensive_item[0]))
-        print("Item with shortest replacement duration: {}".format(shortest_replacement_duration[0]))
-        Beautify.lineBreak()
-        
-        # Close the connection
-        conn.close()
-        return total_cost
+            # Select all of the items from the database
+            cursor.execute(Constants.SELECT_ALL)
+            # Initialize variables for most expensive item and shortest replacement duration
+            most_expensive_item = None
+            shortest_replacement_duration = None
+
+            counts=defaultdict(int); # Keep count of all the items
+            # Print the items
+            total_cost = 0
+            for row in cursor.fetchall():
+                print(row)
+                total_cost += row[1]  # Assuming cost is stored in the second column
+
+                counts[row[0].lower()]+=1;
+                # Check if the current item is the most expensive
+                if most_expensive_item is None or row[1] > most_expensive_item[1]:
+                    most_expensive_item = row
+                # Check if the current item has the shortest replacement duration
+                if shortest_replacement_duration is None or row[3] < shortest_replacement_duration[3]:
+                    shortest_replacement_duration = row
+
+            for i in counts.keys():
+                print(f'{i}:{counts[i]}');
+
+            Beautify.lineBreak()
+            print("Total cost: ${:.2f}".format(total_cost))
+            print("Most expensive item: {}".format(most_expensive_item[0]))
+            print("Item with shortest replacement duration: {}".format(shortest_replacement_duration[0]))
+            Beautify.lineBreak()
+
+            # Close the connection
+            conn.close()
+            return Constants.EXIT_CODE.SUCCESS.value
+        except Exception as e:
+            print("An error occurred while displaying the items:", str(e))
+            return Constants.EXIT_CODE.INVALID.value
 class Delete:
-    def deleteData(self):
-        #Todo  : Remove a product from the inventory
-        name=input(Constants.DELETE_PRODUCT_PROMPT)
-        conn = sqlite3.connect(Constants.DB_FILE)
-        cursor = conn.cursor()
-        
-        # Check if the item exists
-        cursor.execute(Constants.SEARCH_QUERY, (name,))
-        if cursor.fetchone() is None:
-            print(Constants.ERROR_PRODUCT)
-            
-        else:
-            print(Constants.SUCCESS_PRODUCT)
-            self.display();
-        
+    def deleteData():
+        # Todo: Remove a product from the inventory
+        try:
+            name = input(Constants.DELETE_PRODUCT_PROMPT)
+            conn = sqlite3.connect(Constants.DB_FILE)
+            cursor = conn.cursor()
+
+            # Check if the item exists
+            cursor.execute(Constants.SEARCH_QUERY, (name,))
+            if cursor.fetchone() is None:
+                print(Constants.ERROR_PRODUCT)
+            else:
+                print(Constants.SUCCESS_PRODUCT)
+            self.display()
             cursor.execute(Constants.DELETE_ITEM_QUERY, (name,))
-            
-            
-        conn.commit()
-        conn.close()
-        print(Constants.DELETED_PRODUCT);
-        Export2CSV.export2CSV()
-        return
+
+            conn.commit()
+            conn.close()
+            print(Constants.DELETED_PRODUCT)
+            return Constants.EXIT_CODE.SUCCESS.value
+            #Export2CSV.export2CSV()
+        except Exception as e:
+            print("An error occurred while deleting the product:", str(e))
+        return Constants.EXIT_CODE.INVALID.value
     
 class Search:
     def search():
-        gui = GUI()
-        gui.search()
-        ~gui
+        try:
+            gui = GUI()
+            gui.search()
+            return Constants.EXIT_CODE.SUCCESS.value
+        except Exception as e:
+            print("An error occurred:", str(e))
+            return Constants.EXIT_CODE.INVALID.value
         return 
 
 class Menu:        
@@ -147,7 +152,7 @@ class Menu:
                     continue
                 else:
                     if(choice==Constants.ACTION.EXIT.value):
-                        return(Constants.EXIT_CODE.EXIT.value)
+                        return(Constants.EXIT_CODE.SUCCESS.value)
                     print(Constants.INVALID_CHOICE)
                     return Constants.EXIT_CODE.INVALID_CHOICE.value
 
@@ -191,8 +196,6 @@ class GUI:
         for result in results:
             self.table.insert(tk.END, "{:<20} {:<10} {:<15} {:<20}\n".format(result[0], result[1], result[2], result[3]))
             self.table.insert(tk.END, "\n")
-
-
 
 
 if __name__ == '__main__':

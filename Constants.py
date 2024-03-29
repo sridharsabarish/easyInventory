@@ -52,5 +52,5 @@ ITEM_SCHEMA =["itemName","subtype","cost","replacementDuration"];
 
 # New Enum
 class EXIT_CODE(Enum):
-    EXIT = 0
+    SUCCESS = 0
     INVALID = -1
