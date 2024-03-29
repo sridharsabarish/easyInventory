@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @startuml
 
 title Class Diagram for Inventory Manager
@@ -63,3 +64,68 @@ HandleInputs   --* ExportToCSV
 
 
 @enduml
+||||||| merged common ancestors
+=======
+@startuml
+
+title Class Diagram for Inventory Manager
+
+class DB {
+    - void saveToDB(item);
+}
+
+class Validation {
+    - str readInput(x)
+}
+
+class HandleInputs {
+    - void HandleInputs(inputs)
+}
+
+class Display {
+  
+    - void display()    
+}
+
+class Delete {
+    - void deleteData()
+}
+
+class Search {
+    - void search()
+}
+
+class Menu{
+    - void handleMenu()
+}
+
+class GUI {
+    - void init()
+    - void search()
+}
+
+class ReadFromCSV
+{
+    - void readFromCSV()
+
+}
+
+class ExportToCSV
+{
+    - void exportToCSV()
+}
+
+Menu --* GUI
+Menu --* Display
+Menu --* Search
+Menu --* Delete
+Menu --* HandleInputs
+HandleInputs --* Validation
+HandleInputs --* DB
+Search --* DB
+Delete --* DB
+Display --* DB
+
+
+@enduml
+>>>>>>> 45b54c2af9351ef3470d4256813986e6b5c4f28b
