@@ -1,5 +1,4 @@
 import sqlite3
-import pandas as pd
 import Constants
 class ReadFromCSV:
     def readFromCSV():

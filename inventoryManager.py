@@ -19,13 +19,23 @@ class DB:
         conn.close() 
 
 class Validation:
-    def readInput(self,x) -> str: 
-        match =False
-        pattern = re.compile(Constants.regex_map[x])
-        while match is False:
-            output = input(x+": ");
-            match = bool(pattern.match(output))
-        return output
+    '''
+    
+    Validate an input based on its data type.
+    
+    '''
+    def validateInput(x) -> str: 
+        try:
+            data_type = x["key"]
+            value = x["value"]
+            pattern = re.compile(Constants.regex_map[data_type])
+            if bool(pattern.match(value)):
+                return Constants.EXIT_CODE.SUCCESS.value
+            else:
+                return Constants.EXIT_CODE.INVALID.value
+        except Exception as e:
+            print("An error occurred while validating the input:", str(e))
+            return Constants.EXIT_CODE.INVALID.value
 class HandleInputs:
     def handleInputs(self,inputs={}):
 
@@ -36,8 +46,11 @@ class HandleInputs:
         print(len(inputs))
         if len(inputs)!=4:
             for i in range(0,len(Constants.ITEM_SCHEMA)):
-                x=Validation.readInput(Constants.ITEM_SCHEMA[i]);
-                val[i]=x;
+                
+                initialInput=input(f"Enter {Constants.ITEM_SCHEMA[i]} : ")
+               #x=Validation.validateInput(Constants.ITEM_SCHEMA[i]);
+                
+                val[i]=initialInput;
         else:
             # Todo : validate output
             val=inputs;
@@ -204,13 +217,14 @@ if __name__ == '__main__':
     
     
 '''
-Todo : GUI based input
 Todo : Setup a jenkins Job using RPI as a slave
        - What would this job do? Maybe just run some tests? What tests? How does jenkins work?
+Todo : GUI based input
 Todo : Add input validation for the GUI
 Todo : Add protection against Dependency Injection Attacks. 
 Todo : Finalize schema for Tables.
 Todo : Add autocomplete feature for GUI from DB
 Todo : Computer Vision, scan an image and automatically prefill the category
+Todo : Abstraction of classes and extend only according to inventory Manager's requirements.
 
 '''

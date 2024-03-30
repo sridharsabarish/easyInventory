@@ -1,5 +1,5 @@
 import unittest
-from inventoryManager import Menu, HandleInputs,Display, Search, Delete
+from inventoryManager import Menu, HandleInputs,Display, Search, Delete,Validation
 from exportManager import Export2CSV
 import Constants
 
@@ -33,6 +33,24 @@ class TestInventoryManager(unittest.TestCase):
     def testDisplay(self):
         self.assertEqual(Display.display(),Constants.EXIT_CODE.SUCCESS.value,"Passed");
         
+    
+    # Tests for inputValidation
+    def testValidateInput(self):
+        test={"key":'itemName',"value":"TestInput"}
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");
+        
+    def testValidateInputFail(self):
+        test={"key":'cost',"value":"1"}
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");    
+        
+    def testValidateInput2(self):
+        test={"key":'replacementDuration',"value":"1"}
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");
+        
+    def testValidateInputFail2(self):
+        test={"key":'subtype',"value":"sa"}
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");    
+        
     # def testSearch(self):
     #     self.assertEqual(Search.search(),Constants.EXIT_CODE.SUCCESS.value,"Passed");
     
@@ -41,7 +59,6 @@ class TestInventoryManager(unittest.TestCase):
     
     '''Todo :
     # 1. ValidationForInput  - Empty, Long, Junk Characters.
-    # 2. testMethodForInputs, exporting to CSV, Printing!
     '''
 if __name__ == '__main__':
     unittest.main()

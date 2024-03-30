@@ -12,7 +12,7 @@ CREATE_TABLE="CREATE TABLE IF NOT EXISTS inventory (item_name TEXT,cost REAL,sub
 SEARCH_QUERY="SELECT * FROM inventory WHERE item_name = ?"
 DELETE_ITEM_QUERY="DELETE FROM inventory WHERE item_name = ?"
 # Regexes
-REGEX_NAME=r'^[a-zA-Z0-9]'
+REGEX_NAME=r'^[a-zA-Z]'
 REGEX_NUMBER=r'^\d*$'
 regex_map ={"itemName":REGEX_NAME,
       "subtype":REGEX_NAME,
