@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Item to Inventory</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Add Item to Inventory</h1>
+    
+    <form action="/inventory/add" method="POST" style="display: flex; flex-direction: column; align-items: center;">
+        
+        <label for="name">Item Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+        
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+        
+        <button type="submit" class="btn btn-primary">Add Item</button>
+        <button onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
+    </form>
+
+    <!-- Add Bootstrap JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

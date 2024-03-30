@@ -2,8 +2,9 @@
 
 ## Supported Functions
 1. Adding/Removing Items to Inventory
-2. Exporting to CSV.
-3. Some analysis of the inventory
+2. Export : CSV
+3. Search
+4. Display
 
 ## Project Goal
 
@@ -23,3 +24,8 @@ Prompts
 6. EXIT
 8. SEARCH
 
+## Running Tests
+
+To run the tests, use the following command:
+
+<pre>python3 testInventoryManger.py</pre> 
