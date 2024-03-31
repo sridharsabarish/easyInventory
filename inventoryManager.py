@@ -34,7 +34,7 @@ class Validation:
             else:
                 return Constants.EXIT_CODE.INVALID.value
         except Exception as e:
-            print("An error occurred while validating the input:", str(e))
+            print(Constants.ERROR_VALIDATION, str(e))
             return Constants.EXIT_CODE.INVALID.value
 class HandleInputs:
     def handleInputs(self,inputs={}):
@@ -101,7 +101,7 @@ class Display:
             conn.close()
             return Constants.EXIT_CODE.SUCCESS.value
         except Exception as e:
-            print("An error occurred while displaying the items:", str(e))
+            print(Constants.ERROR_DISPLAY, str(e))
             return Constants.EXIT_CODE.INVALID.value
 class Delete:
     def deleteData():
@@ -126,7 +126,7 @@ class Delete:
             return Constants.EXIT_CODE.SUCCESS.value
             #Export2CSV.export2CSV()
         except Exception as e:
-            print("An error occurred while deleting the product:", str(e))
+            print(Constants.ERROR_DELETE, str(e))
         return Constants.EXIT_CODE.INVALID.value
     
 class Search:
@@ -220,6 +220,7 @@ if __name__ == '__main__':
 
 Todo : Setup a jenkins Job using RPI as a slave
        - What would this job do? Maybe just run some tests? What tests? How does jenkins work?
+       - testInventoryManager should be run, if it passes then we allow merging.
 Todo : GUI based input
 Todo : Add protection against Dependency Injection Attacks. 
 Todo : Finalize schema for Tables.
