@@ -36,14 +36,15 @@ class Validation:
         except Exception as e:
             print(Constants.ERROR_VALIDATION, str(e))
             return Constants.EXIT_CODE.INVALID.value
-class HandleInputs:
-    def handleInputs(self,inputs={}):
+class Add:
+    def addItem(self,inputs={}):
 
         # Todo : Connect this to a GUI
         # Todo get the columns using the data types supported by the item.py class automatically.
         val ={};
         
         print(len(inputs))
+        print(inputs)
         if len(inputs)!=4:
             for i in range(0,len(Constants.ITEM_SCHEMA)):
                 
@@ -60,7 +61,38 @@ class HandleInputs:
         DB.saveToDB(newItem)
         Export2CSV.export2CSV()
         return 0;
+    
+class Fetch:
+    def fetchAllInfo(self):
+        try:
+            conn = sqlite3.connect(Constants.DB_FILE)
+            cursor = conn.cursor()
+            # Select all of the items from the database
+            cursor.execute(Constants.SELECT_ALL)
+            # Initialize an empty dictionary to store the information
+            info_list = []
+            # Iterate over the rows and collect the information
+          
+            for row in cursor.fetchall():
+                item_name = row[0]
+                cost = row[1]
+                subtype = row[2]
+                replacement_duration = row[3]
+                # Add the information to the dictionary
+                info_list.append({
+                    'name': item_name,
+                    'cost': cost,
+                    'subtype': subtype,
+                    'replacementDuration': replacement_duration
+                })
         
+            print(info_list)
+            # Close the connection
+            conn.close()
+            return info_list
+        except Exception as e:
+            print(Constants.ERROR_FETCH, str(e))
+            return {}
 class Display:        
     def display():
         try:
@@ -156,7 +188,7 @@ class Menu:
                     choice = input(Constants.menuString)
                     print(choice)
                 elif choice==  Constants.ACTION.INSERT.value:
-                    HandleInputs.handleInputs(inputs={});
+                    Add.addItem(inputs={});
                     choice = ''
                     continue
                 elif choice in function_dict:
@@ -218,17 +250,23 @@ if __name__ == '__main__':
     
 '''
 
-Todo : Setup a jenkins Job using RPI as a slave
-       - What would this job do? Maybe just run some tests? What tests? How does jenkins work?
-       - testInventoryManager should be run, if it passes then we allow merging.
 Todo : GUI based input
+
 Todo : Add protection against Dependency Injection Attacks. 
+
 Todo : Finalize schema for Tables.
+
 Todo : Add autocomplete feature for GUI from DB
+
 Todo : Computer Vision, scan an image and automatically prefill the category
+
 Todo : Abstraction of classes and extend only according to inventory Manager's requirements.
-Todo : Decide the list views, maybe we should have multiple lists for different oprations
-Todo : use parameterized queries
+
+Todo : Decide the list views, maybe we should have multiple lists for different operations
+
 Todo : Add debugging logs with various levels
+
 Todo : Use API based implementation, see if we can return JSON
+
+Todo : Create a special DB on GithubActions, where the test will be run, detach the existing one from it.
 '''

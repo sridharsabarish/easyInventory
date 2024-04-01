@@ -1,12 +1,12 @@
 import unittest
-from inventoryManager import Menu, HandleInputs,Display, Search, Delete,Validation
+from inventoryManager import Menu, Add,Display, Search, Delete,Validation
 from exportManager import Export2CSV
 import Constants
 
 class TestInventoryManager(unittest.TestCase):
     
     menu = Menu()
-    handleInputs = HandleInputs()
+    handleInputs = Add()
     export2csv = Export2CSV()
     display = Display()
     delete = Delete()
@@ -21,7 +21,7 @@ class TestInventoryManager(unittest.TestCase):
         
         
     def testInputPassedAsArgument(self):
-        out=self.handleInputs.handleInputs(inputs={'itemName':'TestInput','cost':100,'subtype':'TestSubtype','replacementDuration':10});
+        out=self.handleInputs.addItem(inputs={'itemName':'TestInput','cost':100,'subtype':'TestSubtype','replacementDuration':10});
         self.assertEqual(out,0,"Passed");
     
     # def testInputWithSpecialCharactersInput(self):

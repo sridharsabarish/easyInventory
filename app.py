@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from inventoryManager import Add, Fetch, Delete, Search
 
 app = Flask(__name__)
 
@@ -20,11 +21,29 @@ def inventory():
 
 @app.route('/inventory/add', methods=['GET', 'POST'])
 def add():
+    
+    add = Add()
     if request.method == 'POST':
         # Handle form submission and add new item to inventory
-        item_name = request.form.get('item_name')
-        quantity = request.form.get('quantity')
-        # Add your logic to add the new item to the inventory here
+        item_name = request.form.get('name')
+        cost = request.form.get('cost')
+        subtype = request.form.get('subtype')
+        replacement_duration = request.form.get('replacementDuration')
+        
+        # Create a new item object
+        inputs = {
+            'item_name': item_name,
+            'cost': cost,
+            'subtype': subtype,
+            'replacement_duration': replacement_duration
+        }
+        
+       
+        # Add the new item to the inventory
+        # Add your logic to add the item to the inventory here
+        print(inputs)
+        add.addItem(inputs)
+        
 
     # Render the add template
     return render_template('add.html')
@@ -42,7 +61,12 @@ def delete():
 @app.route('/inventory/display')
 def display():
     # Add your logic to retrieve and display the inventory here
-
+    display = Fetch()
+    info_for_html = display.fetchAllInfo()
+    print(info_for_html)
+    return render_template('display.html', inventory=info_for_html)
+    
+    
     # Render the display template
     return render_template('display.html')
 

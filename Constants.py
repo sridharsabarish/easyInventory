@@ -28,6 +28,7 @@ INVALID_CHOICE="Invalid choice"
 ERROR_VALIDATION="An error occurred while validating the input: "
 ERROR_DELETE="An error occurred while deleting the product:"
 ERROR_DISPLAY="An error occurred while displaying the items:"
+ERROR_FETCH="An error occurred while fetching the items:"
 
 #Prompts
 DELETE_PRODUCT_PROMPT="Enter the name of product to delete : "

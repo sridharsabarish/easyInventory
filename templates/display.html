@@ -1,9 +1,34 @@
-{% extends 'base.html' %}
-
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
     <div class="container">
-        <h1>Inventory Display</h1>
-        <!-- Your inventory display code goes here -->
-        <a href="{% url 'inventory:index' %}" class="btn btn-primary">Back to Inventory</a>
+        <a href="/inventory" class="btn btn-primary mb-3">Back</a>
+        <h1>Inventory Management</h1>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="font-weight-bold text-center">Item Name</th>
+                    <th class="font-weight-bold text-center">Cost</th>
+                    <th class="font-weight-bold text-center">Subtype</th>
+                    <th class="font-weight-bold text-center">Replacement Duration (Months)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in inventory %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.cost }}</td>
+                    <td>{{ item.subtype }}</td>
+                    <td>{{ item.replacementDuration }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-{% endblock %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
