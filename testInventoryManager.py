@@ -15,17 +15,17 @@ class TestInventoryManager(unittest.TestCase):
         out=self.menu.handleMenu(choice=Constants.ACTION.EXIT.value);
         self.assertEqual(out,0,"Passed");
         
-    # def testFailExitOutOfMenu(self):
-    #     out=self.inventory_manager.handleMenu(choice='7');
-    #     self.assertNotEqual(out,0,"Passed");
-        
         
     def testInputPassedAsArgument(self):
         out=self.handleInputs.addItem(inputs={'itemName':'TestInput','cost':100,'subtype':'TestSubtype','replacementDuration':10});
+        
+        if(out==0):
+            out=self.delete.deleteData(input={'itemName':'TestInput'});
+            if out!=0:
+                self.assertNotEqual(out,0,"Passed");
+        else:
+            self.assertNotEqual(out,0,"Passed");
         self.assertEqual(out,0,"Passed");
-    
-    # def testInputWithSpecialCharactersInput(self):
-    #     return NotImplementedError
     
     def testExport2CSV(self):
         self.assertEqual(Export2CSV.export2CSV(),Constants.EXIT_CODE.SUCCESS.value,"Passed");
@@ -39,17 +39,33 @@ class TestInventoryManager(unittest.TestCase):
         test={"key":'itemName',"value":"TestInput"}
         self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");
         
-    def testValidateInputFail(self):
+    def testValidateInputCost(self):
         test={"key":'cost',"value":"1"}
         self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");    
         
-    def testValidateInput2(self):
+    def testValidateInputCostFail(self):
+        test={"key":'cost',"value":"xyz"}
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.INVALID.value,"Passed");           
+        
+    def testValidateInputDuration(self):
         test={"key":'replacementDuration',"value":"1"}
         self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");
+
+    def testValidateInputDurationFail(self):
+        test={"key":'replacementDuration',"value":"xyz"}
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.INVALID.value,"Passed");
         
     def testValidateInputFail2(self):
         test={"key":'subtype',"value":"sa"}
-        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");    
+        self.assertEqual(Validation.validateInput(test),Constants.EXIT_CODE.SUCCESS.value,"Passed");  
+        
+    # def testDeleteTestInput(self):
+    #      name = 'TestInput'
+     
+    #      print("came here")
+    #      out = Delete.deleteData(name)
+    #      print("Here too")
+    #      self.assertNotEqual(out,Constants.EXIT_CODE.SUCCESS.value,"Passed");  
         
     # def testSearch(self):
     #     self.assertEqual(Search.search(),Constants.EXIT_CODE.SUCCESS.value,"Passed");

@@ -136,20 +136,24 @@ class Display:
             print(Constants.ERROR_DISPLAY, str(e))
             return Constants.EXIT_CODE.INVALID.value
 class Delete:
-    def deleteData():
-        # Todo: Remove a product from the inventory
+    def deleteData(self,input={}):
         try:
-            name = input(Constants.DELETE_PRODUCT_PROMPT)
+            print(input)
+            if(len(input)==0):
+                name = input(Constants.DELETE_PRODUCT_PROMPT)
+            else:
+                print(input)
+                name = input['itemName']
+                print("name : ",name)
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
-
             # Check if the item exists
             cursor.execute(Constants.SEARCH_QUERY, (name,))
             if cursor.fetchone() is None:
                 print(Constants.ERROR_PRODUCT)
+                return Constants.EXIT_CODE.INVALID.value
             else:
                 print(Constants.SUCCESS_PRODUCT)
-            self.display()
             cursor.execute(Constants.DELETE_ITEM_QUERY, (name,))
 
             conn.commit()

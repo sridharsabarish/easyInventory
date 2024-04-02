@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 from inventoryManager import Add, Fetch, Delete, Search
+import csv
+from flask import send_file
 
 app = Flask(__name__)
 
@@ -79,6 +81,20 @@ def search():
 
     # Render the search template
     return render_template('search.html')
+
+@app.route('/inventory/download', methods=['GET'])
+def download():
+    # Add your logic to generate and download the CSV file here
+    # For example, you can use the csv module to create the file
+    inventory = Fetch().fetchAllInfo()
+    filename = 'inventory.csv'  # Replace with the desired file path
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Item Name', 'Cost', 'Subtype', 'Replacement Duration'])
+        for item in inventory:
+            writer.writerow([item['name'], item['cost'], item['subtype'], item['replacementDuration']])
+    return send_file(filename, as_attachment=True)    
+
 
 if __name__ == '__main__':
     app.run(debug=True)
