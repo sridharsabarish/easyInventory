@@ -31,7 +31,7 @@ ERROR_VALIDATION = "An error occurred while validating the input: "
 ERROR_DELETE = "An error occurred while deleting the product:"
 ERROR_DISPLAY = "An error occurred while displaying the items:"
 ERROR_FETCH = "An error occurred while fetching the items:"
-
+ERROR_CREATE_TABLE = "An error occurred while creating the table:"
 # Prompts
 DELETE_PRODUCT_PROMPT = "Enter the name of product to delete : "
 

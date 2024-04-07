@@ -6,6 +6,21 @@ import tkinter as tk
 
 
 class DB:
+    
+    def createTable():
+        
+        
+        try:
+            conn = sqlite3.connect(Constants.DB_FILE)
+            cursor = conn.cursor()
+            cursor.execute(Constants.CREATE_TABLE)
+            conn.commit()
+            conn.close()
+            return Constants.EXIT_CODE.SUCCESS.value
+        except Exception as e:
+            print(Constants.ERROR_CREATE_TABLE, str(e))
+            return Constants.EXIT_CODE.INVALID.value
+    
     def saveToDB(item):
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
@@ -126,6 +141,10 @@ class Display:
             # Print the items
             total_cost = 0
             for row in cursor.fetchall():
+                
+                if(row is None):
+                    break
+                
                 print(row)
                 total_cost += row[1]  # Assuming cost is stored in the second column
 
@@ -297,8 +316,6 @@ if __name__ == "__main__":
 
 """
 
-Todo : GUI based input
-
 Todo : Add protection against Dependency Injection Attacks. 
 
 Todo : Finalize schema for Tables.
@@ -320,4 +337,5 @@ Todo : Create a special DB on GithubActions, where the test will be run, detach 
 Todo : Implement Delete using a button at search
 
 Todo : Reminder Feature for all the inventory should alert when somehing out of stock
+
 """
