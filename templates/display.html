@@ -12,18 +12,23 @@
             <thead class="thead-dark">
                 <tr>
                     <th class="font-weight-bold text-center">Item Name</th>
-                    <th class="font-weight-bold text-center">Cost</th>
+                    <th class="font-weight-bold text-center" style="width: 100px;">Cost</th>
                     <th class="font-weight-bold text-center">Subtype</th>
-                    <th class="font-weight-bold text-center">Replacement Duration (Months)</th>
+                    <th class="font-weight-bold text-center" style="width: 100px;">Replacement Duration (Months)</th> <!-- Added style to set width -->
+                    <th class="font-weight-bold text-center" style="width: 200px;">Actions</th> <!-- Added column for actions -->
                 </tr>
             </thead>
             <tbody>
                 {% for item in inventory %}
                 <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.cost }}</td>
-                    <td>{{ item.subtype }}</td>
-                    <td>{{ item.replacementDuration }}</td>
+                    <td class="text-center">{{ item.name }}</td>
+                    <td class="text-center">{{ item.cost }}</td>
+                    <td class="text-center">{{ item.subtype }}</td>
+                    <td class="text-center">{{ item.replacementDuration }}</td>
+                    <td class="text-center">
+                        <a href="/inventory/{{ item.id }}/delete" class="btn btn-danger">Delete</a> <!-- Added delete button -->
+                        <a href="/inventory/{{ item.id }}/modify" class="btn btn-primary">Modify</a> <!-- Added modify button -->
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
