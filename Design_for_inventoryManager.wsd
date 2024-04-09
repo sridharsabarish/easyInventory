@@ -35,6 +35,10 @@ class GUI {
     - void search()
 }
 
+class Fetch{
+    - void fetchAllInfo()
+}
+
 class ReadFromCSV
 {
     - void readFromCSV()
@@ -53,6 +57,8 @@ Menu --* Delete
 Menu --* HandleInputs
 HandleInputs --* Validation
 HandleInputs --* DB
+Search --* Fetch
+Fetch --* Display
 Search --* DB
 Delete --* DB
 Display --* DB
