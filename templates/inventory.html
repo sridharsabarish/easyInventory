@@ -25,13 +25,17 @@
                         <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/add'">Add Item</button>
                     </li>
                     <li class="list-group-item">
-                        <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/delete'">Delete Item</button>
+                        <form method="POST" action="/inventory/delete">
+                            <button type="submit" class="btn btn-primary btn-block">Delete Item</button>
+                        </form>
                     </li>
                     <li class="list-group-item">
                         <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/display'">Display Item</button>
                     </li>
                     <li class="list-group-item">
-                        <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/search'">Search Item</button>
+                        <form method="POST" action="/inventory/search">
+                            <button type="submit" class="btn btn-primary btn-block">Search Item</button>
+                        </form>
                     </li>
                     <li class="list-group-item">
                         <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/download'">Download Inventory</button>

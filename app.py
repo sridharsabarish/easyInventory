@@ -58,13 +58,10 @@ def add():
 
 @app.route("/inventory/delete", methods=["POST"])
 def delete():
-    if request.method == "POST":
         # Handle form submission and delete item from inventory
-        item_name = request.form.get("item_name")
         # Add your logic to delete the item from the inventory here
-
     # Redirect to the inventory page after deletion
-    return redirect("/inventory")
+    return render_template("delete.html")
 
 
 @app.route("/inventory/display")
