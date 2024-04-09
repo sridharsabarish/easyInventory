@@ -22,7 +22,12 @@
         <input type="number" id="cost" name="cost" required>
         
         <label for="subtype">Subtype:</label>
-        <input type="text" id="subtype" name="subtype" required>
+        <select id="subtype" name="subtype" required>
+            <option value="Electronics">Electronics</option>
+            <option value="Household">Household</option>
+            <option value="Books">Books</option>
+            <option value="Clothes">Clothes</option>
+        </select>
         
         <label for="replacementDuration">Replacement Duration:</label>
         <input type="text" id="replacementDuration" name="replacementDuration" required>
@@ -35,10 +40,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-<!--- 
-
-    Todo : 
-    Modify the Submit logic
-    - We should call the Python code that handles the add functionality
--->

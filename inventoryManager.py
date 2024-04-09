@@ -332,7 +332,6 @@ Todo : Add debugging logs with various levels
 
 Todo : Use API based implementation, see if we can return JSON
 
-Todo : Create a special DB on GithubActions, where the test will be run, detach the existing one from it.
 
 Todo : Implement Delete using a button at search
 

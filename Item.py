@@ -12,13 +12,4 @@ class Item:
         return self.subtype
     def getReplacementDuration(self):
         return self.replacementDuration
-'''
-
-Todo : 
-
-# A drop down to choose the Subtype.
-
-
-Some how force the Possible items categories;
-
-'''
+    

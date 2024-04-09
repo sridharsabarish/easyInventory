@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from inventoryManager import Add, Fetch, Delete, Search
 import csv
 from flask import send_file
-
+import Constants
 app = Flask(__name__)
 
 
@@ -33,6 +33,10 @@ def add():
         item_name = request.form.get("name")
         cost = request.form.get("cost")
         subtype = request.form.get("subtype")
+        if subtype not in Constants.ALLOWED_SUBTYPES:
+            # Handle invalid subtype value here
+            # For example, you can display an error message or redirect to an error page
+            return render_template("error.html", message="Invalid subtype value")
         replacement_duration = request.form.get("replacementDuration")
 
         # Create a new item object
