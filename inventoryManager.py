@@ -6,10 +6,9 @@ import tkinter as tk
 
 
 class DB:
-    
+
     def createTable():
-        
-        
+
         try:
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
@@ -20,7 +19,7 @@ class DB:
         except Exception as e:
             print(Constants.ERROR_CREATE_TABLE, str(e))
             return Constants.EXIT_CODE.INVALID.value
-    
+
     def saveToDB(item):
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
@@ -141,10 +140,10 @@ class Display:
             # Print the items
             total_cost = 0
             for row in cursor.fetchall():
-                
-                if(row is None):
+
+                if row is None:
                     break
-                
+
                 print(row)
                 total_cost += row[1]  # Assuming cost is stored in the second column
 
@@ -187,7 +186,7 @@ class Delete:
             if len(input) == 0:
                 name = input(Constants.DELETE_PRODUCT_PROMPT)
             else:
-                print(input)
+                print("Else:", input)
                 name = input["itemName"]
                 print("name : ", name)
             conn = sqlite3.connect(Constants.DB_FILE)
