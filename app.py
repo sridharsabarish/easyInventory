@@ -3,6 +3,7 @@ from inventoryManager import Add, Fetch, Delete, Search
 import csv
 from flask import send_file
 import Constants
+
 app = Flask(__name__)
 
 
@@ -58,19 +59,15 @@ def add():
 
 @app.route("/inventory/delete", methods=["GET", "POST"])
 def delete(productName=None):
-    
-    
-    
+
     delete = Delete()
     print(productName)
-    
-    
-    
+
     if request.method == "POST":
         item_name = request.form.get("name")
         print("The product name is ", item_name)
         delete.deleteData(str(item_name))
-        
+
         # Handle form submission and delete item from inventory
         # Add your logic to delete the item from the inventory here
     # Redirect to the inventory page after deletion
@@ -84,7 +81,6 @@ def display():
     info_for_html = display.fetchAllInfo()
     print(info_for_html)
     return render_template("display.html", inventory=info_for_html)
-
 
 
 @app.route("/inventory/search", methods=["GET", "POST"])

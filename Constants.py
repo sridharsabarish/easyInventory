@@ -60,5 +60,6 @@ class EXIT_CODE(Enum):
     SUCCESS = 0
     INVALID = -1
 
-#Input validation
-ALLOWED_SUBTYPES = ["Electronics", "Clothing", "Books", "Household" ]
+
+# Input validation
+ALLOWED_SUBTYPES = ["Electronics", "Clothing", "Books", "Household"]

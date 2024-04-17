@@ -1,5 +1,5 @@
 import unittest
-from inventoryManager import Menu, Add, Display, Search, Delete, Validation,DB
+from inventoryManager import Menu, Add, Display, Delete, Validation, DB
 from exportManager import Export2CSV
 import Constants
 
@@ -11,18 +11,14 @@ class TestInventoryManager(unittest.TestCase):
     export2csv = Export2CSV()
     display = Display()
     delete = Delete()
- 
-    
-    
+
     def testCreateEmptyDB(self):
         out = DB.createTable()
         self.assertEqual(out, Constants.EXIT_CODE.SUCCESS.value, "Passed")
-        
 
     def testExitOutOfMenu(self):
         out = self.menu.handleMenu(choice=Constants.ACTION.EXIT.value)
         self.assertEqual(out, 0, "Passed")
-
 
     def testAddItem(self):
         out = self.handleInputs.addItem(
@@ -35,8 +31,7 @@ class TestInventoryManager(unittest.TestCase):
         )
 
         self.assertEqual(out, 0, "Passed")
-        
-        
+
     def testInputPassedAsArgument(self):
         out = self.handleInputs.addItem(
             inputs={
@@ -54,9 +49,6 @@ class TestInventoryManager(unittest.TestCase):
         else:
             self.assertNotEqual(out, 0, "Passed")
         self.assertEqual(out, 0, "Passed")
-        
-
-    
 
     def testExport2CSV(self):
         self.assertEqual(
@@ -116,6 +108,7 @@ class TestInventoryManager(unittest.TestCase):
 
     # def testDelete(self):
     #     self.assertEqual(Delete.deleteData(),Constants.EXIT_CODE.SUCCESS.value,"Passed");
+
 
 if __name__ == "__main__":
     unittest.main()
