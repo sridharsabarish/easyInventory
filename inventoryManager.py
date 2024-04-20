@@ -3,8 +3,10 @@ from exportManager import Export2CSV, ReadFromCSV
 import Constants, Beautify, re, sqlite3
 from collections import defaultdict
 import tkinter as tk
+import logging
 
-
+logging.basicConfig(filename='app.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 class DB:
 
     def createTable():
@@ -13,10 +15,12 @@ class DB:
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
             cursor.execute(Constants.CREATE_TABLE)
+            logging.info("Table created successfully")
             conn.commit()
             conn.close()
             return Constants.EXIT_CODE.SUCCESS.value
         except Exception as e:
+            logging.error(Constants.ERROR_CREATE_TABLE, str(e))
             print(Constants.ERROR_CREATE_TABLE, str(e))
             return Constants.EXIT_CODE.INVALID.value
 
@@ -25,6 +29,7 @@ class DB:
         cursor = conn.cursor()
         # Create the table if it doesn't exist
         cursor.execute(Constants.CREATE_TABLE)
+        logging.info("Table created successfully")
         # Save the variables to the database
         cursor.execute(
             Constants.INSERT_TO_DB,
@@ -35,6 +40,7 @@ class DB:
                 item.getReplacementDuration(),
             ),
         )
+        logging.info("Item added to the database")
         # Commit the changes and close the connection
         conn.commit()
         conn.close()
@@ -55,9 +61,11 @@ class Validation:
             if bool(pattern.match(value)):
                 return Constants.EXIT_CODE.SUCCESS.value
             else:
+                logging.debug("Invalid input")
                 return Constants.EXIT_CODE.INVALID.value
         except Exception as e:
             print(Constants.ERROR_VALIDATION, str(e))
+            logging.error(Constants.ERROR_VALIDATION, str(e))
             return Constants.EXIT_CODE.INVALID.value
 
 
@@ -68,8 +76,8 @@ class Add:
         # Todo get the columns using the data types supported by the item.py class automatically.
         val = {}
 
-        print(len(inputs))
-        print(inputs)
+        logging.debug(len(inputs))
+        logging.debug(inputs)
         if len(inputs) != 4:
             for i in range(0, len(Constants.ITEM_SCHEMA)):
 
@@ -114,12 +122,13 @@ class Fetch:
                     }
                 )
 
-            print(info_list)
+            logging.debug(info_list)
             # Close the connection
             conn.close()
             return info_list
         except Exception as e:
             print(Constants.ERROR_FETCH, str(e))
+            logging.error(Constants.ERROR_FETCH, str(e))
             return {}
 
 
@@ -182,30 +191,32 @@ class Display:
 class Delete:
     def deleteData(self, input={}):
         try:
-            print(input)
+            logging.debug(input)
             if len(input) == 0:
                 name = input(Constants.DELETE_PRODUCT_PROMPT)
             else:
-                print("Else:", input)
+                logging.debug("Else:", input)
                 name = input["itemName"]
-                print("name : ", name)
+                logging.debug("name : ", name)
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
             # Check if the item exists
             cursor.execute(Constants.SEARCH_QUERY, (name,))
             if cursor.fetchone() is None:
-                print(Constants.ERROR_PRODUCT)
+                logging.error(Constants.ERROR_PRODUCT)
                 return Constants.EXIT_CODE.INVALID.value
             else:
-                print(Constants.SUCCESS_PRODUCT)
+                logging.info(Constants.SUCCESS_PRODUCT)
             cursor.execute(Constants.DELETE_ITEM_QUERY, (name,))
 
             conn.commit()
             conn.close()
+            logging.info(Constants.DELETED_PRODUCT)
             print(Constants.DELETED_PRODUCT)
             return Constants.EXIT_CODE.SUCCESS.value
             # Export2CSV.export2CSV()
         except Exception as e:
+            logging.error(Constants.ERROR_DELETE, str(e))
             print(Constants.ERROR_DELETE, str(e))
         return Constants.EXIT_CODE.INVALID.value
 
@@ -217,6 +228,7 @@ class Search:
             gui.search()
             return Constants.EXIT_CODE.SUCCESS.value
         except Exception as e:
+            logging.error("An error occured:", str(e))
             print("An error occurred:", str(e))
             return Constants.EXIT_CODE.INVALID.value
         return
@@ -315,8 +327,6 @@ if __name__ == "__main__":
 
 """
 
-Todo : Add protection against Dependency Injection Attacks. 
-
 Todo : Finalize schema for Tables.
 
 Todo : Add autocomplete feature for GUI from DB
@@ -327,7 +337,7 @@ Todo : Abstraction of classes and extend only according to inventory Manager's r
 
 Todo : Decide the list views, maybe we should have multiple lists for different operations
 
-Todo : Add debugging logs with various levels
+
 
 Todo : Use API based implementation, see if we can return JSON
 

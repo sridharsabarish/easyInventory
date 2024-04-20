@@ -3,4 +3,4 @@
 *.csv
 *.pyc
 *.db
-
+*.log
