@@ -1,5 +1,6 @@
 import sqlite3
 import Constants
+import pandas as pd
 
 
 class ReadFromCSV:
