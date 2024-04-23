@@ -1,11 +1,11 @@
 from Item import Item
-from exportManager import Export2CSV, ReadFromCSV
+from exportManager import Export2CSV
 import Constants, Beautify, re, sqlite3
 from collections import defaultdict
 import tkinter as tk
 import logging
 
-logging.basicConfig(filename='app.log', level=logging.DEBUG,
+logging.basicConfig(filename=Constants.LOG_FILE, level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 class DB:
 
@@ -15,7 +15,7 @@ class DB:
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
             cursor.execute(Constants.CREATE_TABLE)
-            logging.info("Table created successfully")
+            logging.info(Constants.SUCCESS_TABLE)
             conn.commit()
             conn.close()
             return Constants.EXIT_CODE.SUCCESS.value
@@ -29,7 +29,7 @@ class DB:
         cursor = conn.cursor()
         # Create the table if it doesn't exist
         cursor.execute(Constants.CREATE_TABLE)
-        logging.info("Table created successfully")
+        logging.info(Constants.SUCCESS_TABLE)
         # Save the variables to the database
         cursor.execute(
             Constants.INSERT_TO_DB,
@@ -40,7 +40,7 @@ class DB:
                 item.getReplacementDuration(),
             ),
         )
-        logging.info("Item added to the database")
+        logging.info(Constants.SUCCESS_ITEM)
         # Commit the changes and close the connection
         conn.commit()
         conn.close()
@@ -61,7 +61,7 @@ class Validation:
             if bool(pattern.match(value)):
                 return Constants.EXIT_CODE.SUCCESS.value
             else:
-                logging.debug("Invalid input")
+                logging.debug(Constants.INVALID_INPUT)
                 return Constants.EXIT_CODE.INVALID.value
         except Exception as e:
             print(Constants.ERROR_VALIDATION, str(e))
@@ -241,7 +241,6 @@ class Menu:
             Constants.ACTION.DISPLAY.value: Display.display,
             Constants.ACTION.EXPORT_CSV.value: Export2CSV.export2CSV,
             Constants.ACTION.DELETE.value: Delete.deleteData,
-            Constants.ACTION.READ_CSV.value: ReadFromCSV.readFromCSV,
             Constants.ACTION.SEARCH.value: Search.search,
         }
 
@@ -327,6 +326,9 @@ if __name__ == "__main__":
 
 """
 
+Todo : Implement the Search Functionality
+
+
 Todo : Finalize schema for Tables.
 
 Todo : Add autocomplete feature for GUI from DB
@@ -337,12 +339,9 @@ Todo : Abstraction of classes and extend only according to inventory Manager's r
 
 Todo : Decide the list views, maybe we should have multiple lists for different operations
 
+Todo : Build APIs for Search, Display, Delete, Add, Export
 
-
-Todo : Use API based implementation, see if we can return JSON
-
-
-Todo : Implement Delete using a button at search
+Todo : Implement Delete using a button at Display
 
 Todo : Reminder Feature for all the inventory should alert when somehing out of stock
 

@@ -2,13 +2,6 @@ import sqlite3
 import Constants
 
 
-class ReadFromCSV:
-    def readFromCSV():
-        df = pd.read_csv(Constants.CSV_FILE)
-        print(df)
-        return
-
-
 class Export2CSV:
     def export2CSV():
         try:

@@ -2,6 +2,7 @@ from enum import Enum
 
 CSV_FILE = "inventory.csv"
 DB_FILE = "inventory.db"
+LOG_FILE="app.log"
 
 # SQL Queries
 
@@ -24,9 +25,12 @@ regex_map = {
 # Success
 SUCCESS_PRODUCT = "These are the products available"
 DELETED_PRODUCT = "The product has been deleted successfully"
+SUCCESS_TABLE = "Table created successfully"
+SUCCESS_ITEM = "Item added successfully"
 # Errors
 ERROR_PRODUCT = "'Product not found'"
 INVALID_CHOICE = "Invalid choice"
+INVALID_INPUT = "Invalid input"
 ERROR_VALIDATION = "An error occurred while validating the input: "
 ERROR_DELETE = "An error occurred while deleting the product:"
 ERROR_DISPLAY = "An error occurred while displaying the items:"
