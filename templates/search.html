@@ -33,17 +33,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="search-container">
-        <div class="logo">
-            <h1 class="display-4">Inventory Manager</h1>
-        </div>
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Enter your search query">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button">Search</button>
-            </div>
-        </div>
-        <a href="/inventory" class="btn btn-secondary">Back</a>
-    </div>
+    <h1 class="display-4">Inventory Manager</h1>
+    <form action="/inventory/search" method="POST">
+        <input type="text" class="form-control" placeholder="Enter your search query" name="search_query">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <button onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
 </body>
 </html>

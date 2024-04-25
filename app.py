@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
-from inventoryManager import Add, Fetch, Delete, Search
+from inventoryManager import Add, Fetch, Delete, Search, DB
 import csv
 from flask import send_file
 import Constants
+import sqlite3
 
 app = Flask(__name__)
 
@@ -85,10 +86,19 @@ def display():
 
 @app.route("/inventory/search", methods=["GET", "POST"])
 def search():
-    if request.method == "POST":
+    if request.method =="POST":
         # Handle form submission and search for items in inventory
         search_query = request.form.get("search_query")
-        # Add your logic to search for items in the inventory here
+        print("The search query is ", search_query)
+        conn = sqlite3.connect(Constants.DB_FILE)
+        cursor = conn.cursor()
+        rows = cursor.execute(Constants.SEARCH_QUERY, (search_query,))
+        results = cursor.fetchall()
+        print(results)
+        conn.close()        # Add your logic to search for items in the inventory here
+        # Assuming you have a function called searchItems() that returns the result of the SQL query
+        # Display the search result
+
 
     # Render the search template
     return render_template("search.html")
