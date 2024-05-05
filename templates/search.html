@@ -38,6 +38,29 @@
         <input type="text" class="form-control" placeholder="Enter your search query" name="search_query">
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
+    
+    {% if result %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in result %}
+                    <tr>
+                        <td>{{ item }}</td>
+                        <td>{{ item }}</td>
+                        <td>{{ item }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
     <button onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
 </body>
 </html>

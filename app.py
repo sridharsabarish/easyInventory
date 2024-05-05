@@ -90,12 +90,13 @@ def search():
         # Handle form submission and search for items in inventory
         search_query = request.form.get("search_query")
         print("The search query is ", search_query)
-        conn = sqlite3.connect(Constants.DB_FILE)
-        cursor = conn.cursor()
-        rows = cursor.execute(Constants.SEARCH_QUERY, (search_query,))
-        results = cursor.fetchall()
-        print(results)
-        conn.close()        # Add your logic to search for items in the inventory here
+        fetch = Fetch()
+        info_for_html = fetch.fetchInfo(search_query)
+        if(info_for_html!=[]):
+            print(info_for_html)        
+            return render_template("display.html", inventory=info_for_html)
+        
+        # Add your logic to search for items in the inventory here
         # Assuming you have a function called searchItems() that returns the result of the SQL query
         # Display the search result
 

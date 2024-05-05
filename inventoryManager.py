@@ -130,7 +130,39 @@ class Fetch:
             print(Constants.ERROR_FETCH, str(e))
             logging.error(Constants.ERROR_FETCH, str(e))
             return {}
+    def fetchInfo(self,searchQuery):
+        try:
+            conn = sqlite3.connect(Constants.DB_FILE)
+            cursor = conn.cursor()
+            # Select all of the items from the database
+            cursor.execute(Constants.SEARCH_QUERY, (searchQuery,))
+            # Initialize an empty dictionary to store the information
+            info_list = []
+            # Iterate over the rows and collect the information
 
+            for row in cursor.fetchall():
+                item_name = row[0]
+                cost = row[1]
+                subtype = row[2]
+                replacement_duration = row[3]
+                # Add the information to the dictionary
+                info_list.append(
+                    {
+                        "name": item_name,
+                        "cost": cost,
+                        "subtype": subtype,
+                        "replacementDuration": replacement_duration,
+                    }
+                )
+
+            logging.debug(info_list)
+            # Close the connection
+            conn.close()
+            return info_list
+        except Exception as e:
+            print(Constants.ERROR_FETCH, str(e))
+            logging.error(Constants.ERROR_FETCH, str(e))
+            return {}
 
 class Display:
     def display():
@@ -325,9 +357,6 @@ if __name__ == "__main__":
 
 
 """
-
-Todo : Implement the Search Functionality
-
 
 Todo : Finalize schema for Tables.
 
