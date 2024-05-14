@@ -4,7 +4,6 @@ class Item:
         self.cost = cost
         self.subtype = subtype
         self.replacementDuration = replacementDuration
-
     def getItemName(self):
         return self.itemName
 
@@ -16,3 +15,5 @@ class Item:
 
     def getReplacementDuration(self):
         return self.replacementDuration
+
+# Todo : Have a date created attribute for the item

@@ -16,34 +16,43 @@
     <div class="container">
         <h1 class="text-center mt-5">Inventory Management</h1>
 
-        <p class="text-center mt-4">Welcome to the Inventory Management app. This app allows you to manage your inventory by adding, deleting, displaying, and searching items. You can also download the inventory for further analysis.</p>
+
+        <p class="text-center mt-4">
+            Welcome to the Inventory Management app.<br>
+            This app allows you to manage your inventory by adding, deleting, displaying, and searching items.<br>
+            You can also download the inventory for further analysis.
+        </p>
 
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
-                <ul class="list-group">
-                    <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-6">
                         <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/add'">Add Item</button>
-                    </li>
-                    <li class="list-group-item">
+                    </div>
+                    <div class="col-md-6">
                         <form method="POST" action="/inventory/delete">
                             <button type="submit" class="btn btn-primary btn-block">Delete Item</button>
                         </form>
-                    </li>
-                    <li class="list-group-item">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
                         <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/display'">Display Item</button>
-                    </li>
-                    <li class="list-group-item">
+                    </div>
+                    <div class="col-md-6">
                         <form method="POST" action="/inventory/search">
                             <button type="submit" class="btn btn-primary btn-block">Search Item</button>
                         </form>
-                    </li>
-                    <li class="list-group-item">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
                         <button class="btn btn-primary btn-block" onclick="window.location.href='/inventory/download'">Download Inventory</button>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

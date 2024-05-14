@@ -3,9 +3,14 @@
 <head>
     <title>Search Page</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
         .search-container {
             text-align: center;
-            margin-top: 100px;
         }
         .search-input {
             padding: 10px;
@@ -33,9 +38,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1 class="display-4">Inventory Manager</h1>
-    <form action="/inventory/search" method="POST">
-        <input type="text" class="form-control" placeholder="Enter your search query" name="search_query">
+    <div class="search-container">
+        <h1 class="logo">Search</h1>
+        <form action="/inventory/search" method="POST">
+
+        <input type="text" class="form-control form-control-sm rounded-pill" placeholder="Search Query" name="search_query" style="width: 200px;">
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
     

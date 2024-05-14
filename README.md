@@ -13,7 +13,9 @@
 
 ### Future
 - AI Integration
+  - Computer Vision to identify a particular Object and suggest that to user
 - Microservices
+  - Testing the product inside a Docker Container?
 ## Usage
 
 ### Flask based deployment

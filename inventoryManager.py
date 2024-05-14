@@ -358,11 +358,20 @@ if __name__ == "__main__":
 
 """
 
+
+Todo :  Calendar API Integration.
+a) Automatic Reminder Feature for items using Google Calendar API
+b) Automatically Delete from Calendar when the item is removed from inventory
+c) Potential integration with GPT to find the average life time for this product after scanning via computer vision and adding it 
+
+Todo : Computer Vision, scan an image and automatically prefill the category
+- idea to use Google cloud vision API, this could be fun.
+
+
+
 Todo : Finalize schema for Tables.
 
 Todo : Add autocomplete feature for GUI from DB
-
-Todo : Computer Vision, scan an image and automatically prefill the category
 
 Todo : Abstraction of classes and extend only according to inventory Manager's requirements.
 
@@ -372,6 +381,8 @@ Todo : Build APIs for Search, Display, Delete, Add, Export
 
 Todo : Implement Delete using a button at Display
 
-Todo : Reminder Feature for all the inventory should alert when somehing out of stock
+
+
 
 """
+
