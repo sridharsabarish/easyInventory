@@ -43,7 +43,7 @@ class TestInventoryManager(unittest.TestCase):
         )
 
         if out == 0:
-            out = self.delete.deleteData(input={"itemName": "TestInput"})
+            out = self.delete.deleteData(value="TestInput")
             if out != 0:
                 self.assertNotEqual(out, 0, "Passed")
         else:

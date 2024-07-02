@@ -221,14 +221,14 @@ class Display:
 
 
 class Delete:
-    def deleteData(self, input={}):
+    def deleteData(self, value={}):
         try:
-            logging.debug(input)
-            if len(input) == 0:
+            logging.debug(value)
+            if len(value) == 0:
                 name = input(Constants.DELETE_PRODUCT_PROMPT)
             else:
-                logging.debug("Else:", input)
-                name = input["itemName"]
+                logging.debug("Else:" + value[0])
+                name=value
                 logging.debug("name : ", name)
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
@@ -365,10 +365,9 @@ Features
 
 Core Features
 
-0) Run the app on a Webserver.
-1) Put the app on a RPI?
-2) Have a DB to store information.
-3) Ensure the core functionality of these works 
+1)Add, Delete, Search, Export Works.
+2) Put the app on a RPI?
+3) Have a DB to store information.
 
 
 Luxury Features
