@@ -29,6 +29,7 @@ class TestInventoryManager(unittest.TestCase):
                 "replacementDuration": 1,
             }
         )
+        self.delete.deleteData(value="DummyItem")
 
         self.assertEqual(out, 0, "Passed")
 

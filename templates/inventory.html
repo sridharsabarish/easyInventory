@@ -10,12 +10,41 @@
         .btn-block {
             margin-bottom: 10px;
         }
+
+        /* Styles for screens with PPI less than or equal to 150 */
+        @media (max-resolution: 150dpi) {
+            .container {
+                margin-top: 30px;
+            }
+            .btn-block {
+                margin-bottom: 5px;
+            }
+        }
+
+        /* Styles for screens with PPI greater than 150 and less than or equal to 300 */
+        @media (min-resolution: 151dpi) and (max-resolution: 300dpi) {
+            .container {
+                margin-top: 70px;
+            }
+            .btn-block {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Styles for screens with PPI greater than 300 */
+        @media (min-resolution: 301dpi) {
+            .container {
+                margin-top: 100px;
+            }
+            .btn-block {
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center mt-5">Inventory Management</h1>
-
 
         <p class="text-center mt-4">
             Welcome to the Inventory Management app.<br>
@@ -52,16 +81,8 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-<!--- 
-
-Todo : Make it possible to add, delete, display, search, and download items using the buttons.
-
-
--->

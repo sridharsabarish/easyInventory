@@ -81,7 +81,12 @@ def display():
     display = Fetch()
     info_for_html = display.fetchAllInfo()
     print(info_for_html)
-    return render_template("display.html", inventory=info_for_html)
+    
+    total_cost=0
+    for i in info_for_html:
+        total_cost+=i['cost']
+        
+    return render_template("display.html", inventory=info_for_html,total_cost=total_cost)
 
 
 @app.route("/inventory/search", methods=["GET", "POST"])
