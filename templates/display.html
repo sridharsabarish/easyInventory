@@ -26,8 +26,8 @@
                     <td class="text-center">{{ item.subtype }}</td>
                     <td class="text-center">{{ item.replacementDuration }}</td>
                     <td class="text-center">
-                        <a href="/inventory/delete" class="btn btn-danger" data-product-name="{{ item.name }}">Delete</a> <!-- Updated delete button with item name as a data attribute -->
-                        <a href="/inventory/{{ item.id }}/modify" class="btn btn-primary">Modify</a> <!-- Added modify button -->
+                        <a href="/inventory/modify" class="btn btn-primary" style="visibility: hidden;">Modify</a> <!-- Added modify button with visibility set to hidden -->
+                        <a href="/inventory/delete?name={{ item.name }}" class="btn btn-danger">Delete</a> <!-- Updated delete button with item name as a query parameter -->
                     </td>
                 </tr>
                 {% endfor %}

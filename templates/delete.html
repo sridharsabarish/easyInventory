@@ -65,7 +65,11 @@
 
     <form action="/inventory/delete" method="POST">
         <label for="name">Product Name:</label>
-        <input type="text" id="name" name="name" required>
+        {% if name %}
+            <input type="text" id="name" name="name" value="{{ name }}" required>
+        {% else %}
+            <input type="text" id="name" name="name" placeholder="Enter product name" required>
+        {% endif %}
         <button type="submit">Submit</button>
     </form>
     <a href="/inventory" class="btn btn-primary mb-3">Back</a>

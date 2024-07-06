@@ -29,9 +29,12 @@ class TestInventoryManager(unittest.TestCase):
                 "replacementDuration": 1,
             }
         )
-        self.delete.deleteData(value="DummyItem")
+        # self.delete.deleteData(value="DummyItem")
 
         self.assertEqual(out, 0, "Passed")
+        
+    def testDisplay(self):
+        self.assertEqual(Display.display(), Constants.EXIT_CODE.SUCCESS.value, "Passed")    
 
     def testInputPassedAsArgument(self):
         out = self.handleInputs.addItem(
@@ -56,8 +59,7 @@ class TestInventoryManager(unittest.TestCase):
             Export2CSV.export2CSV(), Constants.EXIT_CODE.SUCCESS.value, "Passed"
         )
 
-    def testDisplay(self):
-        self.assertEqual(Display.display(), Constants.EXIT_CODE.SUCCESS.value, "Passed")
+
 
     # Tests for inputValidation
     def testValidateInput(self):
@@ -96,19 +98,6 @@ class TestInventoryManager(unittest.TestCase):
             Validation.validateInput(test), Constants.EXIT_CODE.SUCCESS.value, "Passed"
         )
 
-    # def testDeleteTestInput(self):
-    #      name = 'TestInput'
-
-    #      print("came here")
-    #      out = Delete.deleteData(name)
-    #      print("Here too")
-    #      self.assertNotEqual(out,Constants.EXIT_CODE.SUCCESS.value,"Passed");
-
-    # def testSearch(self):
-    #     self.assertEqual(Search.search(),Constants.EXIT_CODE.SUCCESS.value,"Passed");
-
-    # def testDelete(self):
-    #     self.assertEqual(Delete.deleteData(),Constants.EXIT_CODE.SUCCESS.value,"Passed");
 
 
 if __name__ == "__main__":
