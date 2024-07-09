@@ -15,6 +15,8 @@
                     <th class="font-weight-bold text-center" style="width: 100px;">Cost</th>
                     <th class="font-weight-bold text-center">Subtype</th>
                     <th class="font-weight-bold text-center" style="width: 100px;">Replacement Duration (Months)</th> <!-- Added style to set width -->
+                    <th class="font-weight-bold text-center">Date Created</th>
+                    <th class="font-weight-bold text-center">Date of Replacement</th>
                     <th class="font-weight-bold text-center" style="width: 200px;">Actions</th> <!-- Added column for actions -->
                 </tr>
             </thead>
@@ -25,6 +27,8 @@
                     <td class="text-center">{{ item.cost }}</td>
                     <td class="text-center">{{ item.subtype }}</td>
                     <td class="text-center">{{ item.replacementDuration }}</td>
+                    <td class="text-center">{{ item.dateCreated }}</td>
+                    <td class="text-center">{{ item.dateOfReplacement }}</td>
                     <td class="text-center">
                         <a href="/inventory/modify" class="btn btn-primary" style="visibility: hidden;">Modify</a> <!-- Added modify button with visibility set to hidden -->
                         <a href="/inventory/delete?name={{ item.name }}" class="btn btn-danger">Delete</a> <!-- Updated delete button with item name as a query parameter -->

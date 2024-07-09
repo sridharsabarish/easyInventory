@@ -27,6 +27,8 @@ class TestInventoryManager(unittest.TestCase):
                 "cost": 500,
                 "subtype": "Electronics",
                 "replacementDuration": 1,
+                "dateCreated": "2021-01-01",
+                "dateOfReplacement": "2022-01-02",
             }
         )
         # self.delete.deleteData(value="DummyItem")
@@ -43,6 +45,8 @@ class TestInventoryManager(unittest.TestCase):
                 "cost": 100,
                 "subtype": "TestSubtype",
                 "replacementDuration": 10,
+                "dateCreated": "2021-01-01",
+                "dateOfReplacement": "2022-01-02",
             }
         )
 

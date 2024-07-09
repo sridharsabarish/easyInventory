@@ -1,9 +1,12 @@
 class Item:
-    def __init__(self, name, cost, subtype, replacementDuration):
+    def __init__(self, name, cost, subtype, replacementDuration, dateCreated, dateOfReplacement):
         self.itemName = name
         self.cost = cost
         self.subtype = subtype
         self.replacementDuration = replacementDuration
+        self.dateCreated = dateCreated
+        self.dateOfReplacement = dateOfReplacement
+
     def getItemName(self):
         return self.itemName
 
@@ -16,4 +19,8 @@ class Item:
     def getReplacementDuration(self):
         return self.replacementDuration
 
-# Todo : Have a date created attribute for the item
+    def getDateCreated(self):
+        return self.dateCreated
+
+    def getDateOfReplacement(self):
+        return self.dateOfReplacement

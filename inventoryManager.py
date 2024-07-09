@@ -4,6 +4,7 @@ import Constants, Beautify, re, sqlite3
 from collections import defaultdict
 import tkinter as tk
 import logging
+import datetime
 
 logging.basicConfig(filename=Constants.LOG_FILE, level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -78,7 +79,7 @@ class Add:
 
         logging.debug(len(inputs))
         logging.debug(inputs)
-        if len(inputs) != 4:
+        if len(inputs) != 6:
             for i in range(0, len(Constants.ITEM_SCHEMA)):
 
                 initialInput = input(f"Enter {Constants.ITEM_SCHEMA[i]} : ")
@@ -112,6 +113,9 @@ class Fetch:
                 cost = row[1]
                 subtype = row[2]
                 replacement_duration = row[3]
+                # Set today's date as the date created
+                item_date_create = datetime.date.today()
+                item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
                 # Add the information to the dictionary
                 info_list.append(
                     {
@@ -119,6 +123,8 @@ class Fetch:
                         "cost": cost,
                         "subtype": subtype,
                         "replacementDuration": replacement_duration,
+                        "dateCreated": item_date_create,
+                        "dateOfReplacement": item_date_replacement
                     }
                 )
 
