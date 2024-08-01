@@ -39,6 +39,8 @@ class DB:
                 item.getCost(),
                 item.getSubtype(),
                 item.getReplacementDuration(),
+                item.getDateCreated(),
+                item.getDateOfReplacement()
             ),
         )
         logging.info(Constants.SUCCESS_ITEM)
@@ -72,11 +74,7 @@ class Validation:
 
 class Add:
     def addItem(self, inputs={}):
-
-        # Todo : Connect this to a GUI
-        # Todo get the columns using the data types supported by the item.py class automatically.
         val = {}
-
         logging.debug(len(inputs))
         logging.debug(inputs)
         if len(inputs) != 6:
@@ -89,7 +87,6 @@ class Add:
         else:
             # Todo : validate output
             val = inputs
-
         newItem = Item(*val.values())
         # Connect to the database
         DB.saveToDB(newItem)
@@ -107,13 +104,14 @@ class Fetch:
             # Initialize an empty dictionary to store the information
             info_list = []
             # Iterate over the rows and collect the information
-
             for row in cursor.fetchall():
                 item_name = row[0]
                 cost = row[1]
                 subtype = row[2]
                 replacement_duration = row[3]
                 # Set today's date as the date created
+                
+                # Todo : Store it in the same DB
                 item_date_create = datetime.date.today()
                 item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
                 # Add the information to the dictionary
@@ -366,14 +364,12 @@ if __name__ == "__main__":
 
 Todo : 
 
-Features 
+- Move inventory Manager Core featuresd to RUST
 
 
 Core Features
 
-1)Add, Delete, Search, Export Works.
-2) Put the app on a RPI?
-3) Have a DB to store information.
+1) Have a DB to store information.
 
 
 Luxury Features
@@ -393,15 +389,14 @@ Luxury Features
 Design Decisions.
 
 1) Todo : Finalize schema for Tables.
+- Need a creation date
+- Need a Due date
 
 2) Todo : Abstraction of classes and extend only according to inventory Manager's requirements.
 
-3) Todo : Decide the list views, maybe we should have multiple lists for different operations
 
 
-4) Todo : Build APIs for Search, Display, Delete, Add, Export
 
-5) Todo : Implement Delete using a button at Display
 
 
 

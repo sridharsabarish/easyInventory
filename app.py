@@ -4,6 +4,8 @@ import csv
 from flask import send_file
 import Constants
 import sqlite3
+import datetime
+
 
 app = Flask(__name__)
 
@@ -17,12 +19,9 @@ def home():
 @app.route("/inventory", methods=["GET", "POST"])
 def inventory():
     if request.method == "POST":
-        # Handle form submission and update inventory
         item_name = request.form.get("item_name")
         quantity = request.form.get("quantity")
-        # Add your logic to update the inventory here
 
-    # Render the inventory template
     return render_template("inventory.html")
 
 
@@ -35,6 +34,8 @@ def add():
         item_name = request.form.get("name")
         cost = request.form.get("cost")
         subtype = request.form.get("subtype")
+        dateCreated = datetime.date.today()
+        dateOfReplacement= dateCreated + datetime.timedelta(days=int(request.form.get("replacementDuration")))
         if subtype not in Constants.ALLOWED_SUBTYPES:
             # Handle invalid subtype value here
             # For example, you can display an error message or redirect to an error page
@@ -47,6 +48,9 @@ def add():
             "cost": cost,
             "subtype": subtype,
             "replacement_duration": replacement_duration,
+            "dateCreated": dateCreated,
+            "dateOfReplacement": dateOfReplacement,
+            
         }
 
         # Add the new item to the inventory
@@ -96,25 +100,16 @@ def search():
         if(info_for_html!=[]):
             print(info_for_html)        
             return render_template("display.html", inventory=info_for_html)
-        
-        # Add your logic to search for items in the inventory here
-        # Assuming you have a function called searchItems() that returns the result of the SQL query
-        # Display the search result
-
-
-    # Render the search template
     return render_template("search.html")
 
 
 @app.route("/inventory/download", methods=["GET"])
 def download():
-    # Add your logic to generate and download the CSV file here
-    # For example, you can use the csv module to create the file
     inventory = Fetch().fetchAllInfo()
     filename = "inventory.csv"  # Replace with the desired file path
     with open(filename, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["Item Name", "Cost", "Subtype", "Replacement Duration"])
+        writer.writerow(["Item Name", "Cost", "Subtype", "Replacement Duration",'Date Created',"Date of Replacement"])
         for item in inventory:
             writer.writerow(
                 [
@@ -122,10 +117,12 @@ def download():
                     item["cost"],
                     item["subtype"],
                     item["replacementDuration"],
+                    item['dateCreated'],
+                    item['dateOfReplacement']
                 ]
             )
     return send_file(filename, as_attachment=True)
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.0.101', port=3000, debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True)

@@ -7,8 +7,8 @@ LOG_FILE="app.log"
 # SQL Queries
 
 SELECT_ALL = "SELECT * FROM inventory"
-INSERT_TO_DB = "INSERT INTO inventory (item_name, cost, subtype, replacement_duration) VALUES (?, ?, ?, ?)"  # Remember to make this dynamic.
-CREATE_TABLE = "CREATE TABLE IF NOT EXISTS inventory (item_name TEXT,cost REAL,subtype TEXT,replacement_duration INTEGER)"
+INSERT_TO_DB = "INSERT INTO inventory (item_name, cost, subtype, replacement_duration,dateCreated,dateOfReplacement) VALUES (?, ?, ?, ?,?,?)"  # Remember to make this dynamic.
+CREATE_TABLE = "CREATE TABLE IF NOT EXISTS inventory (item_name TEXT, cost REAL, subtype TEXT, replacement_duration INTEGER, dateCreated DATE, dateOfReplacement DATE)"
 
 SEARCH_QUERY = "SELECT * FROM inventory WHERE item_name = ?"
 DELETE_ITEM_QUERY = "DELETE FROM inventory WHERE item_name = ?"
@@ -56,7 +56,7 @@ menuString = "".join(menuList)
 
 
 # Supported Fields
-ITEM_SCHEMA = ["itemName", "subtype", "cost", "replacementDuration"]
+ITEM_SCHEMA = ["itemName", "subtype", "cost", "replacementDuration","dateCreated","dateOfReplacement"]
 
 
 # New Enum
@@ -66,4 +66,4 @@ class EXIT_CODE(Enum):
 
 
 # Input validation
-ALLOWED_SUBTYPES = ["Electronics", "Clothing", "Books", "Household"]
+ALLOWED_SUBTYPES = ["Electronics", "Clothes", "Books", "Household"]
