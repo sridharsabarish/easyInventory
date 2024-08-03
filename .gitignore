@@ -4,3 +4,8 @@
 *.pyc
 *.db
 *.log
+
+
+# Added by cargo
+
+/target
