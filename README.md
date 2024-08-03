@@ -1,4 +1,10 @@
-# Inventory Manager
+# About
+
+
+Welcome to **EasyInventory**, a tool that is created to make your life easy.
+
+
+Feel free to clone, fork and share this repo! All are welcome.
 
 ## Supported Functions
 1. Insert Items
@@ -7,20 +13,8 @@
 3. Search
 4. Display
 
-## Project Goal
-
-  **A webapp that allows inventory to be tracked**
-
-### Future
-- AI Integration
-  - Computer Vision to identify a particular Object and suggest that to user
-- Microservices
-  - Testing the product inside a Docker Container?
-## Usage
-
-### Flask based deployment
-Start the flask app using 
-
+## Quick Start
+Its as simple as running a python command. Just make sure that the address is correct inside the app.py.
 `python app.py`
 The app will be running in a port `5000`, in localhost for example `http://127.0.0.1:5000`
 `python3 InventoryManger.py`
@@ -31,24 +25,6 @@ The app will be running in a port `5000`, in localhost for example `http://127.0
 |http://127.0.0.1:5000/inventory/display| Display all items in inventory |
 
 
-
-
-### Menu Based Deployment
-
-To test with menu based deployement try the following commands.
-
-<pre>python inventorManager.py</pre>
----
-
-**Prompts**
-
-1. INSERT
-2. DISPLAY
-3. EXPORT_CSV
-4. DELETE
-5. READ_CSV
-6. EXIT
-8. SEARCH
 
 ## Running Tests
 
