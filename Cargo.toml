@@ -7,9 +7,8 @@ edition = "2021"
 
 [dependencies]
 google-calendar3 = "5.0.5"
+rocket = "0.5.1"
+rocket_codegen = "0.5.1"
 
-[[bin]]
-name = "InventoryManager"
-path = "InventoryManager.rs"
 
 
