@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .search-container {
+            text-align: center;
+        }
+        .search-input {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4285F4;
+            margin-bottom: 20px;
+            font-family: 'Product Sans', Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="search-container">
+        <h1 class="logo">Search</h1>
+        <form action="/inventory/search" method="POST">
+
+        <input type="text" class="form-control form-control-sm rounded-pill" placeholder="Search Query" name="search_query" style="width: 200px;">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
+    {% if result %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in result %}
+                    <tr>
+                        <td>{{ item }}</td>
+                        <td>{{ item }}</td>
+                        <td>{{ item }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
+    <button onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
+</body>
+</html>
