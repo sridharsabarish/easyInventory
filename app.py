@@ -84,7 +84,7 @@ def display():
     
     total_cost=0
     for i in info_for_html:
-        total_cost+=i['cost']
+        total_cost+=i[Constants.ITEM.COST]
         
     return render_template("display.html", inventory=info_for_html,total_cost=total_cost)
 
@@ -113,16 +113,17 @@ def download():
         for item in inventory:
             writer.writerow(
                 [
-                    item["name"],
-                    item["cost"],
-                    item["subtype"],
-                    item["replacementDuration"],
-                    item['dateCreated'],
-                    item['dateOfReplacement']
+                    item[Constants.ITEM.NAME],
+                    item[Constants.ITEM.COST],
+                    item[Constants.ITEM.TYPE],
+                    item[Constants.ITEM.DURATION],
+                    item[Constants.ITEM.CREATION_DATE],
+                    item[Constants.ITEM.REPLACEMENT_DATE]
                 ]
             )
     return send_file(filename, as_attachment=True)
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+''' Replace the following item["name"] with enum instead of hardcoded value; '''

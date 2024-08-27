@@ -67,3 +67,11 @@ class EXIT_CODE(Enum):
 
 # Input validation
 ALLOWED_SUBTYPES = ["Electronics", "Clothes", "Books", "Household"]
+
+class ITEM:
+    NAME = "name"
+    TYPE = "subtype"
+    COST = "cost"
+    DURATION = "replacementDuration"
+    CREATION_DATE = "dateCreated"
+    REPLACEMENT_DATE = "dateOfReplacement"

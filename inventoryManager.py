@@ -6,6 +6,7 @@ import tkinter as tk
 import logging
 import datetime
 
+
 logging.basicConfig(filename=Constants.LOG_FILE, level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 class DB:
@@ -117,12 +118,12 @@ class Fetch:
                 # Add the information to the dictionary
                 info_list.append(
                     {
-                        "name": item_name,
-                        "cost": cost,
-                        "subtype": subtype,
-                        "replacementDuration": replacement_duration,
-                        "dateCreated": item_date_create,
-                        "dateOfReplacement": item_date_replacement
+                        Constants.ITEM.NAME: item_name,
+                        Constants.ITEM.COST: cost,
+                        Constants.ITEM.TYPE: subtype,
+                        Constants.ITEM.DURATION: replacement_duration,
+                        Constants.ITEM.CREATION_DATE: item_date_create,
+                        Constants.ITEM.REPLACEMENT_DATE: item_date_replacement
                     }
                 )
 
@@ -152,10 +153,10 @@ class Fetch:
                 # Add the information to the dictionary
                 info_list.append(
                     {
-                        "name": item_name,
-                        "cost": cost,
-                        "subtype": subtype,
-                        "replacementDuration": replacement_duration,
+                        ITEM.NAME: item_name,
+                        Constants.ITEM.COST: cost,
+                        Constants.ITEM.TYPE: subtype,
+                        Constants.ITEM.DURATION: replacement_duration,
                     }
                 )
 
@@ -384,6 +385,8 @@ Luxury Features
     - idea to use Google cloud vision API, this could be fun.
 
 3)  Todo : Add autocomplete feature for GUI from DB
+
+4) Todo : Show inventory health using some creative logo.
 
 
 Design Decisions.
