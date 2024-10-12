@@ -34,8 +34,9 @@ def add():
         item_name = request.form.get("name")
         cost = request.form.get("cost")
         subtype = request.form.get("subtype")
-        dateCreated = datetime.date.today()
-        dateOfReplacement= dateCreated + datetime.timedelta(days=int(request.form.get("replacementDuration")))
+        dateCreated = request.form.get("dateCreated")
+        dateCreated_date = datetime.datetime.strptime(dateCreated, "%Y-%m-%d").date()
+        dateOfReplacement = dateCreated_date + datetime.timedelta(days=int(request.form.get("replacementDuration")))
         if subtype not in Constants.ALLOWED_SUBTYPES:
             # Handle invalid subtype value here
             # For example, you can display an error message or redirect to an error page

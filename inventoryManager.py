@@ -113,8 +113,11 @@ class Fetch:
                 # Set today's date as the date created
                 
                 # Todo : Store it in the same DB
-                item_date_create = datetime.date.today()
+                item_date_create = row[4];
+                item_date_create = datetime.datetime.strptime(item_date_create, "%Y-%m-%d").date()
                 item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
+                item_replacement_needed = item_date_replacement < datetime.date.today()
+
                 # Add the information to the dictionary
                 info_list.append(
                     {
@@ -123,7 +126,8 @@ class Fetch:
                         Constants.ITEM.TYPE: subtype,
                         Constants.ITEM.DURATION: replacement_duration,
                         Constants.ITEM.CREATION_DATE: item_date_create,
-                        Constants.ITEM.REPLACEMENT_DATE: item_date_replacement
+                        Constants.ITEM.REPLACEMENT_DATE: item_date_replacement,
+                        "needsReplacement": item_replacement_needed
                     }
                 )
 
@@ -365,7 +369,7 @@ if __name__ == "__main__":
 
 Todo : 
 
-- Move inventory Manager Core featuresd to RUST
+- Move inventory Manager Core features to RUST
 
 
 Core Features
@@ -387,15 +391,6 @@ Luxury Features
 3)  Todo : Add autocomplete feature for GUI from DB
 
 4) Todo : Show inventory health using some creative logo.
-
-
-Design Decisions.
-
-1) Todo : Finalize schema for Tables.
-- Need a creation date
-- Need a Due date
-
-2) Todo : Abstraction of classes and extend only according to inventory Manager's requirements.
 
 
 

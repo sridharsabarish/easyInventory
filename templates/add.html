@@ -1,55 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Item to Inventory</title>
+    <title>Add Items</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
-            text-align: center;
+            width: 30%;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button[type="button"] {
+            background-color: #999;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="button"]:hover {
+            background-color: #777;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Add Item to Inventory</h1>
-        
+        <h1>Add Item</h1>
         <form action="/inventory/add" method="POST">
-            
             <div class="form-group">
                 <label for="name">Item Name:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <input type="text" id="name" name="name" required>
             </div>
-            
             <div class="form-group">
                 <label for="cost">Cost:</label>
-                <input type="number" class="form-control" id="cost" name="cost" required>
+                <input type="number" id="cost" name="cost" required>
             </div>
-            
             <div class="form-group">
                 <label for="subtype">Subtype:</label>
-                <select class="form-control" id="subtype" name="subtype" required>
+                <select id="subtype" name="subtype" required>
                     <option value="Electronics">Electronics</option>
                     <option value="Household">Household</option>
                     <option value="Books">Books</option>
                     <option value="Clothes">Clothes</option>
                 </select>
             </div>
-            
             <div class="form-group">
                 <label for="replacementDuration">Replacement Duration:</label>
-                <input type="text" class="form-control" id="replacementDuration" name="replacementDuration" required>
+                <input type="text" id="replacementDuration" name="replacementDuration" required>
             </div>
-            
+            <div class="form-group">
+                <label for="dateCreated">Date Created:</label>
+                <input type="date" id="dateCreated" name="dateCreated" required>
+            </div>
             <button type="submit" class="btn btn-primary">Add Item</button>
-            <button onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
+            <button type="button" onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
         </form>
     </div>
-
-    <!-- Add Bootstrap JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
