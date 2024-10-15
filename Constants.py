@@ -11,6 +11,7 @@ INSERT_TO_DB = "INSERT INTO inventory (item_name, cost, subtype, replacement_dur
 CREATE_TABLE = "CREATE TABLE IF NOT EXISTS inventory (item_name TEXT, cost REAL, subtype TEXT, replacement_duration INTEGER, dateCreated DATE, dateOfReplacement DATE)"
 
 SEARCH_QUERY = "SELECT * FROM inventory WHERE item_name = ?"
+QUERY_OLDER_THAN_TODAY = "SELECT * FROM inventory WHERE dateOfReplacement < date('now')"
 DELETE_ITEM_QUERY = "DELETE FROM inventory WHERE item_name = ?"
 # Regexes
 REGEX_NAME = r"^[a-zA-Z]"
@@ -68,6 +69,7 @@ class EXIT_CODE(Enum):
 # Input validation
 ALLOWED_SUBTYPES = ["Electronics", "Clothes", "Books", "Household"]
 
+
 class ITEM:
     NAME = "name"
     TYPE = "subtype"
@@ -75,4 +77,3 @@ class ITEM:
     DURATION = "replacementDuration"
     CREATION_DATE = "dateCreated"
     REPLACEMENT_DATE = "dateOfReplacement"
-    

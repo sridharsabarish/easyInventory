@@ -2,9 +2,48 @@
 <html>
 <head>
     <title>Error Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Product Sans', Arial, sans-serif;
+        }
+        .error-container {
+            text-align: center;
+            width: 50%;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .error-message {
+            font-size: 24px;
+            font-weight: 500;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .error-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Oops! Something went wrong.</h1>
-    <p>We apologize for the inconvenience. Please try again later.</p>
+    <div class="error-container">
+        <h1 class="error-message">Oops! Something went wrong.</h1>
+        <p>We apologize for the inconvenience. Please try again later.</p>
+        <button class="error-button" onclick="window.location.href='/inventory'">Back</button>
+    </div>
 </body>
 </html>
+

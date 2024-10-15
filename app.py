@@ -36,7 +36,7 @@ def add():
         subtype = request.form.get("subtype")
         dateCreated = request.form.get("dateCreated")
         dateCreated_date = datetime.datetime.strptime(dateCreated, "%Y-%m-%d").date()
-        dateOfReplacement = dateCreated_date + datetime.timedelta(days=int(request.form.get("replacementDuration")))
+        dateOfReplacement = dateCreated_date + (datetime.timedelta(days=int(request.form.get("replacementDuration")))*31)     
         if subtype not in Constants.ALLOWED_SUBTYPES:
             # Handle invalid subtype value here
             # For example, you can display an error message or redirect to an error page
@@ -85,23 +85,38 @@ def display():
     
     total_cost=0
     for i in info_for_html:
-        total_cost+=i[Constants.ITEM.COST]
+        total_cost += i[Constants.ITEM.COST]
         
     return render_template("display.html", inventory=info_for_html,total_cost=total_cost)
 
 
 @app.route("/inventory/search", methods=["GET", "POST"])
 def search():
-    if request.method =="POST":
+    if request.method == "POST":
         # Handle form submission and search for items in inventory
         search_query = request.form.get("search_query")
         print("The search query is ", search_query)
         fetch = Fetch()
+        
         info_for_html = fetch.fetchInfo(search_query)
         if(info_for_html!=[]):
             print(info_for_html)        
             return render_template("display.html", inventory=info_for_html)
     return render_template("search.html")
+
+
+@app.route("/inventory/overdue", methods=["GET", "POST"])
+def overdue():
+    if request.method == "GET":
+        # Handle form submission and search for items in inventory
+        fetch = Fetch()
+        
+        info_for_html = fetch.fetchInfoFiltered();
+        if(info_for_html!=[]):
+            print(info_for_html)        
+            return render_template("display.html", inventory=info_for_html)
+    return render_template("error.html")
+
 
 
 @app.route("/inventory/download", methods=["GET"])
