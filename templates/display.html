@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body { font-family: 'Roboto', sans-serif; }
-        .table { font-size: 16px; }
+        .table { font-size: 14px; }
         .table th, .table td { vertical-align: middle; }
         .table th { font-weight: 500; }
-        .table .btn { padding: 0.5rem 1rem; font-size: 1rem; border-radius: 0.25rem; }
+        .table .btn { padding: 0.4rem 0.8rem; font-size: 0.9rem; border-radius: 0.25rem; }
         .table .btn-primary { background-color: #007bff; border-color: #007bff; }
         .table .btn-danger { background-color: #dc3545; border-color: #dc3545; }
         .table .btn-primary:hover { background-color: #0069d9; }
         .table .btn-danger:hover { background-color: #c82333; }
+        @media (max-width: 767px) {
+            .table { font-size: 12px; }
+            .table th, .table td { padding: 0.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -70,13 +74,13 @@
                     <td class="text-center">{{ item.dateOfReplacement }}</td>
                     <td class="text-center">
                         {% if item.needsReplacement %}
-                            <i class="fas fa-times text-danger"></i>
+                            <i class="fas fa-times text-danger" style="font-size: 1.5rem;"></i>
                         {% else %}
-                            <i class="fas fa-check text-success"></i>
+                            <i class="fas fa-check text-success" style="font-size: 1.5rem;"></i>
                         {% endif %}
                     </td>
                     <td class="text-center">
-                        <a href="/inventory/delete?name={{ item.name }}" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
+                        <a href="/inventory/delete?name={{ item.name }}" class="btn btn-danger" title="Delete"><i class="fas fa-trash" style="font-size: 1.5rem;"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
