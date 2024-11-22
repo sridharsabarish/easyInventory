@@ -449,6 +449,7 @@ Luxury Features
 
 
 
+# Need to rework inventory manager's add method, too complex now.
 
 
 

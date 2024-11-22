@@ -103,6 +103,10 @@ class TestInventoryManager(unittest.TestCase):
         )
 
 
+    def testEditInput(self):
+        self.assertEqual("Pass","Dummy","Passed")
+        
+
 
 if __name__ == "__main__":
     unittest.main()

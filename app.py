@@ -139,7 +139,13 @@ def download():
             )
     return send_file(filename, as_attachment=True)
 
+@app.route("/inventory/edit", methods=["GET", "POST"])
+def edit():
+    ## same HTML as ADD but need to fix some stuff.
+    return render_template("edit.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
 ''' Replace the following item["name"] with enum instead of hardcoded value; '''
+
+#Todo : Work on Edit functionality.
