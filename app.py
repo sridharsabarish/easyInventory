@@ -5,6 +5,7 @@ from flask import send_file
 import Constants
 import sqlite3
 import datetime
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -114,8 +115,8 @@ def overdue():
         info_for_html = fetch.fetchInfoFiltered();
         if(info_for_html!=[]):
             print(info_for_html)        
-            return render_template("display.html", inventory=info_for_html)
-    return render_template("error.html")
+            return jsonify(inventory=info_for_html)
+    return jsonify({"error": "Invalid request"})
 
 
 
