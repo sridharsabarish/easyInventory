@@ -280,6 +280,13 @@ class Display:
             return Constants.EXIT_CODE.INVALID.value
 
 
+
+class Edit:
+   def edit():
+       # Fill more details.
+       return Constants.EXIT_CODE.FAIL.value
+
+
 class Delete:
     def deleteData(self, value={}):
         try:
@@ -409,6 +416,9 @@ class GUI:
                 ),
             )
             self.table.insert(tk.END, "\n")
+
+
+
 
 
 if __name__ == "__main__":

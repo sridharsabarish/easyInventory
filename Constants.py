@@ -37,9 +37,10 @@ ERROR_DELETE = "An error occurred while deleting the product:"
 ERROR_DISPLAY = "An error occurred while displaying the items:"
 ERROR_FETCH = "An error occurred while fetching the items:"
 ERROR_CREATE_TABLE = "An error occurred while creating the table:"
+ERROR_EDIT_NOT_FOUND="Item not found to be edited"
 # Prompts
 DELETE_PRODUCT_PROMPT = "Enter the name of product to delete : "
-
+EDIT_PRODUCT_PROMPT = "Enter the name of product to edit : "
 
 # ACTIONS
 class ACTION(Enum):

@@ -1,5 +1,5 @@
 import unittest
-from inventoryManager import Menu, Add, Display, Delete, Validation, DB
+from inventoryManager import Menu, Add, Display, Delete, Validation, DB, Edit
 from exportManager import Export2CSV
 import Constants
 
@@ -11,6 +11,7 @@ class TestInventoryManager(unittest.TestCase):
     export2csv = Export2CSV()
     display = Display()
     delete = Delete()
+    edit = Edit()
 
     def testCreateEmptyDB(self):
         out = DB.createTable()
@@ -104,7 +105,9 @@ class TestInventoryManager(unittest.TestCase):
 
 
     def testEditInput(self):
-        self.assertEqual("Pass","Dummy","Passed")
+        self.assertEqual(
+             Edit.edit(), Constants.EXIT_CODE.SUCCESS.value, "Passed"
+        )
         
 
 
