@@ -362,63 +362,6 @@ class Menu:
                 return Constants.EXIT_CODE.INVALID_CHOICE.value
 
 
-class GUI:
-    def __init__(self):
-        self.window = tk.Tk()
-        self.window.title("Inventory Search")
-
-        self.label = tk.Label(
-            self.window, text="Enter the name of the product to be searched:"
-        )
-        self.label.pack()
-
-        self.entry = tk.Entry(self.window)
-        self.entry.pack()
-
-        self.button = tk.Button(self.window, text="Search", command=self.search)
-        self.button.pack()
-
-        self.result_label = tk.Label(self.window, text="")
-        self.result_label.pack()
-
-        self.table = tk.Text(self.window)
-        self.table.pack()
-
-        self.exit_button = tk.Button(
-            self.window, text="Exit", command=self.window.destroy
-        )
-        self.exit_button.pack(side=tk.BOTTOM)
-
-        self.window.mainloop()
-
-    def search(self):
-        product_name = self.entry.get()
-        conn = sqlite3.connect(Constants.DB_FILE)
-        cursor = conn.cursor()
-        rows = cursor.execute(Constants.SEARCH_QUERY, (product_name,))
-        results = cursor.fetchall()
-        conn.close()
-        self.result_label.config(text="Search Result:")
-        self.table.delete(1.0, tk.END)
-        self.table.insert(
-            tk.END,
-            "{:<20} {:<10} {:<15} {:<20}\n".format(
-                "Item Name", "Cost", "Subtype", "Replacement Duration"
-            ),
-        )
-        self.table.insert(tk.END, "-" * 70 + "\n")
-
-        for result in results:
-            self.table.insert(
-                tk.END,
-                "{:<20} {:<10} {:<15} {:<20}\n".format(
-                    result[0], result[1], result[2], result[3]
-                ),
-            )
-            self.table.insert(tk.END, "\n")
-
-
-
 
 
 if __name__ == "__main__":
