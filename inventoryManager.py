@@ -49,7 +49,6 @@ class DB:
         conn.commit()
         conn.close()
 
-
 class Validation:
     """
 
@@ -171,7 +170,7 @@ class Fetch:
                         "needsReplacement": item_replacement_needed
                     }
                 )
-
+                
             logging.debug(info_list)
             # Close the connection
             conn.close()
@@ -241,7 +240,6 @@ class Display:
             # Print the items
             total_cost = 0
             for row in cursor.fetchall():
-
                 if row is None:
                     break
 
@@ -278,12 +276,14 @@ class Display:
         except Exception as e:
             print(Constants.ERROR_DISPLAY, str(e))
             return Constants.EXIT_CODE.INVALID.value
-
-
-
 class Edit:
    def edit():
-       # Fill more details.
+       '''
+       1. Uniquely Identify an entry from the mysql db 
+       2. Try to Prefill the box with this instruction.
+       3. Run a DB update with this info.
+       4. Remember that there could be multiple items with same name, so we need primary key.
+       '''
        return Constants.EXIT_CODE.FAIL.value
 
 
