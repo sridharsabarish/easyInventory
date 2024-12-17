@@ -149,12 +149,13 @@ class Fetch:
             # Iterate over the rows and collect the information
 
             for row in cursor.fetchall():
-                item_name = row[0]
-                cost = row[1]
-                subtype = row[2]
-                replacement_duration = row[3]
+                id = row[0]
+                item_name = row[1]
+                cost = row[2]
+                subtype = row[3]
+                replacement_duration = row[4]
                 
-                item_date_create = row[4];
+                item_date_create = row[5];
                 item_date_create = datetime.datetime.strptime(item_date_create, "%Y-%m-%d").date()
                 item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
                 item_replacement_needed = item_date_replacement < datetime.date.today()
@@ -191,18 +192,20 @@ class Fetch:
                 # Iterate over the rows and collect the information
 
                 for row in cursor.fetchall():
-                    item_name = row[0]
-                    cost = row[1]
-                    subtype = row[2]
-                    replacement_duration = row[3]
+                    id=row[0]
+                    item_name = row[1]
+                    cost = row[2]
+                    subtype = row[3]
+                    replacement_duration = row[4]
                     
-                    item_date_create = row[4];
+                    item_date_create = row[5];
                     item_date_create = datetime.datetime.strptime(item_date_create, "%Y-%m-%d").date()
                     item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
                     item_replacement_needed = item_date_replacement < datetime.date.today()
                     # Add the information to the dictionary
                     info_list.append(
                         {
+                            Constants.ITEM.ID: id,
                             Constants.ITEM.NAME: item_name,
                             Constants.ITEM.COST: cost,
                             Constants.ITEM.TYPE: subtype,
@@ -244,16 +247,16 @@ class Display:
                     break
 
                 print(row)
-                total_cost += row[1]  # Assuming cost is stored in the second column
+                total_cost += row[2]  # Assuming cost is stored in the second column
 
                 counts[row[0].lower()] += 1
                 # Check if the current item is the most expensive
-                if most_expensive_item is None or row[1] > most_expensive_item[1]:
+                if most_expensive_item is None or row[2] > most_expensive_item[1]:
                     most_expensive_item = row
                 # Check if the current item has the shortest replacement duration
                 if (
                     shortest_replacement_duration is None
-                    or row[3] < shortest_replacement_duration[3]
+                    or row[4] < shortest_replacement_duration[4]
                 ):
                     shortest_replacement_duration = row
 
@@ -262,7 +265,7 @@ class Display:
 
             Beautify.lineBreak()
             print("Total cost: ${:.2f}".format(total_cost))
-            print("Most expensive item: {}".format(most_expensive_item[0]))
+            print("Most expensive item: {}".format(most_expensive_item[1]))
             print(
                 "Item with shortest replacement duration: {}".format(
                     shortest_replacement_duration[0]
@@ -277,7 +280,9 @@ class Display:
             print(Constants.ERROR_DISPLAY, str(e))
             return Constants.EXIT_CODE.INVALID.value
 class Edit:
-   def edit():
+   def edit(self,value={}):
+       try:
+           if len(value) ==0:
        '''
        1. Uniquely Identify an entry from the mysql db 
        2. Try to Prefill the box with this instruction.
@@ -333,37 +338,6 @@ class Search:
         return
 
 
-class Menu:
-    def handleMenu(self, choice=""):
-
-        function_dict = {
-            Constants.ACTION.DISPLAY.value: Display.display,
-            Constants.ACTION.EXPORT_CSV.value: Export2CSV.export2CSV,
-            Constants.ACTION.DELETE.value: Delete.deleteData,
-            Constants.ACTION.SEARCH.value: Search.search,
-        }
-
-        while True:
-            if choice == "":
-                choice = input(Constants.menuString)
-                print(choice)
-            elif choice == Constants.ACTION.INSERT.value:
-                Add.addItem(inputs={})
-                choice = ""
-                continue
-            elif choice in function_dict:
-                function_dict[choice]()
-                choice = ""
-                continue
-            else:
-                if choice == Constants.ACTION.EXIT.value:
-                    return Constants.EXIT_CODE.SUCCESS.value
-                print(Constants.INVALID_CHOICE)
-                return Constants.EXIT_CODE.INVALID_CHOICE.value
-
-
-
-
 if __name__ == "__main__":
     Menu = Menu()
     Menu.handleMenu(choice="")
@@ -410,3 +384,10 @@ Luxury Features
 
 """
 
+'''
+
+Todo : 
+Might be good to refactor this code and make it compact and concise.
+
+
+'''
