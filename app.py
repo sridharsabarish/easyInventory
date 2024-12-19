@@ -22,7 +22,6 @@ def inventory():
     if request.method == "POST":
         item_name = request.form.get("item_name")
         quantity = request.form.get("quantity")
-
     return render_template("inventory.html")
 
 
@@ -150,3 +149,4 @@ if __name__ == "__main__":
 ''' Replace the following item["name"] with enum instead of hardcoded value; '''
 
 #Todo : Work on Edit functionality.
+#Todo : Consider using constants for filenames like inventory.csv and .html and so on.

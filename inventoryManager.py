@@ -104,15 +104,18 @@ class Fetch:
             # Initialize an empty dictionary to store the information
             info_list = []
             # Iterate over the rows and collect the information
+            
             for row in cursor.fetchall():
-                item_name = row[0]
-                cost = row[1]
-                subtype = row[2]
-                replacement_duration = row[3]
+                print(row) 
+                print("There there")
+                item_name = row[0] if row else "N/A"
+                cost = row[1] if row else 0
+                subtype = row[2] if row else "N/A"
+                replacement_duration = row[3] if row else 0
                 # Set today's date as the date created
                 
                 # Todo : Store it in the same DB
-                item_date_create = row[4];
+                item_date_create = row[4] if row else datetime.date.today().strftime("%Y-%m-%d");
                 item_date_create = datetime.datetime.strptime(item_date_create, "%Y-%m-%d").date()
                 item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
                 item_replacement_needed = item_date_replacement < datetime.date.today()
@@ -281,15 +284,15 @@ class Display:
             return Constants.EXIT_CODE.INVALID.value
 class Edit:
    def edit(self,value={}):
-       try:
-           if len(value) ==0:
+       return Constants.EXIT_CODE.FAIL.value
        '''
        1. Uniquely Identify an entry from the mysql db 
        2. Try to Prefill the box with this instruction.
        3. Run a DB update with this info.
        4. Remember that there could be multiple items with same name, so we need primary key.
        '''
-       return Constants.EXIT_CODE.FAIL.value
+
+
 
 
 class Delete:
@@ -345,17 +348,8 @@ if __name__ == "__main__":
 
 """
 
-Todo : 
 
-- Move inventory Manager Core features to RUST
-
-
-Core Features
-
-1) Have a DB to store information.
-
-
-Luxury Features
+ Addon Features
 
 1)   Todo :  Calendar API Integration.
     a) Automatic Reminder Feature for items using Google Calendar API
@@ -363,20 +357,17 @@ Luxury Features
     c) Potential integration with GPT to find the average life time for this product after scanning via computer vision and adding it 
 
 
-2)   Todo : Computer Vision, scan an image and automatically prefill the category
-    - idea to use Google cloud vision API, this could be fun.
+# UX Improvements
 
-3)  Todo : Add autocomplete feature for GUI from DB
+Todo : Show inventory health using some creative logo.
 
-4) Todo : Show inventory health using some creative logo.
-
-
+Todo : Computer Vision, scan an image and automatically prefill the category
+    - idea to use Google cloud vision API, this could be fun. #Difficult
 
 
-
-
-
-# Need to rework inventory manager's add method, too complex now.
+# Code Improvements
+Todo : Refactoring
+- Add Method.
 
 
 
@@ -386,8 +377,6 @@ Luxury Features
 
 '''
 
-Todo : 
-Might be good to refactor this code and make it compact and concise.
 
 
 '''
