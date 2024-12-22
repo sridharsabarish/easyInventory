@@ -328,17 +328,17 @@ class Delete:
         return Constants.EXIT_CODE.INVALID.value
 
 
-class Search:
-    def search():
-        try:
-            gui = GUI()
-            gui.search()
-            return Constants.EXIT_CODE.SUCCESS.value
-        except Exception as e:
-            logging.error("An error occured:", str(e))
-            print("An error occurred:", str(e))
-            return Constants.EXIT_CODE.INVALID.value
-        return
+# class Search:
+#     def search():
+#         try:
+#             gui = GUI()
+#             gui.search()
+#             return Constants.EXIT_CODE.SUCCESS.value
+#         except Exception as e:
+#             logging.error("An error occured:", str(e))
+#             print("An error occurred:", str(e))
+#             return Constants.EXIT_CODE.INVALID.value
+#         return
 
 
 if __name__ == "__main__":

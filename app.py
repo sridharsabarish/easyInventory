@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from inventoryManager import Add, Fetch, Delete, Search, DB
+from inventoryManager import Add, Fetch, Delete, DB
 import csv
 from flask import send_file
 import Constants
@@ -63,6 +63,7 @@ def add():
     return render_template("add.html")
 
 
+# Delete logic should be based on "primary" key.
 @app.route("/inventory/delete", methods=["GET", "POST"])
 def delete(productName=None):
     delete = Delete()
