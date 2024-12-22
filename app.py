@@ -151,3 +151,5 @@ if __name__ == "__main__":
 
 #Todo : Work on Edit functionality.
 #Todo : Consider using constants for filenames like inventory.csv and .html and so on.
+
+# TOdo : Try Django
