@@ -14,7 +14,7 @@ app = Flask(__name__)
 # Define routes
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template(Constants.INDEX_PAGE)
 
 
 @app.route("/inventory", methods=["GET", "POST"])
@@ -22,7 +22,7 @@ def inventory():
     if request.method == "POST":
         item_name = request.form.get("item_name")
         quantity = request.form.get("quantity")
-    return render_template("inventory.html")
+    return render_template(Constants.INVENTORY_PAGE)
 
 
 @app.route("/inventory/add", methods=["GET", "POST"])
@@ -40,7 +40,7 @@ def add():
         if subtype not in Constants.ALLOWED_SUBTYPES:
             # Handle invalid subtype value here
             # For example, you can display an error message or redirect to an error page
-            return render_template("error.html", message="Invalid subtype value")
+            return render_template(Constants.ERROR_PAGE, message="Invalid subtype value")
         replacement_duration = request.form.get("replacementDuration")
 
         # Create a new item object
@@ -60,7 +60,7 @@ def add():
         add.addItem(inputs)
 
     # Render the add template
-    return render_template("add.html")
+    return render_template(Constants.ADD_PAGE)
 
 
 # Delete logic should be based on "primary" key.
@@ -74,7 +74,7 @@ def delete(productName=None):
         delete.deleteData(str(item_name))    
         return redirect("/inventory/display")
  
-    return render_template("delete.html")
+    return render_template(Constants.DELETE_PAGE)
 
 
 @app.route("/inventory/display")
@@ -88,7 +88,7 @@ def display():
     for i in info_for_html:
         total_cost += i[Constants.ITEM.COST]
         
-    return render_template("display.html", inventory=info_for_html,total_cost=total_cost)
+    return render_template(Constants.DISPLAY_PAGE, inventory=info_for_html,total_cost=total_cost)
 
 
 @app.route("/inventory/search", methods=["GET", "POST"])
@@ -103,7 +103,7 @@ def search():
         if(info_for_html!=[]):
             print(info_for_html)        
             return render_template("display.html", inventory=info_for_html)
-    return render_template("search.html")
+    return render_template(Constants.SEARCH_PAGE)
 
 
 @app.route("/inventory/overdue", methods=["GET", "POST"])
@@ -123,7 +123,7 @@ def overdue():
 @app.route("/inventory/download", methods=["GET"])
 def download():
     inventory = Fetch().fetchAllInfo()
-    filename = "inventory.csv"  # Replace with the desired file path
+    filename = Constants.CSV_FILE  # Replace with the desired file path
     with open(filename, "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Item Name", "Cost", "Subtype", "Replacement Duration",'Date Created',"Date of Replacement"])
@@ -143,7 +143,7 @@ def download():
 @app.route("/inventory/edit", methods=["GET", "POST"])
 def edit():
     ## same HTML as ADD but need to fix some stuff.
-    return render_template("edit.html")
+    return render_template(Constants.EDIT_PAGE)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

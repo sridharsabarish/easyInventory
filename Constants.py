@@ -79,3 +79,15 @@ class ITEM:
     DURATION = "replacementDuration"
     CREATION_DATE = "dateCreated"
     REPLACEMENT_DATE = "dateOfReplacement"
+    
+    
+# UX
+INVENTORY_PAGE="inventory.html"
+ADD_PAGE="add.html"
+ERROR_PAGE="error.html"
+DELETE_PAGE="delete.html"
+DISPLAY_PAGE="display.html"
+SEARCH_PAGE="search.html"
+EDIT_PAGE="edit.html"
+INDEX_PAGE="index.html"
+
