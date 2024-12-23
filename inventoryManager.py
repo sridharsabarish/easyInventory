@@ -97,6 +97,7 @@ class Add:
 class Fetch:
     def fetchAllInfo(self):
         try:
+            print("came here")
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
             # Select all of the items from the database
@@ -108,14 +109,14 @@ class Fetch:
             for row in cursor.fetchall():
                 print(row) 
                 print("There there")
-                item_name = row[0] if row else "N/A"
-                cost = row[1] if row else 0
-                subtype = row[2] if row else "N/A"
-                replacement_duration = row[3] if row else 0
+                item_name = row[1]
+                cost = row[2]
+                subtype = row[3] 
+                replacement_duration = row[4] 
                 # Set today's date as the date created
                 
                 # Todo : Store it in the same DB
-                item_date_create = row[4] if row else datetime.date.today().strftime("%Y-%m-%d");
+                item_date_create = row[5];
                 item_date_create = datetime.datetime.strptime(item_date_create, "%Y-%m-%d").date()
                 item_date_replacement = item_date_create + datetime.timedelta(days=replacement_duration * 30)
                 item_replacement_needed = item_date_replacement < datetime.date.today()
