@@ -68,7 +68,7 @@ def add():
 def delete(productName=None):
     delete = Delete()
 
-    item_name = request.args.get("name")
+    item_name = request.args.get("id")
     print(item_name)
     if item_name:
         delete.deleteData(str(item_name))    

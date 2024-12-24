@@ -1,12 +1,12 @@
 import unittest
-from inventoryManager import Menu, Add, Display, Delete, Validation, DB, Edit
+from inventoryManager import  Add, Display, Delete, Validation, DB, Edit
 from exportManager import Export2CSV
 import Constants
 
 
 class TestInventoryManager(unittest.TestCase):
 
-    menu = Menu()
+  
     handleInputs = Add()
     export2csv = Export2CSV()
     display = Display()

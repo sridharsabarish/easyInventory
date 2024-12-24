@@ -109,6 +109,7 @@ class Fetch:
             for row in cursor.fetchall():
                 print(row) 
                 print("There there")
+                id=row[0]
                 item_name = row[1]
                 cost = row[2]
                 subtype = row[3] 
@@ -124,6 +125,7 @@ class Fetch:
                 # Add the information to the dictionary
                 info_list.append(
                     {
+                        Constants.ITEM.ID: id,
                         Constants.ITEM.NAME: item_name,
                         Constants.ITEM.COST: cost,
                         Constants.ITEM.TYPE: subtype,
@@ -166,6 +168,7 @@ class Fetch:
                 # Add the information to the dictionary
                 info_list.append(
                     {
+                        Constants.ITEM.ID: id,
                         Constants.ITEM.NAME: item_name,
                         Constants.ITEM.COST: cost,
                         Constants.ITEM.TYPE: subtype,
