@@ -141,9 +141,34 @@ def download():
     return send_file(filename, as_attachment=True)
 
 @app.route("/inventory/edit", methods=["GET", "POST"])
-def edit():
-    ## same HTML as ADD but need to fix some stuff.
-    return render_template(Constants.EDIT_PAGE)
+def edit(items=[]):
+    display = Fetch()
+    id = request.args.get("id")
+    inp = display.fetchInfo(id)
+    
+    
+    
+    print(inp[0])
+    print(inp[0])
+    
+    item = {
+            "id": inp[0]['id'],
+            "name": inp[0]['name'],
+            "cost": inp[0]['cost'],
+            "subtype": inp[0]['subtype'],
+            "replacementDuration": inp[0]['replacementDuration'],
+            "dateCreated": inp[0]['dateCreated'],
+            "dateOfReplacement": inp[0]['dateOfReplacement'],
+            
+        }
+    
+    
+    
+    
+    
+    
+    
+    return render_template(Constants.EDIT_PAGE, item=item)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

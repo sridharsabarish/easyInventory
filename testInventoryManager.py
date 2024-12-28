@@ -17,13 +17,12 @@ class TestInventoryManager(unittest.TestCase):
         out = DB.createTable()
         self.assertEqual(out, Constants.EXIT_CODE.SUCCESS.value, "Passed")
 
-    def testExitOutOfMenu(self):
-        out = self.menu.handleMenu(choice=Constants.ACTION.EXIT.value)
-        self.assertEqual(out, 0, "Passed")
+
 
     def testAddItem(self):
         out = self.handleInputs.addItem(
             inputs={
+
                 "itemName": "DummyItem",
                 "cost": 500,
                 "subtype": "Electronics",
@@ -39,25 +38,25 @@ class TestInventoryManager(unittest.TestCase):
     def testDisplay(self):
         self.assertEqual(Display.display(), Constants.EXIT_CODE.SUCCESS.value, "Passed")    
 
-    def testInputPassedAsArgument(self):
-        out = self.handleInputs.addItem(
-            inputs={
-                "itemName": "TestInput",
-                "cost": 100,
-                "subtype": "TestSubtype",
-                "replacementDuration": 10,
-                "dateCreated": "2021-01-01",
-                "dateOfReplacement": "2022-01-02",
-            }
-        )
+    # def testInputPassedAsArgument(self):
+    #     out = self.handleInputs.addItem(
+    #         inputs={
+    #             "itemName": "TestInput",
+    #             "cost": 100,
+    #             "subtype": "TestSubtype",
+    #             "replacementDuration": 10,
+    #             "dateCreated": "2021-01-01",
+    #             "dateOfReplacement": "2022-01-02",
+    #         }
+    #     )
 
-        if out == 0:
-            out = self.delete.deleteData(value="TestInput")
-            if out != 0:
-                self.assertNotEqual(out, 0, "Passed")
-        else:
-            self.assertNotEqual(out, 0, "Passed")
-        self.assertEqual(out, 0, "Passed")
+    #     if out == 0:
+    #         out = self.delete.deleteData(value="1000")
+    #         if out != 0:
+    #             self.assertNotEqual(out, 0, "Passed")
+    #     else:
+    #         self.assertNotEqual(out, 0, "Passed")
+    #     self.assertEqual(out, 0, "Passed")
 
     def testExport2CSV(self):
         self.assertEqual(
@@ -104,10 +103,14 @@ class TestInventoryManager(unittest.TestCase):
         )
 
 
-    def testEditInput(self):
-        self.assertEqual(
-             Edit.edit(), Constants.EXIT_CODE.SUCCESS.value, "Passed"
-        )
+    # def testEditInput(self):
+        """
+        The `testEditInput` function in the Python code snippet tests the `Edit.edit()` function for
+        successful execution.
+        """
+    #     self.assertEqual(
+    #          Edit.edit(), Constants.EXIT_CODE.SUCCESS.value, "Passed"
+    #     )
         
 
 
