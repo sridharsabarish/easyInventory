@@ -48,6 +48,31 @@ class DB:
         # Commit the changes and close the connection
         conn.commit()
         conn.close()
+        
+    def updateDB(id, item):
+        conn = sqlite3.connect(Constants.DB_FILE)
+        cursor = conn.cursor()
+        # Update the variables to the database
+        cursor.execute(
+            """
+            UPDATE inventory
+            SET item_name = ?, cost = ?, subtype = ?, replacement_duration = ?, dateCreated = ?, dateOfReplacement = ?
+            WHERE id = ?
+            """,
+            (
+                item.getItemName(),
+                item.getCost(),
+                item.getSubtype(),
+                item.getReplacementDuration(),
+                item.getDateCreated(),
+                item.getDateOfReplacement(),
+                id
+            ),
+        )
+        logging.info(Constants.SUCCESS_ITEM)
+        # Commit the changes and close the connection
+        conn.commit()
+        conn.close()
 
 class Validation:
     """
@@ -287,14 +312,26 @@ class Display:
             print(Constants.ERROR_DISPLAY, str(e))
             return Constants.EXIT_CODE.INVALID.value
 class Edit:
-   def edit(self,value={}):
-       return Constants.EXIT_CODE.FAIL.value
-       '''
-       1. Uniquely Identify an entry from the mysql db 
-       2. Try to Prefill the box with this instruction.
-       3. Run a DB update with this info.
-       4. Remember that there could be multiple items with same name, so we need primary key.
-       '''
+   def editItem(self, id, inputs={}):
+        val = {}
+        logging.debug(len(inputs))
+        logging.debug(inputs)
+        if len(inputs) != 6:
+            for i in range(0, len(Constants.ITEM_SCHEMA)):
+
+                initialInput = input(f"Enter {Constants.ITEM_SCHEMA[i]} : ")
+                # x=Validation.validateInput(Constants.ITEM_SCHEMA[i]);
+
+                val[i] = initialInput
+        else:
+            # Todo : validate output
+            val = inputs
+        newItem = Item(*val.values())
+        # Connect to the database
+        DB.updateDB(id,newItem)
+        Export2CSV.export2CSV()
+    #return Constants.EXIT_CODE.FAIL.value
+       
 
 
 

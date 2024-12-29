@@ -98,7 +98,7 @@
                 <label for="dateCreated">Date Created:</label>
                 <input type="date" id="dateCreated" name="dateCreated" required value="{{ item.dateCreated }}">
             </div>
-            <button type="submit" class="btn btn-primary">Add Item</button>
+            <button type="submit" class="btn btn-primary" formaction="/inventory/update">Update Item</button>
             <button type="button" onclick="window.location.href='/inventory'" class="btn btn-secondary">Back</button>
         </form>
     </div>

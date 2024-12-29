@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from inventoryManager import Add, Fetch, Delete, DB
+from inventoryManager import Add, Fetch, Delete, DB, Edit
 import csv
 from flask import send_file
 import Constants
@@ -145,12 +145,8 @@ def edit(items=[]):
     display = Fetch()
     id = request.args.get("id")
     inp = display.fetchInfo(id)
-    
-    
-    
     print(inp[0])
     print(inp[0])
-    
     item = {
             "id": inp[0]['id'],
             "name": inp[0]['name'],
@@ -159,17 +155,37 @@ def edit(items=[]):
             "replacementDuration": inp[0]['replacementDuration'],
             "dateCreated": inp[0]['dateCreated'],
             "dateOfReplacement": inp[0]['dateOfReplacement'],
-            
         }
-    
-    
-    
-    
-    
-    
-    
     return render_template(Constants.EDIT_PAGE, item=item)
 
+
+
+@app.route("/inventory/update", methods=["POST"])
+def update():
+    
+    edit = Edit()
+    item_name = request.form.get("name")
+    cost = request.form.get("cost")
+
+    id = request.form["id"]
+    subtype = request.form.get("subtype")
+    dateCreated = request.form.get("dateCreated")
+    dateCreated_date = datetime.datetime.strptime(dateCreated, "%Y-%m-%d").date()
+    dateOfReplacement = dateCreated_date + (datetime.timedelta(days=int(request.form.get("replacementDuration")))*31)     
+    if subtype not in Constants.ALLOWED_SUBTYPES:
+        return render_template(Constants.ERROR_PAGE, message="Invalid subtype value")
+    replacement_duration = request.form.get("replacementDuration")
+    
+    inputs = {
+            "item_name": item_name,
+            "cost": cost,
+            "subtype": subtype,
+            "replacement_duration": replacement_duration,
+            "dateCreated": dateCreated,
+            "dateOfReplacement": dateOfReplacement,
+        } 
+    edit.editItem(id, inputs)
+    return redirect("/inventory")
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
 ''' Replace the following item["name"] with enum instead of hardcoded value; '''
