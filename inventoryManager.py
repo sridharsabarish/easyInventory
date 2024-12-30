@@ -52,6 +52,17 @@ class DB:
     def updateDB(id, item):
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
+        # Check if the id exists
+        cursor.execute(
+            """
+            SELECT COUNT(*) FROM inventory
+            WHERE id = ?
+            """,
+            (id,)
+        )
+        if cursor.fetchone()[0] == 0:
+            logging.error("ID does not exist")
+            raise Exception("ID does not exist")
         # Update the variables to the database
         cursor.execute(
             """
@@ -326,11 +337,15 @@ class Edit:
         else:
             # Todo : validate output
             val = inputs
-        newItem = Item(*val.values())
-        # Connect to the database
-        DB.updateDB(id,newItem)
-        Export2CSV.export2CSV()
-    #return Constants.EXIT_CODE.FAIL.value
+        try:
+            newItem = Item(*val.values())
+            # Connect to the database
+            DB.updateDB(id,newItem)
+            Export2CSV.export2CSV()
+        except Exception as e:
+            print("Error is ", e)
+            return Constants.EXIT_CODE.FAIL.value
+        return Constants.EXIT_CODE.SUCCESS.value
        
 
 

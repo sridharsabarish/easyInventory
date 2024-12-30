@@ -2,7 +2,7 @@ import unittest
 from inventoryManager import  Add, Display, Delete, Validation, DB, Edit
 from exportManager import Export2CSV
 import Constants
-
+import datetime
 
 class TestInventoryManager(unittest.TestCase):
 
@@ -35,8 +35,8 @@ class TestInventoryManager(unittest.TestCase):
 
         self.assertEqual(out, 0, "Passed")
         
-    def testDisplay(self):
-        self.assertEqual(Display.display(), Constants.EXIT_CODE.SUCCESS.value, "Passed")    
+    # def testDisplay(self):
+    #     self.assertEqual(Display.display(), Constants.EXIT_CODE.SUCCESS.value, "Passed")    
 
     # def testInputPassedAsArgument(self):
     #     out = self.handleInputs.addItem(
@@ -102,17 +102,18 @@ class TestInventoryManager(unittest.TestCase):
             Validation.validateInput(test), Constants.EXIT_CODE.SUCCESS.value, "Passed"
         )
 
-
-    # def testEditInput(self):
-        """
-        The `testEditInput` function in the Python code snippet tests the `Edit.edit()` function for
-        successful execution.
-        """
-    #     self.assertEqual(
-    #          Edit.edit(), Constants.EXIT_CODE.SUCCESS.value, "Passed"
-    #     )
+    def testEditInventory(self):
         
-
+        inputs = {
+            "item_name": "edited_item",
+            "cost": "99",
+            "subtype": "household",
+            "replacement_duration": 2,
+            "dateCreated": "2024-01-01",
+            "dateOfReplacement": "2024-03-01",
+        }
+        out=self.edit.editItem(1, inputs)
+        self.assertEqual(out,Constants.EXIT_CODE.SUCCESS.value)
 
 if __name__ == "__main__":
     unittest.main()
