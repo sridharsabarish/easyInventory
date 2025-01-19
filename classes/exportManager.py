@@ -1,5 +1,5 @@
 import sqlite3
-import Constants
+import static.Constants as Constants
 
 
 class Export2CSV:

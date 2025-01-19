@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from inventoryManager import Add, Fetch, Delete, DB, Edit
+from classes.inventoryManager import Add, Fetch, Delete, DB, Edit
 import csv
 from flask import send_file
-import Constants
+import static.Constants as Constants
 import sqlite3
 import datetime
 from flask import jsonify

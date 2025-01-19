@@ -1,6 +1,6 @@
-from Item import Item
-from exportManager import Export2CSV
-import Constants, Beautify, re, sqlite3
+from classes.Item import Item
+from classes.exportManager import Export2CSV
+import static.Constants as Constants, classes.Beautify as Beautify, re, sqlite3
 from collections import defaultdict
 import tkinter as tk
 import logging

@@ -1,7 +1,7 @@
 import unittest
-from inventoryManager import  Add, Display, Delete, Validation, DB, Edit
-from exportManager import Export2CSV
-import Constants
+from classes.inventoryManager import  Add, Display, Delete, Validation, DB, Edit
+from classes.exportManager import Export2CSV
+import static.Constants as Constants
 import datetime
 
 class TestInventoryManager(unittest.TestCase):
