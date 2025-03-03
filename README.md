@@ -1,7 +1,7 @@
 # About
 
 
- - **Easy Inventory** is a tool to help manage your inventory tracking needs for personal use.
+ - **Easy Inventory** helps you manage inventory for personal use.
 
 
 ## Supported Features
