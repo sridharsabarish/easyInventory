@@ -4,11 +4,20 @@
  - **Easy Inventory** helps you manage inventory for personal use.
 
 
+
 ## Supported Features
-1. CRUD Operations for Inventory
-2. Export as a CSV
-3. View Inventory
+1. Add Items
+2. Display/Modify/Delete
+3. Search Inventory
 4. Overdue Items as JSON
+5. Export Inventory as CSV
+
+
+![alt text](Page.png) 
+
+
+
+
 
 
 ## Quick Start
@@ -48,3 +57,9 @@ To run the tests, use the following command:
 
 <pre>python3 testInventoryManger.py</pre> 
 
+
+## Adding an item
+![alt text](Add.png) 
+
+## Viewing the Inventory
+![alt text](Display.png)
