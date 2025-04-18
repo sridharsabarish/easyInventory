@@ -194,3 +194,12 @@ if __name__ == "__main__":
 #Todo : Consider using constants for filenames like inventory.csv and .html and so on.
 
 # TOdo : Try Django
+'''
+
+TODO:
+1. Update the Name of the inventory display to Sabarish's Inventory
+2. Have a login page?
+3. Change the names for the options
+4. Use React to make things simpler here.
+
+'''

@@ -63,3 +63,5 @@ To run the tests, use the following command:
 
 ## Viewing the Inventory
 ![alt text](Display.png)
+
+
