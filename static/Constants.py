@@ -10,8 +10,10 @@ SELECT_ALL = "SELECT * FROM inventory"
 INSERT_TO_DB = "INSERT INTO inventory (item_name, cost, subtype, replacement_duration,dateCreated,dateOfReplacement) VALUES (?, ?, ?, ?,?,?)"  # Remember to make this dynamic.
 CREATE_TABLE = "CREATE TABLE IF NOT EXISTS inventory (id integer primary key autoincrement,item_name TEXT, cost REAL, subtype TEXT, replacement_duration INTEGER, dateCreated DATE, dateOfReplacement DATE)"
 
-SEARCH_QUERY = "SELECT * FROM inventory WHERE id = ?"
+SEARCH_QUERY = "SELECT * FROM inventory WHERE item_name = ?"
+SEARCH_ID_QUERY = "SELECT * FROM inventory WHERE id = ?"
 QUERY_OLDER_THAN_TODAY = "SELECT * FROM inventory WHERE dateOfReplacement < date('now')"
+QUERY_OLDER_THAN_3_MONTHS = "SELECT * FROM inventory WHERE dateOfReplacement < date('now','3 month')"
 DELETE_ITEM_QUERY = "DELETE FROM inventory WHERE id = ?"
 # Regexes
 REGEX_NAME = r"^[a-zA-Z]"

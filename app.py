@@ -78,10 +78,16 @@ def delete(productName=None):
 
 
 @app.route("/inventory/display")
-def display():
+def display(forecast=False):
     # Add your logic to retrieve and display the inventory here
     display = Fetch()
-    info_for_html = display.fetchAllInfo()
+    forecast = request.args.get("forecast")
+    if forecast=="true":
+        info_for_html = display.fetchAllInfo(forecast=True)
+    else:
+        info_for_html = display.fetchAllInfo(forecast=False)
+    
+    #info_for_html = display.fetchAllInfo(forecast=False)
     print(info_for_html)
     
     total_cost=0
@@ -89,6 +95,7 @@ def display():
         total_cost += i[Constants.ITEM.COST]
         
     return render_template(Constants.DISPLAY_PAGE, inventory=info_for_html,total_cost=total_cost)
+
 
 
 @app.route("/inventory/search", methods=["GET", "POST"])
@@ -99,7 +106,7 @@ def search():
         print("The search query is ", search_query)
         fetch = Fetch()
         
-        info_for_html = fetch.fetchInfo(search_query)
+        info_for_html = fetch.fetchAllInfo(forecast=False,searchQuery=search_query)
         if(info_for_html!=[]):
             print(info_for_html)        
             return render_template("display.html", inventory=info_for_html)
@@ -144,7 +151,7 @@ def download():
 def edit(items=[]):
     display = Fetch()
     id = request.args.get("id")
-    inp = display.fetchInfo(id)
+    inp = display.fetchAllInfo(searchQuery=id,searchByID=True)
     print(inp[0])
     print(inp[0])
     item = {
@@ -187,7 +194,7 @@ def update():
     edit.editItem(id, inputs)
     return redirect("/inventory")
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 ''' Replace the following item["name"] with enum instead of hardcoded value; '''
 
 #Todo : Work on Edit functionality.
