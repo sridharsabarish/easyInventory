@@ -6,10 +6,10 @@ import static.Constants as Constants
 import sqlite3
 import datetime
 from flask import jsonify
-
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 # Define routes
 @app.route("/")
@@ -67,7 +67,7 @@ def add():
 @app.route("/inventory/delete", methods=["GET", "POST"])
 def delete(productName=None):
     delete = Delete()
-
+    print("deleting product")
     item_name = request.args.get("id")
     print(item_name)
     if item_name:
@@ -119,7 +119,7 @@ def overdue():
         # Handle form submission and search for items in inventory
         fetch = Fetch()
         
-        info_for_html = fetch.fetchInfoFiltered();
+        info_for_html = fetch.fetchAllInfo(forecast=True)
         if(info_for_html!=[]):
             print(info_for_html)        
             return jsonify(inventory=info_for_html)
