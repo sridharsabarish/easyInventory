@@ -14,6 +14,8 @@ SEARCH_QUERY = "SELECT * FROM inventory WHERE item_name = ?"
 SEARCH_ID_QUERY = "SELECT * FROM inventory WHERE id = ?"
 QUERY_OLDER_THAN_TODAY = "SELECT * FROM inventory WHERE dateOfReplacement < date('now')"
 QUERY_OLDER_THAN_3_MONTHS = "SELECT * FROM inventory WHERE dateOfReplacement < date('now','3 month')"
+QUERY_SUBTYPE = "SELECT * FROM inventory WHERE subtype = ?"
+
 DELETE_ITEM_QUERY = "DELETE FROM inventory WHERE id = ?"
 # Regexes
 REGEX_NAME = r"^[a-zA-Z]"

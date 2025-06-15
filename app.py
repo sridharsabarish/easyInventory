@@ -78,14 +78,16 @@ def delete(productName=None):
 
 
 @app.route("/inventory/display")
-def display(forecast=False):
+def display(forecast=False,subType=None):
     # Add your logic to retrieve and display the inventory here
     display = Fetch()
     forecast = request.args.get("forecast")
+    subType = request.args.get("subtype")
+    print("Subtype is ", subType)
     if forecast=="true":
-        info_for_html = display.fetchAllInfo(forecast=True)
+        info_for_html = display.fetchAllInfo(forecast=True,subType=subType)
     else:
-        info_for_html = display.fetchAllInfo(forecast=False)
+        info_for_html = display.fetchAllInfo(forecast=False,subType=subType)
     
     #info_for_html = display.fetchAllInfo(forecast=False)
     print(info_for_html)
@@ -105,6 +107,7 @@ def search():
         search_query = request.form.get("search_query")
         print("The search query is ", search_query)
         fetch = Fetch()
+        
         
         info_for_html = fetch.fetchAllInfo(forecast=False,searchQuery=search_query)
         if(info_for_html!=[]):

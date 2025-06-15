@@ -5,7 +5,7 @@ import logging
 from classes.DB import DB
 
 class Fetch:
-    def fetchAllInfo(self,forecast=False,searchQuery=None,searchByID=None):
+    def fetchAllInfo(self,forecast=False,searchQuery=None,searchByID=None,subType=None):
         try:
             print("came here")
             conn = sqlite3.connect(Constants.DB_FILE)
@@ -13,6 +13,12 @@ class Fetch:
             # Select all of the items from the database
             if forecast:
                 cursor.execute(Constants.QUERY_OLDER_THAN_3_MONTHS)
+                
+                
+            elif subType is not None:
+                cursor.execute(Constants.QUERY_SUBTYPE, (subType,))
+                
+                
             else:
                 if searchQuery is not None:
                     if searchByID is not None:
