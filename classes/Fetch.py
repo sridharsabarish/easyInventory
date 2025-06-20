@@ -1,13 +1,19 @@
 import  sqlite3
 import datetime
 import static.Constants as Constants
-import logging
+
 from classes.DB import DB
+
+
+import loguru
+
+logger = loguru.logger
 
 class Fetch:
     def fetchAllInfo(self,forecast=False,searchQuery=None,searchByID=None,subType=None):
+        
         try:
-            print("came here")
+            logger.info("came here")
             conn = sqlite3.connect(Constants.DB_FILE)
             cursor = conn.cursor()
             # Select all of the items from the database
@@ -34,8 +40,7 @@ class Fetch:
             # Iterate over the rows and collect the information
             
             for row in cursor.fetchall():
-                print(row) 
-                print("There there")
+                logger.trace(row)
                 id=row[0]
                 item_name = row[1]
                 cost = row[2]
@@ -63,12 +68,12 @@ class Fetch:
                     }
                 )
 
-            logging.debug(info_list)
+            logger.trace(info_list)
             # Close the connection
             conn.close()
             return info_list
         except Exception as e:
             print(Constants.ERROR_FETCH, str(e))
-            logging.error(Constants.ERROR_FETCH, str(e))
+            logger.error(Constants.ERROR_FETCH, str(e))
             return {}
 

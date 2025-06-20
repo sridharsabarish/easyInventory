@@ -7,9 +7,13 @@ import sqlite3
 import datetime
 from flask import jsonify
 from flask_cors import CORS
+import loguru
 
 app = Flask(__name__)
 CORS(app)
+
+# Set up logging
+logger = loguru.logger
 
 # Define routes
 @app.route("/")
@@ -40,6 +44,7 @@ def add():
         if subtype not in Constants.ALLOWED_SUBTYPES:
             # Handle invalid subtype value here
             # For example, you can display an error message or redirect to an error page
+            logger.error("Invalid subtype value")
             return render_template(Constants.ERROR_PAGE, message="Invalid subtype value")
         replacement_duration = request.form.get("replacementDuration")
 
@@ -56,7 +61,7 @@ def add():
 
         # Add the new item to the inventory
         # Add your logic to add the item to the inventory here
-        print(inputs)
+        logger.debug(inputs)
         add.addItem(inputs)
 
     # Render the add template
@@ -67,9 +72,9 @@ def add():
 @app.route("/inventory/delete", methods=["GET", "POST"])
 def delete(productName=None):
     delete = Delete()
-    print("deleting product")
+    logger.debug("deleting product")
     item_name = request.args.get("id")
-    print(item_name)
+    logger.debug(item_name)
     if item_name:
         delete.deleteData(str(item_name))    
         return redirect("/inventory/display")
@@ -83,14 +88,14 @@ def display(forecast=False,subType=None):
     display = Fetch()
     forecast = request.args.get("forecast")
     subType = request.args.get("subtype")
-    print("Subtype is ", subType)
+    logger.debug("Subtype is ", subType)
     if forecast=="true":
         info_for_html = display.fetchAllInfo(forecast=True,subType=subType)
     else:
         info_for_html = display.fetchAllInfo(forecast=False,subType=subType)
     
     #info_for_html = display.fetchAllInfo(forecast=False)
-    print(info_for_html)
+    logger.debug(info_for_html)
     
     total_cost=0
     for i in info_for_html:
@@ -105,13 +110,13 @@ def search():
     if request.method == "POST":
         # Handle form submission and search for items in inventory
         search_query = request.form.get("search_query")
-        print("The search query is ", search_query)
+        logger.debug("The search query is ", search_query)
         fetch = Fetch()
         
         
         info_for_html = fetch.fetchAllInfo(forecast=False,searchQuery=search_query)
         if(info_for_html!=[]):
-            print(info_for_html)        
+            logger.debug(info_for_html)        
             return render_template("display.html", inventory=info_for_html)
     return render_template(Constants.SEARCH_PAGE)
 
@@ -124,7 +129,7 @@ def overdue():
         
         info_for_html = fetch.fetchAllInfo(forecast=True)
         if(info_for_html!=[]):
-            print(info_for_html)        
+            logger.debug(info_for_html)        
             return jsonify(inventory=info_for_html)
     return jsonify({"error": "Invalid request"})
 
@@ -155,8 +160,8 @@ def edit(items=[]):
     display = Fetch()
     id = request.args.get("id")
     inp = display.fetchAllInfo(searchQuery=id,searchByID=True)
-    print(inp[0])
-    print(inp[0])
+    logger.debug(inp[0])
+    logger.debug(inp[0])
     item = {
             "id": inp[0]['id'],
             "name": inp[0]['name'],
@@ -183,6 +188,7 @@ def update():
     dateCreated_date = datetime.datetime.strptime(dateCreated, "%Y-%m-%d").date()
     dateOfReplacement = dateCreated_date + (datetime.timedelta(days=int(request.form.get("replacementDuration")))*31)     
     if subtype not in Constants.ALLOWED_SUBTYPES:
+        logger.error("Invalid subtype value")
         return render_template(Constants.ERROR_PAGE, message="Invalid subtype value")
     replacement_duration = request.form.get("replacementDuration")
     
@@ -198,18 +204,3 @@ def update():
     return redirect("/inventory")
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=False)
-''' Replace the following item["name"] with enum instead of hardcoded value; '''
-
-#Todo : Work on Edit functionality.
-#Todo : Consider using constants for filenames like inventory.csv and .html and so on.
-
-# TOdo : Try Django
-'''
-
-TODO:
-1. Update the Name of the inventory display to Sabarish's Inventory
-2. Have a login page?
-3. Change the names for the options
-4. Use React to make things simpler here.
-
-'''
