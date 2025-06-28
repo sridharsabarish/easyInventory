@@ -14,6 +14,7 @@ CORS(app)
 
 # Set up logging
 logger = loguru.logger
+logger.add("debugLogs.log", format="{time} {level} {message}", level="DEBUG", serialize=True)
 
 # Define routes
 @app.route("/")
