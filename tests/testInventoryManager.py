@@ -1,8 +1,15 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..','src')))
+
 import unittest
 from classes.inventoryManager import  Add, Delete, Validation, DB, Edit
 from classes.exportManager import Export2CSV
 import static.Constants as Constants
 import datetime
+
+
+
 
 class TestInventoryManager(unittest.TestCase):
 

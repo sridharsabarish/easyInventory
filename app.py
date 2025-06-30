@@ -1,25 +1,40 @@
+
+from loguru import logger
+log_path = "out/logs/"
+logger.add(log_path+"app.log", rotation="1 week", retention="1 month", level="DEBUG")
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+logger.debug(sys.path)
 from flask import Flask, render_template, request, redirect
-from classes.inventoryManager import Add, Fetch, Delete, DB, Edit
+from src.classes.inventoryManager import Add, Fetch, Delete, DB, Edit
+logger.debug("Added classes")
 import csv
 from flask import send_file
-import static.Constants as Constants
+
+import src.static.Constants as Constants
+logger.debug("Added constants")
 import sqlite3
 import datetime
 from flask import jsonify
 from flask_cors import CORS
-import loguru
+
 
 app = Flask(__name__)
 CORS(app)
 
+import loguru
 # Set up logging
-logger = loguru.logger
-logger.add("debugLogs.log", format="{time} {level} {message}", level="DEBUG", serialize=True)
-
+logger2 = loguru.logger
+logger2.add(log_path+"debugLogs.log", format="{time} {level} {message}", level="DEBUG", serialize=True)
+logger.debug("Logger initialized")
 # Define routes
 @app.route("/")
 def home():
+    logger.debug("Rendering Home page")
     return render_template(Constants.INDEX_PAGE)
+    logger.debug("Home page")
 
 
 @app.route("/inventory", methods=["GET", "POST"])
@@ -161,8 +176,8 @@ def edit(items=[]):
     display = Fetch()
     id = request.args.get("id")
     inp = display.fetchAllInfo(searchQuery=id,searchByID=True)
-    logger.debug(inp[0])
-    logger.debug(inp[0])
+    logger.trace(inp[0])
+    logger.trace(inp[0])
     item = {
             "id": inp[0]['id'],
             "name": inp[0]['name'],
@@ -204,4 +219,6 @@ def update():
     edit.editItem(id, inputs)
     return redirect("/inventory")
 if __name__ == "__main__":
+    logger.trace("Starting the server page")
     app.run(host='0.0.0.0', port=5000, debug=False)
+    logger.trace("Started the server page")

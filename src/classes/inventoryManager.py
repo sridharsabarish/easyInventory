@@ -1,3 +1,7 @@
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from classes.Item import Item
 from classes.exportManager import Export2CSV
 import static.Constants as Constants, classes.Beautify as Beautify, re, sqlite3
