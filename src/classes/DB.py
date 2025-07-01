@@ -3,10 +3,10 @@ import static.Constants as Constants
 import logging
 class DB:
 
-    def createTable():
+    def createTable(DBFILE=Constants.DB_FILE):
 
         try:
-            conn = sqlite3.connect(Constants.DB_FILE)
+            conn = sqlite3.connect(DBFILE)
             cursor = conn.cursor()
             cursor.execute(Constants.CREATE_TABLE)
             logging.info(Constants.SUCCESS_TABLE)
@@ -18,7 +18,7 @@ class DB:
             print(Constants.ERROR_CREATE_TABLE, str(e))
             return Constants.EXIT_CODE.INVALID.value
 
-    def saveToDB(item):
+    def saveToDB(item,DBFILE=Constants.DB_FILE):
         conn = sqlite3.connect(Constants.DB_FILE)
         cursor = conn.cursor()
         # Create the table if it doesn't exist
