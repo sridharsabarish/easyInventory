@@ -1,11 +1,16 @@
 import sqlite3
 import static.Constants as Constants
+import os
 
 
 class Export2CSV:
-    def export2CSV():
+    def export2CSV(DBFILE=Constants.DB_FILE):
         try:
-            conn = sqlite3.connect(Constants.DB_FILE)
+            
+            conn = sqlite3.connect(DBFILE)
+            
+            if not os.path.exists(DBFILE):
+                return -1
             cursor = conn.cursor()
             cursor.execute(Constants.SELECT_ALL)
             with open(Constants.CSV_FILE, "w") as file:
