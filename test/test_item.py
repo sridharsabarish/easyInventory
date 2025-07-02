@@ -5,21 +5,21 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 from classes.Item import Item
 
 
+class TestItem:
 
+    def test_incorrect_item(self):
+        try:
+            item = Item("D","300","200","12",12,21,21)
+            assert False
 
-def test_incorrect_item():
-    try:
-        item = Item("D","300","200","12",12,21,21)
-        assert False
-
-    except TypeError as e:
-        #assert str(e) == "__init__() takes 6 arguments (7 given)"
+        except TypeError as e:
+            #assert str(e) == "__init__() takes 6 arguments (7 given)"
+            assert True
+        
+        
+    def test_item(self):
+        try:
+            item = Item("DummyThing",200,"Clothing",12,"2023-01-01",12)
+        except Exception as e:
+            assert False
         assert True
-    
-    
-def test_item():
-    try:
-        item = Item("DummyThing",200,"Clothing",12,"2023-01-01",12)
-    except Exception as e:
-        assert False
-    assert True
