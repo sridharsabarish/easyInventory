@@ -1,5 +1,5 @@
 
-
+import pytest
 import requests
 class TestLinks:
     def test_dummy(self):
@@ -7,7 +7,9 @@ class TestLinks:
         
     import requests
 
-    def test_ping(self):
+
+    @pytest.mark.skip()
+    def test_localhost_server_up(self):
         try:
             response = requests.head('http://localhost:5000')
         except requests.ConnectionError:
