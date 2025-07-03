@@ -25,6 +25,8 @@ regex_map = {
     "subtype": REGEX_NAME,
     "cost": REGEX_NUMBER,
     "replacementDuration": REGEX_NUMBER,
+    "dateCreated": r"^\d{4}-\d{2}-\d{2}$",
+    "dateOfReplacement": r"^\d{4}-\d{2}-\d{2}$",
 }
 
 # Success

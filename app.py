@@ -77,7 +77,7 @@ def add():
 
         # Add the new item to the inventory
         # Add your logic to add the item to the inventory here
-        logger.debug(inputs)
+        logger.debug(f"API call: Adding item {inputs} to inventory")
         add.addItem(inputs)
 
     # Render the add template
