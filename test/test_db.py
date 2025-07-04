@@ -5,6 +5,7 @@ from classes.Item import Item
 from classes.DB import DB
 
 class TestDataBase:
+    @pytest.fixture(autouse=True)
     def test_create_db(self):
         
         try:
@@ -13,6 +14,8 @@ class TestDataBase:
             assert True
         except Exception as e:
             assert False, f"An error occurred: {e}"
+        finally:
+            os.remove("test.db")
 
 
     def test_save_item_to_db(self):

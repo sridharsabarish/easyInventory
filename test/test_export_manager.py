@@ -19,8 +19,8 @@ class TestExportManager:
         try:
             out =Export2CSV.export2CSV(DBFILE="tes2t.db")
             if(out==0):
-                assert False
-            assert True
+                assert True
+            assert False
         except Exception as e:
             assert False, f"An error occurred: {e}"
             
@@ -33,3 +33,5 @@ class TestExportManager:
             assert True
         except Exception as e:
             assert False, f"An error occurred: {e}"
+            
+            
