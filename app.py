@@ -1,7 +1,16 @@
 
 from loguru import logger
+from loki_logger_handler.loki_logger_handler import LokiLoggerHandler
+
 log_path = "out/logs/"
-logger.add(log_path+"app.log", rotation="1 week", retention="1 month", level="DEBUG")
+
+loki_handler = LokiLoggerHandler(
+    url="http://localhost:3100/loki/api/v1/push",
+    labels={"app": "inventory-manager"},
+)
+
+logger.add(loki_handler, level="DEBUG")
+# logger.add(log_path+"app.log", rotation="1 week", retention="1 month", level="DEBUG")
 
 import sys
 import os
