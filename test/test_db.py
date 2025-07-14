@@ -15,8 +15,8 @@ class TestDataBase:
             assert True
         except Exception as e:
             assert False, f"An error occurred: {e}"
-        finally:
-            os.remove("test.db")
+        # finally:
+        #     os.remove("test.db")
 
 
     def test_save_item_to_db(self):

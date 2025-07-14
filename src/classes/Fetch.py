@@ -1,10 +1,6 @@
 import  sqlite3
 import datetime
 import static.Constants as Constants
-
-from classes.DB import DB
-
-
 import loguru
 
 logger = loguru.logger

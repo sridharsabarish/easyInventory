@@ -3,12 +3,6 @@ import static.Constants as Constants
 from loguru import logger
 
 class Validation:
-    """
-
-    Validate an input based on its data type.
-
-    """
-
     def validateInput(self,x) -> int:
         try:
             logger.debug("The object x is ", x)

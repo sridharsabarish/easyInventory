@@ -15,16 +15,22 @@ logger.add(loki_handler, level="DEBUG")
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src/classes')))
 logger.debug(sys.path)
 from flask import Flask, render_template, request, redirect
-from src.classes.inventoryManager import Add, Fetch, Delete, DB, Edit
+
+from Add import Add
+from Fetch import Fetch
+from Delete import Delete
+from Edit import Edit
+
+# from src.classes.inventoryManager import Add, Fetch, Delete, Edit
 logger.debug("Added classes")
 import csv
 from flask import send_file
 
 import src.static.Constants as Constants
 logger.debug("Added constants")
-import sqlite3
 import datetime
 from flask import jsonify
 from flask_cors import CORS

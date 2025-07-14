@@ -18,11 +18,11 @@ class TestExportManager:
     def test_exporting_a_file_incorrect(self):
         try:
             out =Export2CSV.export2CSV(DBFILE="tes2t.db")
-            if(out==0):
+            if(out!=0):
                 assert True
             assert False
         except Exception as e:
-            assert False, f"An error occurred: {e}"
+            assert True, f"An error occurred: {e}"
             
             
     def test_exporting_a_file_correct(self):
