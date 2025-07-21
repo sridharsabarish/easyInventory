@@ -3,9 +3,8 @@ PHONY := tests all virtualenv
 tests: 
 	python3 -m pytest
 
-all: virtualenv test
-	echo "Starting the Inventory app..."
-	python app.py
+all: virtualenv tests
+	echo "Starting the Inventory app..." && python app.py
 	deactivate
 
 virtualenv:
