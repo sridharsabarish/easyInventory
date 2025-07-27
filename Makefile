@@ -1,7 +1,7 @@
 PHONY := tests all virtualenv 
 .PHONY : tests all virtualenv
 tests: 
-	python3 -m pytest
+	python3 -m pytest && python app.py
 
 all: virtualenv tests
 	echo "Starting the Inventory app..." && python app.py
