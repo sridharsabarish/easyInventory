@@ -1,3 +1,5 @@
+
+
 PHONY := tests all virtualenv 
 .PHONY : tests all virtualenv
 tests: 
@@ -12,3 +14,6 @@ virtualenv:
 # 	python3  -m pip install requirements.txt
 
 
+image:
+	docker build -t inventory-app .
+	docker run -p  5000 inventory-app

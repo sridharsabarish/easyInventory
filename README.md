@@ -65,3 +65,6 @@ To run the tests, use the following command:
 ![alt text](Display.png)
 
 
+
+## Potential Areas of Improvement
+* **Build a docker image** and use that for deployments.
