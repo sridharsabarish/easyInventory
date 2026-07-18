@@ -68,3 +68,6 @@ To run the tests, use the following command:
 
 ## Potential Areas of Improvement
 * **Build a docker image** and use that for deployments.
+### Todo
+- UX improvement
+- Display content according to the category? Or room? 

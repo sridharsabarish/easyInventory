@@ -1,5 +1,14 @@
 version: "3.7"
 services:
+  app:
+    build: .
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./inventory.db:/app/inventory.db
+    depends_on:
+      - loki
+
   loki:
     image: grafana/loki:2.9.0
     ports:
@@ -14,4 +23,3 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - loki
-
