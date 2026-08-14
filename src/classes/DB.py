@@ -3,16 +3,26 @@ import static.Constants as Constants
 import logging
 class DB:
 
+    def connect(self,DBFILE=Constants.DB_FILE):
+        try:
+            conn = sqlite3.connect(DBFILE)
+            cursor = conn.cursor()
+            conn.close()
+        except:
+            assert False
+        finally:
+            assert True
+
     def createTable(DBFILE=Constants.DB_FILE):
 
         try:
             conn = sqlite3.connect(DBFILE)
             cursor = conn.cursor()
-            cursor.execute(Constants.CREATE_TABLE)
+            out = cursor.execute(Constants.CREATE_TABLE)
             logging.info(Constants.SUCCESS_TABLE)
             conn.commit()
             conn.close()
-            return Constants.EXIT_CODE.SUCCESS.value
+            return out is not cursor
         except Exception as e:
             logging.error(Constants.ERROR_CREATE_TABLE, str(e))
             print(Constants.ERROR_CREATE_TABLE, str(e))

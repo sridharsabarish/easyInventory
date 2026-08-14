@@ -1,23 +1,13 @@
 
 import pytest
 import requests
-class TestLinks:
-    def test_dummy(self):
-        assert 1== 1
-        
-    import requests
 
-
-    @pytest.mark.skip()
-    def test_localhost_server_up(self):
+test_input = ["https://www.google.co.in","https://www.bbc.com/news"]
+class TestLinks:        
+    @pytest.mark.parametrize("url",test_input)
+    def test_internet_connection(self,url):
         try:
-            response = requests.head('http://localhost:5000')
-        except requests.ConnectionError:
-            assert False, "Connection Error"
-        assert response.status_code == 200
-    def test_ping_google(self):
-        try:
-            response = requests.head('https://www.google.co.in')
+            response = requests.head(url)
         except requests.ConnectionError:
             assert False, "Connection Error"
         assert response.status_code == 200

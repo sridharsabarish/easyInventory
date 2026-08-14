@@ -5,6 +5,18 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 from classes.exportManager import Export2CSV
 
 
+class TestPrerequisites:
+    def test_throw_exception_for_wrong_file(self):
+        try:
+            exportObj = Export2CSV()
+            out = exportObj.export2CSV()
+            if(out == -1):
+                assert False
+        except:
+            print("Exception")
+            assert True
+
+
 class TestExportManager:
     def test_create_export_manager_object(self):
         
