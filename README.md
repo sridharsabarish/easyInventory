@@ -13,7 +13,7 @@
 5. Export Inventory as CSV
 
 
-![alt text](Page.png) 
+![alt text](Assets/Page.png) 
 
 
 
@@ -59,10 +59,10 @@ To run the tests, use the following command:
 
 
 ## Adding an item
-![alt text](Add.png) 
+![alt text](Assets/Add.png) 
 
 ## Viewing the Inventory
-![alt text](Display.png)
+![alt text](Assets/Display.png)
 
 
 
